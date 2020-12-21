@@ -1,4 +1,4 @@
-import { tetrominoes } from './tetrominoes.js';
+import { tetrominoes } from './tetrominoes/index.js';
 
 const BOARD_COLS = 10;
 const BOARD_ROWS = 20;
