@@ -2,7 +2,7 @@ import { tetrominoes } from './tetrominoes.js';
 
 const BOARD_COLS = 10;
 const BOARD_ROWS = 20;
-const BLOCK_SIZE = 25;
+const BLOCK_SIZE = 28;
 const DROP_SPEED = 800;
 const QUEUE_SIZE = 6;
 
