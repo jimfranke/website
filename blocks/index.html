@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blocks</title>
+    <link rel="stylesheet" href="css/app.css" />
+    <script type="module">
+      import './js/app.js';
+    </script>
+  </head>
+  <body>
+    <div id="app" style="display: none">
+      <div class="row">
+        <div class="col col-left">
+          <canvas class="canvas-hold"></canvas>
+        </div>
+        <div class="col col-center">
+          <canvas class="canvas-main"></canvas>
+        </div>
+        <div class="col col-right">
+          <canvas class="canvas-queue"></canvas>
+        </div>
+      </div>
+      <div style="display: none">
+        <span data-lines>0</span>
+      </div>
+    </div>
+  </body>
+</html>

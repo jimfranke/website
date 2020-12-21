@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+html {
+    cursor: default;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    touch-action: none;
+    user-select: none;
+}
+
+body {
+    background: #000;
+    font: 1rem Arial, Verdana, sans-serif;
+    color: #fff;
+    line-height: 1;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+#app {
+    display: inline-block;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.row {
+    display: flex;
+}
+
+.row .col {
+    display: inline-block;
+}
+
+.col-left {
+    padding-right: .5rem;
+    text-align: right;
+}
+
+.col-right {
+    padding-left: .5rem;
+}
+
+.canvas-main {
+    border: 1px solid #fff;
+}
+
+.canvas-hold, .canvas-queue {
+    width: 65%;
+}
