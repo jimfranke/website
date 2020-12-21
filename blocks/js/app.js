@@ -161,11 +161,7 @@ const createTetrominoes = () => {
           return this.rotations[this.activeIndex];
         },
         reset() {
-          Object.assign(this, {
-            activeIndex,
-            x,
-            y,
-          });
+          Object.assign(this, { activeIndex, x, y });
         },
         activeIndex,
         x,
