@@ -27,6 +27,7 @@ let holdTetromino;
 let tetrominoQueue = [];
 let isPlaying = false;
 let isGameOver = false;
+let didHold = false;
 let lines = 0;
 
 let dropTime;
@@ -57,19 +58,19 @@ const handleInput = () => {
     }
     switch (e.code) {
       case 'KeyZ':
-        return rotateTetromino(true);
+        return rotateActiveTetromino(true);
       case 'KeyX':
-        return rotateTetromino();
+        return rotateActiveTetromino();
+      case 'KeyC':
+        return holdActiveTetromino();
       case 'ArrowLeft':
-        return moveTetrominoLeft();
+        return moveActiveTetrominoLeft();
       case 'ArrowRight':
-        return moveTetrominoRight();
+        return moveActiveTetrominoRight();
       case 'ArrowUp':
-        moveTetrominoDown(true);
-        break;
+        return moveActiveTetrominoDown(true);
       case 'ArrowDown':
-        moveTetrominoDown();
-        break;
+        return moveActiveTetrominoDown();
     }
   });
 };
@@ -85,7 +86,7 @@ const gameOver = () => {
   isPlaying = false;
 };
 
-const rotateTetromino = isLeft => {
+const rotateActiveTetromino = isLeft => {
   const { rotations, activeIndex } = activeTetromino;
   const { length } = rotations;
   if (length < 2) {
@@ -100,23 +101,39 @@ const rotateTetromino = isLeft => {
   }
 };
 
-const moveTetrominoLeft = () => {
+const holdActiveTetromino = () => {
+  if (didHold) {
+    return;
+  }
+  if (!holdTetromino) {
+    holdTetromino = activeTetromino;
+    setActiveTetromino();
+  } else {
+    const tempTetromino = activeTetromino;
+    activeTetromino = holdTetromino;
+    holdTetromino = tempTetromino;    
+  }
+  holdTetromino.reset();
+  didHold = true;
+};
+
+const moveActiveTetrominoLeft = () => {
   if (!tetrominoCollision(activeTetromino.rotation, -1, 0)) {
     activeTetromino.x--;
   }
 };
 
-const moveTetrominoRight = () => {
+const moveActiveTetrominoRight = () => {
   if (!tetrominoCollision(activeTetromino.rotation, 1, 0)) {
     activeTetromino.x++;
   }
 };
 
-const moveTetrominoDown = isHard => {
+const moveActiveTetrominoDown = isHard => {
   if (!tetrominoCollision(activeTetromino.rotation, 0, 1)) {
     activeTetromino.y++;
     if (isHard) {
-      moveTetrominoDown(true);
+      moveActiveTetrominoDown(true);
     }
     return;
   }
@@ -135,14 +152,23 @@ const createTetrominoes = () => {
   tetrominoQueue.push(
     ...randomTetrominoes.map(tetromino => {
       const { name } = tetromino;
+      const activeIndex = 0;
+      const x = 3;
       const y = name === 'I' || name === 'O' ? -1 : 0;
       return {
         ...tetromino,
         get rotation() {
           return this.rotations[this.activeIndex];
         },
-        activeIndex: 0,
-        x: 3,
+        reset() {
+          Object.assign(this, {
+            activeIndex,
+            x,
+            y,
+          });
+        },
+        activeIndex,
+        x,
         y,
       };
     }),
@@ -187,6 +213,7 @@ const lockTetromino = () => {
   }
   clearFullRows();
   activeTetromino.isLocked = true;
+  didHold = false;
 };
 
 const clearFullRows = () => {
@@ -259,7 +286,10 @@ const drawTetrominoQueue = () => {
   queueContext.clearRect(0, 0, $queueCanvas.width, $queueCanvas.height);
   let spacingY = 0;
   for (let i = 0; i < QUEUE_SIZE; i++) {
-    let tetromino = tetrominoQueue[i];
+    const tetromino = tetrominoQueue[i];
+    if (!tetromino) {
+      continue;
+    }
     const { name, color, rotation } = tetromino;
     if (tetrominoQueue[i - 1]?.name === 'I') {
       spacingY--;
@@ -279,9 +309,12 @@ const drawTetrominoQueue = () => {
 
 const drawHoldTetromino = () => {
   holdContext.clearRect(0, 0, $holdCanvas.width, $holdCanvas.height);
-  const { name, color, rotation, y } = tetrominoQueue[0];
+  if (!holdTetromino) {
+    return;
+  }
+  const { name, color, rotation, y } = holdTetromino;
   const offsetX = name === 'I' ? 0 : 1;
-  const offsetY = y;
+  const offsetY = name === 'I' || name === 'O' ? -1 : 0;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
       if (!rotation[y][x]) {
@@ -299,14 +332,14 @@ const render = () => {
   if (!activeTetromino || activeTetromino.isLocked) {
     createTetrominoes();
     setActiveTetromino();
-    drawTetrominoQueue();
   }
   drawBoard();
   drawGhostTetromino();
   drawActiveTetromino();
+  drawTetrominoQueue();
   drawHoldTetromino();
   if (time - dropTime > DROP_SPEED) {
-    moveTetrominoDown();
+    moveActiveTetrominoDown();
     dropTime = time;
   }
   if (!isPlaying || isGameOver) {
