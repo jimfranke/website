@@ -123,6 +123,10 @@ const moveTetrominoDown = isHard => {
   lockTetromino();
 };
 
+const setActiveTetromino = () => {
+  activeTetromino = tetrominoQueue.shift();
+};
+
 const createTetrominoes = () => {
   if (tetrominoQueue.length > tetrominoes.length) {
     return;
@@ -143,7 +147,6 @@ const createTetrominoes = () => {
       };
     }),
   );
-  activeTetromino = tetrominoQueue.shift();
 };
 
 const tetrominoCollision = (rotation, offsetX, offsetY) => {
@@ -295,6 +298,7 @@ const render = () => {
   $lines.textContent = lines;
   if (!activeTetromino || activeTetromino.isLocked) {
     createTetrominoes();
+    setActiveTetromino();
     drawTetrominoQueue();
   }
   drawBoard();
