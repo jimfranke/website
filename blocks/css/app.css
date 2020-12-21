@@ -3,16 +3,14 @@
 * {
     margin: 0;
     padding: 0;
-    outline: 0;
     box-sizing: border-box;
 }
 
 html {
     cursor: default;
-    overflow: hidden;
+    user-select: none;
     overscroll-behavior: contain;
     touch-action: none;
-    user-select: none;
 }
 
 body {
@@ -23,8 +21,8 @@ body {
     text-align: center;
 }
 
-ul {
-    list-style: none;
+canvas {
+    width: 100%;
 }
 
 #app {
@@ -37,23 +35,19 @@ ul {
     display: flex;
 }
 
-.row .col {
+.col {
     display: inline-block;
 }
 
-.col-left {
-    padding-right: .5rem;
-    text-align: right;
-}
-
-.col-right {
-    padding-left: .5rem;
-}
-
-.canvas-main {
+.col-main {
     border: 1px solid #fff;
 }
 
-.canvas-hold, .canvas-queue {
-    width: 65%;
+.col-side {
+    width: 5rem;
+    padding: 0 .5rem;  
+}
+
+.canvas-main {
+    height: 100%;
 }
