@@ -124,7 +124,7 @@ export const createTetrominoes = tetrominoQueue => {
         get rotation() {
           return obj.rotations[obj.rotationIndex];
         },
-        reset() {
+        reset: () => {
           Object.assign(obj, { rotationIndex, x, y });
         },
         rotationIndex,
