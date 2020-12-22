@@ -92,9 +92,9 @@ const rotateActiveTetromino = (direction = 1) => {
     return;
   }
   const newRotationIndex =
-    direction < 0
-      ? (rotationIndex > 0 ? rotationIndex : length) - 1
-      : (rotationIndex + 1) % length;
+    direction > 0
+      ? (rotationIndex + 1) % length
+      : (rotationIndex > 0 ? rotationIndex : length) - 1;
   const rotation = rotations[newRotationIndex];
   if (!tetrominoCollision(rotation, 0, 0)) {
     activeTetromino.rotationIndex = newRotationIndex;
@@ -109,12 +109,13 @@ const rotateActiveTetromino = (direction = 1) => {
   const { tests } = wallKicks;
   for (let i = 0, len = tests.length; i < len; i++) {
     const [x, y] = tests[i];
-    if (!tetrominoCollision(rotation, x, y)) {
-      activeTetromino.rotationIndex = newRotationIndex;
-      activeTetromino.x += x;
-      activeTetromino.y += y;
-      break;
+    if (tetrominoCollision(rotation, x, y)) {
+      continue;
     }
+    activeTetromino.rotationIndex = newRotationIndex;
+    activeTetromino.x += x;
+    activeTetromino.y += y;
+    break;
   }
 };
 
@@ -289,7 +290,7 @@ const drawGhostTetromino = () => {
         mainContext,
         x + activeTetromino.x,
         y + activeTetromino.y + offsetY,
-        `${color}30`,
+        `${color}40`,
       );
     }
   }
