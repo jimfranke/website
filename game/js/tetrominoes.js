@@ -1,5 +1,5 @@
-import * as rotations from './data/rotations.js';
-import * as wallKicks from './data/wallKicks.js';
+import * as rotations from './rotations.js';
+import * as wallKicks from './wallKicks.js';
 
 export const tetrominoes = [
   {

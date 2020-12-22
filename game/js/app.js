@@ -29,7 +29,6 @@ let isPlaying = false;
 let isGameOver = false;
 let usedHold = false;
 let lines = 0;
-
 let dropTime;
 let rafId;
 
@@ -58,7 +57,7 @@ const handleInput = () => {
     }
     switch (e.code) {
       case 'KeyZ':
-        return rotateActiveTetromino(true);
+        return rotateActiveTetromino(-1);
       case 'KeyX':
         return rotateActiveTetromino();
       case 'KeyC':
@@ -86,18 +85,36 @@ const gameOver = () => {
   isPlaying = false;
 };
 
-const rotateActiveTetromino = isLeft => {
-  const { rotations, activeIndex } = activeTetromino;
+const rotateActiveTetromino = (direction = 1) => {
+  const { rotations, rotationIndex } = activeTetromino;
   const { length } = rotations;
   if (length < 2) {
     return;
   }
-  const index = isLeft
-    ? (activeIndex > 0 ? activeIndex : length) - 1
-    : (activeIndex + 1) % length;
-  const rotation = rotations[index];
+  const nextRotationIndex =
+    direction < 0
+      ? (rotationIndex > 0 ? rotationIndex : length) - 1
+      : (rotationIndex + 1) % length;
+  const rotation = rotations[nextRotationIndex];
   if (!tetrominoCollision(rotation, 0, 0)) {
-    activeTetromino.activeIndex = index;
+    activeTetromino.rotationIndex = nextRotationIndex;
+    return;
+  }
+  const wallKicks = activeTetromino.wallKicks?.find(
+    wk => wk.rotation === nextRotationIndex && wk.direction === direction,
+  );
+  if (!wallKicks) {
+    return;
+  }
+  const { tests } = wallKicks;
+  for (let i = 0, len = tests.length; i < len; i++) {
+    const [x, y] = tests[i];
+    if (!tetrominoCollision(rotation, x, y)) {
+      activeTetromino.rotationIndex = nextRotationIndex;
+      activeTetromino.x += x;
+      activeTetromino.y += y;
+      break;
+    }
   }
 };
 
@@ -151,19 +168,18 @@ const createTetrominoes = () => {
   const randomTetrominoes = [...tetrominoes].sort(() => Math.random() - 0.5);
   tetrominoQueue.push(
     ...randomTetrominoes.map(tetromino => {
-      const { name } = tetromino;
-      const activeIndex = 0;
+      const rotationIndex = 0;
       const x = 3;
-      const y = name === 'I' || name === 'O' ? -1 : 0;
+      const y = 0;
       return {
         ...tetromino,
         get rotation() {
-          return this.rotations[this.activeIndex];
+          return this.rotations[this.rotationIndex];
         },
         reset() {
-          Object.assign(this, { activeIndex, x, y });
+          Object.assign(this, { rotationIndex, x, y });
         },
-        activeIndex,
+        rotationIndex,
         x,
         y,
       };
@@ -287,11 +303,14 @@ const drawTetrominoQueue = () => {
       continue;
     }
     const { name, color, rotation } = tetromino;
-    if (tetrominoQueue[i - 1]?.name === 'I') {
+    const offsetX = name === 'O' ? -1 : 0;
+    let offsetY = i * 3;
+    if (tetromino.name === 'I') {
+      offsetY--;
+    } else if (tetrominoQueue[i - 1]?.name === 'I') {
       spacingY--;
     }
-    const offsetX = name === 'O' ? -1 : 0;
-    const offsetY = tetromino.y + spacingY + i * 3;
+    offsetY += spacingY;
     for (let y = 0, len = rotation.length; y < len; y++) {
       for (let x = 0; x < len; x++) {
         if (!rotation[y][x]) {
@@ -310,7 +329,7 @@ const drawHoldTetromino = () => {
   }
   const { name, color, rotation, y } = holdTetromino;
   const offsetX = name === 'I' ? 0 : 1;
-  const offsetY = name === 'I' || name === 'O' ? -1 : 0;
+  const offsetY = name === 'I' ? -1 : 0;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
       if (!rotation[y][x]) {
