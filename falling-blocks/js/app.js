@@ -93,14 +93,13 @@ export const app = $node => {
     linesCleared: 0,
   });
 
-  const { getState, setState } = store;
   let dropTime;
   let rafId;
 
   const render = () => {
     const time = Date.now();
     dropTime ??= time;
-    const state = getState();
+    const state = store.getState();
     let {
       board,
       tetrominoQueue,
@@ -112,7 +111,7 @@ export const app = $node => {
     if (!activeTetromino || activeTetromino.isLocked) {
       createTetrominoes(tetrominoQueue);
       activeTetromino = tetrominoQueue.shift();
-      setState({
+      store.setState({
         activeTetromino,
       });
     }
