@@ -6,14 +6,16 @@
     <title>Falling Blocks</title>
     <link rel="stylesheet" href="css/app.css" />
     <script type="module">
-      import './js/app.js';
+      import { app } from './js/app.js';
+
+      app(document.getElementById('app'));
     </script>
   </head>
   <body>
     <h1>Falling Blocks</h1>
     <div id="app" style="display: none">
       <div class="row">
-        <div class="col">Lines: <strong data-lines>0</strong></div>
+        <div class="col">Lines: <strong data-lines-cleared>0</strong></div>
       </div>
       <div class="row">
         <div class="col col-side">
