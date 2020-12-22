@@ -3,7 +3,7 @@ import { tetrominoes } from './tetrominoes.js';
 const BOARD_COLS = 10;
 const BOARD_ROWS = 20;
 const BLOCK_SIZE = 28;
-const DROP_SPEED = 800;
+const DROP_SPEED = 700;
 const QUEUE_SIZE = 6;
 
 const $app = document.getElementById('app');
@@ -27,7 +27,7 @@ let holdTetromino;
 let tetrominoQueue = [];
 let isPlaying = false;
 let isGameOver = false;
-let usedHold = false;
+let isHoldUsed = false;
 let lines = 0;
 let dropTime;
 let rafId;
@@ -119,7 +119,7 @@ const rotateActiveTetromino = (direction = 1) => {
 };
 
 const holdActiveTetromino = () => {
-  if (usedHold) {
+  if (isHoldUsed) {
     return;
   }
   if (!holdTetromino) {
@@ -131,7 +131,7 @@ const holdActiveTetromino = () => {
     holdTetromino = tempTetromino;
   }
   holdTetromino.reset();
-  usedHold = true;
+  isHoldUsed = true;
 };
 
 const moveActiveTetrominoLeft = () => {
@@ -225,7 +225,7 @@ const lockTetromino = () => {
   }
   clearFullRows();
   activeTetromino.isLocked = true;
-  usedHold = false;
+  isHoldUsed = false;
 };
 
 const clearFullRows = () => {
@@ -279,6 +279,7 @@ const drawGhostTetromino = () => {
   while (!tetrominoCollision(rotation, 0, offsetY)) {
     offsetY++;
   }
+  offsetY--;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
       if (!rotation[y][x]) {
@@ -287,7 +288,7 @@ const drawGhostTetromino = () => {
       drawBlock(
         mainContext,
         x + activeTetromino.x,
-        y + activeTetromino.y + (offsetY - 1),
+        y + activeTetromino.y + offsetY,
         `${color}30`,
       );
     }
@@ -302,12 +303,13 @@ const drawTetrominoQueue = () => {
     if (!tetromino) {
       continue;
     }
+    const prevTetromino = tetrominoQueue[i - 1];
     const { name, color, rotation } = tetromino;
     const offsetX = name === 'O' ? -1 : 0;
     let offsetY = i * 3;
     if (tetromino.name === 'I') {
       offsetY--;
-    } else if (tetrominoQueue[i - 1]?.name === 'I') {
+    } else if (prevTetromino?.name === 'I') {
       spacingY--;
     }
     offsetY += spacingY;
@@ -327,9 +329,9 @@ const drawHoldTetromino = () => {
   if (!holdTetromino) {
     return;
   }
-  const { name, color, rotation, y } = holdTetromino;
+  const { name, color, rotation } = holdTetromino;
   const offsetX = name === 'I' ? 0 : 1;
-  const offsetY = name === 'I' ? -1 : 0;
+  const offsetY = offsetY ? 0 : -1;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
       if (!rotation[y][x]) {
