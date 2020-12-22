@@ -331,7 +331,7 @@ const drawHoldTetromino = () => {
   }
   const { name, color, rotation } = holdTetromino;
   const offsetX = name === 'I' ? 0 : 1;
-  const offsetY = offsetY ? 0 : -1;
+  const offsetY = offsetX ? 0 : -1;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
       if (!rotation[y][x]) {
