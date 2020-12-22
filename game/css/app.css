@@ -21,6 +21,13 @@ body {
     text-align: center;
 }
 
+h1 {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1rem;
+}
+
 canvas {
     width: 100%;
 }
