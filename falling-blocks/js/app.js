@@ -22,8 +22,49 @@ import {
 } from './render.js';
 import { createStore } from './store.js';
 
+const startPauseGame = (store, render) => {
+  const { getState, setState } = store;
+  const { isPlaying } = setState({
+    isPlaying: !getState().isPlaying,
+  });
+  if (isPlaying) {
+    render();
+  }
+};
+
+const handleInput = (store, render) => {
+  document.addEventListener('keydown', e => {
+    const { isPlaying, isGameOver } = store.getState();
+    if (isGameOver) {
+      return;
+    }
+    if (e.code === 'Space') {
+      startPauseGame(store, render);
+    }
+    if (!isPlaying) {
+      return;
+    }
+    switch (e.code) {
+      case 'KeyZ':
+        return rotateActiveTetromino(store, -1);
+      case 'KeyX':
+        return rotateActiveTetromino(store);
+      case 'KeyC':
+        return holdActiveTetromino(store);
+      case 'ArrowLeft':
+        return moveActiveTetrominoLeft(store);
+      case 'ArrowRight':
+        return moveActiveTetrominoRight(store);
+      case 'ArrowUp':
+        return moveActiveTetrominoDown(store, true);
+      case 'ArrowDown':
+        return moveActiveTetrominoDown(store);
+    }
+  });
+};
+
 export const app = $node => {
-  const $linesCleared = $node.querySelector('[data-lines-cleared]');
+  const $linesCleared = $node.querySelector('.lines-cleared');
 
   const $mainCanvas = $node.querySelector('.canvas-main');
   const mainContext = $mainCanvas.getContext('2d');
@@ -59,44 +100,6 @@ export const app = $node => {
   let dropTime;
   let rafId;
 
-  document.addEventListener('keydown', e => {
-    const { isPlaying, isGameOver } = getState();
-    if (isGameOver) {
-      return;
-    }
-    if (e.code === 'Space') {
-      startPauseGame();
-    }
-    if (!isPlaying) {
-      return;
-    }
-    switch (e.code) {
-      case 'KeyZ':
-        return rotateActiveTetromino(store, -1);
-      case 'KeyX':
-        return rotateActiveTetromino(store);
-      case 'KeyC':
-        return holdActiveTetromino(store);
-      case 'ArrowLeft':
-        return moveActiveTetrominoLeft(store);
-      case 'ArrowRight':
-        return moveActiveTetrominoRight(store);
-      case 'ArrowUp':
-        return moveActiveTetrominoDown(store, true);
-      case 'ArrowDown':
-        return moveActiveTetrominoDown(store);
-    }
-  });
-
-  const startPauseGame = () => {
-    const { isPlaying } = setState({
-      isPlaying: !getState().isPlaying,
-    });
-    if (isPlaying) {
-      render();
-    }
-  };
-
   const render = () => {
     const time = Date.now();
     dropTime ??= time;
@@ -127,6 +130,7 @@ export const app = $node => {
     rafId = requestAnimationFrame(render);
   };
 
+  handleInput(store, render);
   render();
   $node.style.display = null;
 };
