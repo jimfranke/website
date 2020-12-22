@@ -1,3 +1,5 @@
+// https://tetris.wiki/Super_Rotation_System
+
 export const I = [
   {
     rotation: 0,
