@@ -104,8 +104,14 @@ export const app = $node => {
     const time = Date.now();
     dropTime ??= time;
     const state = getState();
-    let { board, tetrominoQueue, activeTetromino, holdTetromino } = state;
-    $linesCleared.textContent = state.linesCleared;
+    let {
+      board,
+      tetrominoQueue,
+      activeTetromino,
+      holdTetromino,
+      linesCleared,
+    } = state;
+    $linesCleared.textContent = linesCleared;
     if (!activeTetromino || activeTetromino.isLocked) {
       createTetrominoes(tetrominoQueue);
       activeTetromino = tetrominoQueue.shift();
