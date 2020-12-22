@@ -27,7 +27,7 @@ let holdTetromino;
 let tetrominoQueue = [];
 let isPlaying = false;
 let isGameOver = false;
-let didHold = false;
+let usedHold = false;
 let lines = 0;
 
 let dropTime;
@@ -102,7 +102,7 @@ const rotateActiveTetromino = isLeft => {
 };
 
 const holdActiveTetromino = () => {
-  if (didHold) {
+  if (usedHold) {
     return;
   }
   if (!holdTetromino) {
@@ -111,10 +111,10 @@ const holdActiveTetromino = () => {
   } else {
     const tempTetromino = activeTetromino;
     activeTetromino = holdTetromino;
-    holdTetromino = tempTetromino;    
+    holdTetromino = tempTetromino;
   }
   holdTetromino.reset();
-  didHold = true;
+  usedHold = true;
 };
 
 const moveActiveTetrominoLeft = () => {
@@ -209,7 +209,7 @@ const lockTetromino = () => {
   }
   clearFullRows();
   activeTetromino.isLocked = true;
-  didHold = false;
+  usedHold = false;
 };
 
 const clearFullRows = () => {

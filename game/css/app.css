@@ -27,16 +27,18 @@ canvas {
 
 #app {
     display: inline-block;
-    margin-top: 2rem;
+    margin-top: 1.2rem;
     text-align: left;
 }
 
 .row {
     display: flex;
+    margin-bottom: 1rem;
 }
 
 .col {
     display: inline-block;
+    margin: 0 auto;
 }
 
 .col-main {
