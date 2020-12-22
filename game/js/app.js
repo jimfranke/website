@@ -91,17 +91,17 @@ const rotateActiveTetromino = (direction = 1) => {
   if (length < 2) {
     return;
   }
-  const nextRotationIndex =
+  const newRotationIndex =
     direction < 0
       ? (rotationIndex > 0 ? rotationIndex : length) - 1
       : (rotationIndex + 1) % length;
-  const rotation = rotations[nextRotationIndex];
+  const rotation = rotations[newRotationIndex];
   if (!tetrominoCollision(rotation, 0, 0)) {
-    activeTetromino.rotationIndex = nextRotationIndex;
+    activeTetromino.rotationIndex = newRotationIndex;
     return;
   }
   const wallKicks = activeTetromino.wallKicks?.find(
-    wk => wk.rotation === nextRotationIndex && wk.direction === direction,
+    wk => wk.rotation === newRotationIndex && wk.direction === direction,
   );
   if (!wallKicks) {
     return;
@@ -110,7 +110,7 @@ const rotateActiveTetromino = (direction = 1) => {
   for (let i = 0, len = tests.length; i < len; i++) {
     const [x, y] = tests[i];
     if (!tetrominoCollision(rotation, x, y)) {
-      activeTetromino.rotationIndex = nextRotationIndex;
+      activeTetromino.rotationIndex = newRotationIndex;
       activeTetromino.x += x;
       activeTetromino.y += y;
       break;
