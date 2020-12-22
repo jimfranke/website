@@ -68,10 +68,8 @@ export const app = $node => {
 
   const $mainCanvas = $node.querySelector('.canvas-main');
   const mainContext = $mainCanvas.getContext('2d');
-
   const $holdCanvas = $node.querySelector('.canvas-hold');
   const holdContext = $holdCanvas.getContext('2d');
-
   const $queueCanvas = $node.querySelector('.canvas-queue');
   const queueContext = $queueCanvas.getContext('2d');
 
@@ -96,7 +94,6 @@ export const app = $node => {
   });
 
   const { getState, setState } = store;
-
   let dropTime;
   let rafId;
 
