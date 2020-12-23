@@ -30,8 +30,8 @@ export const drawActiveTetromino = (context, tetromino) => {
 };
 
 export const drawGhostTetromino = (context, ghostTetromino) => {
-  const { color, rotation } = ghostTetromino ?? {};
-  for (let y = 0, len = rotation?.length; y < len; y++) {
+  const { color, rotation } = ghostTetromino;
+  for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
       if (!rotation[y][x]) {
         continue;
