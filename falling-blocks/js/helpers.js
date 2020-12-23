@@ -1,9 +1,12 @@
 export const createState = initialState => {
-  const globalState = {
+  let globalState;
+  return (globalState = {
     ...initialState,
     update: state => {
-      Object.assign(globalState, state);
+      return (globalState = {
+        ...globalState,
+        ...state,
+      });
     },
-  };
-  return globalState;
+  });
 };
