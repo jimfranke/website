@@ -87,7 +87,6 @@ export const app = $node => {
       .map(() => Array(BOARD_COLS).fill(null)),
     tetrominoQueue: [],
     activeTetromino: null,
-    ghostTetromino: null,
     holdTetromino: null,
     isPlaying: false,
     isGameOver: false,
