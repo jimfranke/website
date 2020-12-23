@@ -19,7 +19,7 @@ import {
   drawGhostTetromino,
   drawHoldTetromino,
   drawTetrominoQueue,
-} from './render.js';
+} from './drawing.js';
 import { createStore } from './store.js';
 
 const startPauseGame = (store, render) => {
