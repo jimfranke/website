@@ -3,55 +3,55 @@ import { tetrominoes } from './tetrominoes.js';
 
 export const moveActiveTetrominoLeft = state => {
   const { activeTetromino } = state;
-  if (!tetrominoCollision(state, activeTetromino.rotation, -1, 0)) {
-    return {
-      activeTetromino: {
-        ...activeTetromino,
-        x: activeTetromino.x - 1,
-      },
-    };
+  if (tetrominoCollision(state, activeTetromino.rotation, -1, 0)) {
+    return null;
   }
-  return { activeTetromino };
+  return {
+    activeTetromino: {
+      ...activeTetromino,
+      x: activeTetromino.x - 1,
+    },
+  };
 };
 
 export const moveActiveTetrominoRight = state => {
   const { activeTetromino } = state;
-  if (!tetrominoCollision(state, activeTetromino.rotation, 1, 0)) {
-    return {
-      activeTetromino: {
-        ...activeTetromino,
-        x: activeTetromino.x + 1,
-      },
-    };
+  if (tetrominoCollision(state, activeTetromino.rotation, 1, 0)) {
+    return null;
   }
-  return { activeTetromino };
+  return {
+    activeTetromino: {
+      ...activeTetromino,
+      x: activeTetromino.x + 1,
+    },
+  };
 };
 
 export const moveActiveTetrominoDown = (state, isHard) => {
   const { activeTetromino } = state;
   const { y } = activeTetromino;
-  if (!tetrominoCollision(state, activeTetromino.rotation, 0, 1)) {
-    const nextState = {
-      activeTetromino: {
-        ...activeTetromino,
-        y: y + 1,
-      },
-    };
-    if (isHard) {
-      state = { ...state, ...nextState };
-      return moveActiveTetrominoDown(state, true);
-    }
-    return nextState;
+  if (tetrominoCollision(state, activeTetromino.rotation, 0, 1)) {
+    return lockActiveTetromino(state);
   }
-  return lockActiveTetromino(state);
+  const nextState = {
+    activeTetromino: {
+      ...activeTetromino,
+      y: y + 1,
+    },
+  };
+  if (isHard) {
+    state = { ...state, ...nextState };
+    return moveActiveTetrominoDown(state, true);
+  }
+  return nextState;
 };
 
 export const rotateActiveTetromino = (state, direction = 1) => {
   const { activeTetromino } = state;
-  const { rotations, rotationIndex } = activeTetromino;
+  const { rotations, rotationIndex, wallKicks } = activeTetromino;
   const { length } = rotations;
   if (length < 2) {
-    return activeTetromino;
+    return null;
   }
   const newRotationIndex =
     direction > 0
@@ -67,13 +67,12 @@ export const rotateActiveTetromino = (state, direction = 1) => {
       },
     };
   }
-  const wallKicks = activeTetromino.wallKicks?.find(
+  const tests = wallKicks?.find(
     wk => wk.rotation === newRotationIndex && wk.direction === direction,
-  );
-  if (!wallKicks) {
-    return { activeTetromino };
+  ).tests;
+  if (!tests) {
+    return null;
   }
-  const { tests } = wallKicks;
   for (let i = 0, len = tests.length; i < len; i++) {
     const [x, y] = tests[i];
     if (tetrominoCollision(state, rotation, x, y)) {
@@ -89,13 +88,13 @@ export const rotateActiveTetromino = (state, direction = 1) => {
       },
     };
   }
-  return { activeTetromino };
+  return null;
 };
 
 export const holdActiveTetromino = state => {
   let { tetrominoQueue, activeTetromino, holdTetromino, isHoldUsed } = state;
   if (isHoldUsed) {
-    return state;
+    return null;
   }
   if (!holdTetromino) {
     holdTetromino = activeTetromino;
