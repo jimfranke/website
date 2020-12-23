@@ -69,26 +69,19 @@ export const app = $node => {
     }
     switch (e.code) {
       case 'KeyZ':
-        state = state.update(rotateActiveTetromino(state, -1));
-        break;
+        return (state = state.update(rotateActiveTetromino(state, -1)));
       case 'KeyX':
-        state = state.update(rotateActiveTetromino(state));
-        break;
+        return (state = state.update(rotateActiveTetromino(state)));
       case 'KeyC':
-        state = state.update(holdActiveTetromino(state));
-        break;
+        return (state = state.update(holdActiveTetromino(state)));
       case 'ArrowLeft':
-        state = state.update(moveActiveTetrominoLeft(state));
-        break;
+        return (state = state.update(moveActiveTetrominoLeft(state)));
       case 'ArrowRight':
-        state = state.update(moveActiveTetrominoRight(state));
-        break;
+        return (state = state.update(moveActiveTetrominoRight(state)));
       case 'ArrowUp':
-        state = state.update(moveActiveTetrominoDown(state, true));
-        break;
+        return (state = state.update(moveActiveTetrominoDown(state, true)));
       case 'ArrowDown':
-        state = state.update(moveActiveTetrominoDown(state));
-        break;
+        return (state = state.update(moveActiveTetrominoDown(state)));
     }
   });
 
