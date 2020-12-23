@@ -1,5 +1,4 @@
 import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS, QUEUE_SIZE } from './constants.js';
-import { tetrominoCollision } from './core.js';
 
 const drawBlock = (context, x, y, color) => {
   if (!color) {
@@ -30,23 +29,17 @@ export const drawActiveTetromino = (context, tetromino) => {
   }
 };
 
-export const drawGhostTetromino = (context, store) => {
-  const { activeTetromino } = store.getState();
-  const { color, rotation } = activeTetromino;
-  let offsetY = 1;
-  while (!tetrominoCollision(store, rotation, 0, offsetY)) {
-    offsetY++;
-  }
-  offsetY--;
-  for (let y = 0, len = rotation.length; y < len; y++) {
+export const drawGhostTetromino = (context, ghostTetromino) => {
+  const { color, rotation } = ghostTetromino ?? {};
+  for (let y = 0, len = rotation?.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
       if (!rotation[y][x]) {
         continue;
       }
       drawBlock(
         context,
-        x + activeTetromino.x,
-        y + activeTetromino.y + offsetY,
+        x + ghostTetromino.x,
+        y + ghostTetromino.y,
         `${color}40`,
       );
     }

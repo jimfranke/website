@@ -6,6 +6,7 @@ import {
   QUEUE_SIZE,
 } from './constants.js';
 import {
+  createGhostTetromino,
   createTetrominoes,
   holdActiveTetromino,
   moveActiveTetrominoDown,
@@ -86,6 +87,7 @@ export const app = $node => {
       .map(() => Array(BOARD_COLS).fill(null)),
     tetrominoQueue: [],
     activeTetromino: null,
+    ghostTetromino: null,
     holdTetromino: null,
     isPlaying: false,
     isGameOver: false,
@@ -116,7 +118,7 @@ export const app = $node => {
       });
     }
     drawBoard(mainContext, board);
-    drawGhostTetromino(mainContext, store);
+    drawGhostTetromino(mainContext, createGhostTetromino(store));
     drawActiveTetromino(mainContext, activeTetromino);
     drawTetrominoQueue(queueContext, tetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);

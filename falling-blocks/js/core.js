@@ -86,6 +86,19 @@ export const holdActiveTetromino = store => {
   });
 };
 
+export const createGhostTetromino = store => {
+  const { activeTetromino } = store.getState();
+  const { rotation } = activeTetromino;
+  let offsetY = 1;
+  while (!tetrominoCollision(store, rotation, 0, offsetY)) {
+    offsetY++;
+  }
+  return {
+    ...activeTetromino,
+    y: activeTetromino.y + (offsetY - 1),
+  };
+};
+
 export const tetrominoCollision = (store, rotation, offsetX, offsetY) => {
   const { board, activeTetromino } = store.getState();
   for (let y = 0, len = rotation.length; y < len; y++) {
