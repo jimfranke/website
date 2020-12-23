@@ -12,7 +12,7 @@ import {
   moveActiveTetrominoLeft,
   moveActiveTetrominoRight,
   rotateActiveTetromino,
-} from './logic.js';
+} from './core.js';
 import {
   drawActiveTetromino,
   drawBoard,
