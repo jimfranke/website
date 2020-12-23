@@ -109,7 +109,7 @@ export const holdActiveTetromino = state => {
     activeTetromino,
     holdTetromino: {
       ...holdTetromino,
-      ...holdTetromino.getDefaults(),
+      ...holdTetromino.defaults,
     },
     isHoldUsed: true,
   };
@@ -162,16 +162,16 @@ export const createTetrominoQueue = tetrominoQueue => {
     ...randomTetrominoes.map(tetromino => {
       const { rotations } = tetromino;
       const rotationIndex = 0;
-      const getDefaults = () => ({
+      const defaults = {
         rotation: rotations[rotationIndex],
         rotationIndex,
         x: 3,
         y: 0,
-      });
+      };
       return {
         ...tetromino,
-        ...getDefaults(),
-        getDefaults,
+        ...defaults,
+        defaults,
       };
     }),
   ];
