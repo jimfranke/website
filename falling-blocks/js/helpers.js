@@ -1,12 +1,9 @@
-export const createStore = state => {
-  let globalState = { ...state };
-  return {
-    getState: () => globalState,
-    setState: state => {
-      return (globalState = {
-        ...globalState,
-        ...state,
-      });
+export const createState = initialState => {
+  const globalState = {
+    ...initialState,
+    update: state => {
+      Object.assign(globalState, state);
     },
   };
+  return globalState;
 };

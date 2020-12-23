@@ -1,34 +1,34 @@
 import { BOARD_COLS, BOARD_ROWS } from './constants.js';
 import { tetrominoes } from './tetrominoes.js';
 
-export const moveActiveTetrominoLeft = store => {
-  const { activeTetromino } = store.getState();
-  if (!tetrominoCollision(store, activeTetromino.rotation, -1, 0)) {
+export const moveActiveTetrominoLeft = state => {
+  const { activeTetromino } = state;
+  if (!tetrominoCollision(state, activeTetromino.rotation, -1, 0)) {
     activeTetromino.x--;
   }
 };
 
-export const moveActiveTetrominoRight = store => {
-  const { activeTetromino } = store.getState();
-  if (!tetrominoCollision(store, activeTetromino.rotation, 1, 0)) {
+export const moveActiveTetrominoRight = state => {
+  const { activeTetromino } = state;
+  if (!tetrominoCollision(state, activeTetromino.rotation, 1, 0)) {
     activeTetromino.x++;
   }
 };
 
-export const moveActiveTetrominoDown = (store, isHard) => {
-  const { activeTetromino } = store.getState();
-  if (!tetrominoCollision(store, activeTetromino.rotation, 0, 1)) {
+export const moveActiveTetrominoDown = (state, isHard) => {
+  const { activeTetromino } = state;
+  if (!tetrominoCollision(state, activeTetromino.rotation, 0, 1)) {
     activeTetromino.y++;
     if (isHard) {
-      moveActiveTetrominoDown(store, true);
+      moveActiveTetrominoDown(state, true);
     }
     return;
   }
-  lockTetromino(store);
+  lockActiveTetromino(state);
 };
 
-export const rotateActiveTetromino = (store, direction = 1) => {
-  const { activeTetromino } = store.getState();
+export const rotateActiveTetromino = (state, direction = 1) => {
+  const { activeTetromino } = state;
   const { rotations, rotationIndex } = activeTetromino;
   const { length } = rotations;
   if (length < 2) {
@@ -39,7 +39,7 @@ export const rotateActiveTetromino = (store, direction = 1) => {
       ? (rotationIndex + 1) % length
       : (rotationIndex > 0 ? rotationIndex : length) - 1;
   const rotation = rotations[newRotationIndex];
-  if (!tetrominoCollision(store, rotation, 0, 0)) {
+  if (!tetrominoCollision(state, rotation, 0, 0)) {
     activeTetromino.rotationIndex = newRotationIndex;
     return;
   }
@@ -52,18 +52,17 @@ export const rotateActiveTetromino = (store, direction = 1) => {
   const { tests } = wallKicks;
   for (let i = 0, len = tests.length; i < len; i++) {
     const [x, y] = tests[i];
-    if (tetrominoCollision(store, rotation, x, y)) {
+    if (tetrominoCollision(state, rotation, x, y)) {
       continue;
     }
     activeTetromino.rotationIndex = newRotationIndex;
-    activeTetromino.x += x;
-    activeTetromino.y += y;
+    activeTetromino.x = activeTetromino.x + x;
+    activeTetromino.y = activeTetromino.y + y;
     break;
   }
 };
 
-export const holdActiveTetromino = store => {
-  let state = store.getState();
+export const holdActiveTetromino = state => {
   let { tetrominoQueue, activeTetromino, holdTetromino, isHoldUsed } = state;
   if (isHoldUsed) {
     return;
@@ -76,31 +75,31 @@ export const holdActiveTetromino = store => {
     activeTetromino = holdTetromino;
     holdTetromino = prevActiveTetromino;
   }
-  store.setState({
+  state.update({
     activeTetromino,
     holdTetromino,
   });
   holdTetromino.reset();
-  store.setState({
+  state.update({
     isHoldUsed: true,
   });
 };
 
-export const createGhostTetromino = store => {
-  const { activeTetromino } = store.getState();
-  const { rotation } = activeTetromino;
+export const createGhostTetromino = state => {
+  const { activeTetromino } = state;
+  const { rotation, y } = activeTetromino;
   let offsetY = 1;
-  while (!tetrominoCollision(store, rotation, 0, offsetY)) {
+  while (!tetrominoCollision(state, rotation, 0, offsetY)) {
     offsetY++;
   }
   return {
     ...activeTetromino,
-    y: activeTetromino.y + (offsetY - 1),
+    y: y + (offsetY - 1),
   };
 };
 
-export const tetrominoCollision = (store, rotation, offsetX, offsetY) => {
-  const { board, activeTetromino } = store.getState();
+export const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
+  const { board, activeTetromino } = state;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
       if (!rotation[y][x]) {
@@ -122,35 +121,35 @@ export const tetrominoCollision = (store, rotation, offsetX, offsetY) => {
   return false;
 };
 
-export const createTetrominoes = tetrominoQueue => {
+export const fillTetrominoQueue = tetrominoQueue => {
   if (tetrominoQueue.length > tetrominoes.length) {
     return;
   }
   const randomTetrominoes = [...tetrominoes].sort(() => Math.random() - 0.5);
   tetrominoQueue.push(
-    ...randomTetrominoes.map(tetromino => {
+    ...randomTetrominoes.map(randomTetromino => {
       const rotationIndex = 0;
       const x = 3;
       const y = 0;
-      const obj = {
-        ...tetromino,
+      const tetromino = {
+        ...randomTetromino,
         get rotation() {
-          return obj.rotations[obj.rotationIndex];
+          return tetromino.rotations[tetromino.rotationIndex];
         },
         reset: () => {
-          Object.assign(obj, { rotationIndex, x, y });
+          Object.assign(tetromino, { rotationIndex, x, y });
         },
         rotationIndex,
         x,
         y,
       };
-      return obj;
+      return tetromino;
     }),
   );
 };
 
-export const lockTetromino = store => {
-  const { board, activeTetromino } = store.getState();
+export const lockActiveTetromino = state => {
+  const { board, activeTetromino } = state;
   const { color, rotation } = activeTetromino;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
@@ -158,7 +157,7 @@ export const lockTetromino = store => {
         continue;
       }
       if (activeTetromino.y + y < 1) {
-        store.setState({
+        state.update({
           isPlaying: false,
           isGameOver: true,
         });
@@ -173,13 +172,13 @@ export const lockTetromino = store => {
     }
     board.splice(y++, 1);
     board.unshift(Array(BOARD_COLS).fill(null));
-    let { linesCleared } = store.getState();
-    store.setState({
+    let { linesCleared } = state;
+    state.update({
       linesCleared: linesCleared + 1,
     });
   }
   activeTetromino.isLocked = true;
-  store.setState({
+  state.update({
     isHoldUsed: false,
   });
 };

@@ -7,7 +7,7 @@ import {
 } from './constants.js';
 import {
   createGhostTetromino,
-  createTetrominoes,
+  fillTetrominoQueue,
   holdActiveTetromino,
   moveActiveTetrominoDown,
   moveActiveTetrominoLeft,
@@ -21,48 +21,7 @@ import {
   drawHoldTetromino,
   drawTetrominoQueue,
 } from './drawing.js';
-import { createStore } from './helpers.js';
-
-const startPauseGame = (store, render) => {
-  const { getState, setState } = store;
-  const { isPlaying } = setState({
-    isPlaying: !getState().isPlaying,
-  });
-  if (isPlaying) {
-    render();
-  }
-};
-
-const handleInput = (store, render) => {
-  document.addEventListener('keydown', e => {
-    const { isPlaying, isGameOver } = store.getState();
-    if (isGameOver) {
-      return;
-    }
-    if (e.code === 'Space') {
-      startPauseGame(store, render);
-    }
-    if (!isPlaying) {
-      return;
-    }
-    switch (e.code) {
-      case 'KeyZ':
-        return rotateActiveTetromino(store, -1);
-      case 'KeyX':
-        return rotateActiveTetromino(store);
-      case 'KeyC':
-        return holdActiveTetromino(store);
-      case 'ArrowLeft':
-        return moveActiveTetrominoLeft(store);
-      case 'ArrowRight':
-        return moveActiveTetrominoRight(store);
-      case 'ArrowUp':
-        return moveActiveTetrominoDown(store, true);
-      case 'ArrowDown':
-        return moveActiveTetrominoDown(store);
-    }
-  });
-};
+import { createState } from './helpers.js';
 
 export const app = $node => {
   const $linesCleared = $node.querySelector('.lines-cleared');
@@ -81,7 +40,7 @@ export const app = $node => {
   $holdCanvas.width = BLOCK_SIZE * 4;
   $holdCanvas.height = BLOCK_SIZE * 2;
 
-  const store = createStore({
+  const state = createState({
     board: Array(BOARD_ROWS)
       .fill()
       .map(() => Array(BOARD_COLS).fill(null)),
@@ -97,10 +56,47 @@ export const app = $node => {
   let dropTime;
   let rafId;
 
+  document.addEventListener('keydown', e => {
+    const { board, activeTetromino, isPlaying, isGameOver } = state;
+    if (isGameOver) {
+      return;
+    }
+    if (e.code === 'Space') {
+      startPauseGame();
+    }
+    if (!isPlaying) {
+      return;
+    }
+    switch (e.code) {
+      case 'KeyZ':
+        return rotateActiveTetromino(state, -1);
+      case 'KeyX':
+        return rotateActiveTetromino(state);
+      case 'KeyC':
+        return holdActiveTetromino(state);
+      case 'ArrowLeft':
+        return moveActiveTetrominoLeft(state);
+      case 'ArrowRight':
+        return moveActiveTetrominoRight(state);
+      case 'ArrowUp':
+        return moveActiveTetrominoDown(state, true);
+      case 'ArrowDown':
+        return moveActiveTetrominoDown(state);
+    }
+  });
+
+  const startPauseGame = () => {
+    state.update({
+      isPlaying: !state.isPlaying,
+    });
+    if (state.isPlaying) {
+      render();
+    }
+  };
+
   const render = () => {
     const time = Date.now();
     dropTime ??= time;
-    const state = store.getState();
     let {
       board,
       tetrominoQueue,
@@ -110,19 +106,20 @@ export const app = $node => {
     } = state;
     $linesCleared.textContent = linesCleared;
     if (!activeTetromino || activeTetromino.isLocked) {
-      createTetrominoes(tetrominoQueue);
+      fillTetrominoQueue(tetrominoQueue);
       activeTetromino = tetrominoQueue.shift();
-      store.setState({
+      state.update({
         activeTetromino,
       });
     }
+    const ghostTetromino = createGhostTetromino(state);
     drawBoard(mainContext, board);
-    drawGhostTetromino(mainContext, createGhostTetromino(store));
+    drawGhostTetromino(mainContext, ghostTetromino);
     drawActiveTetromino(mainContext, activeTetromino);
     drawTetrominoQueue(queueContext, tetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
     if (time - dropTime > DROP_SPEED) {
-      moveActiveTetrominoDown(store);
+      moveActiveTetrominoDown(state);
       dropTime = time;
     }
     const { isPlaying, isGameOver } = state;
@@ -133,7 +130,6 @@ export const app = $node => {
     rafId = requestAnimationFrame(render);
   };
 
-  handleInput(store, render);
   render();
   $node.style.display = null;
 };
