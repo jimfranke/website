@@ -1,5 +1,5 @@
 import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS, QUEUE_SIZE } from './constants.js';
-import { tetrominoCollision } from './logic.js';
+import { tetrominoCollision } from './core.js';
 
 const drawBlock = (context, x, y, color) => {
   if (!color) {
