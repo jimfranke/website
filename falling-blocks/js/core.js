@@ -1,6 +1,69 @@
 import { BOARD_COLS, BOARD_ROWS } from './constants.js';
 import { tetrominoes } from './tetrominoes.js';
 
+const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
+  const { board, activeTetromino } = state;
+  for (let y = 0, len = rotation.length; y < len; y++) {
+    for (let x = 0; x < len; x++) {
+      if (!rotation[y][x]) {
+        continue;
+      }
+      const newX = activeTetromino.x + x + offsetX;
+      const newY = activeTetromino.y + y + offsetY;
+      if (newX < 0 || newX >= BOARD_COLS || newY >= BOARD_ROWS) {
+        return true;
+      }
+      if (newY < 0) {
+        continue;
+      }
+      if (board[newY][newX]) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+const lockActiveTetromino = state => {
+  let { activeTetromino, isPlaying, isGameOver } = state;
+  const { color, rotation } = activeTetromino;
+  const board = [...state.board];
+  for (let y = 0, len = rotation.length; y < len; y++) {
+    for (let x = 0; x < len; x++) {
+      if (!rotation[y][x]) {
+        continue;
+      }
+      if (activeTetromino.y + y < 1) {
+        isPlaying = false;
+        isGameOver = false;
+        break;
+      }
+      board[activeTetromino.y + y][activeTetromino.x + x] = color;
+    }
+  }
+  let linesCleared = 0;
+  for (let y = BOARD_ROWS - 1; y >= 0; y--) {
+    if (board[y].some(x => !x)) {
+      continue;
+    }
+    board.splice(y++, 1);
+    board.unshift(Array(BOARD_COLS).fill(null));
+    linesCleared++;
+  }
+  linesCleared += state.linesCleared;
+  return {
+    board,
+    activeTetromino: {
+      ...activeTetromino,
+      isLocked: true,
+    },
+    isPlaying,
+    isGameOver,
+    isHoldUsed: false,
+    linesCleared,
+  };
+};
+
 export const moveActiveTetrominoLeft = state => {
   const { activeTetromino } = state;
   if (tetrominoCollision(state, activeTetromino.rotation, -1, 0)) {
@@ -131,29 +194,6 @@ export const createGhostTetromino = state => {
   };
 };
 
-export const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
-  const { board, activeTetromino } = state;
-  for (let y = 0, len = rotation.length; y < len; y++) {
-    for (let x = 0; x < len; x++) {
-      if (!rotation[y][x]) {
-        continue;
-      }
-      const newX = activeTetromino.x + x + offsetX;
-      const newY = activeTetromino.y + y + offsetY;
-      if (newX < 0 || newX >= BOARD_COLS || newY >= BOARD_ROWS) {
-        return true;
-      }
-      if (newY < 0) {
-        continue;
-      }
-      if (board[newY][newX]) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
 export const shiftFromTetrominoQueue = tetrominoQueue => {
   const activeTetromino = tetrominoQueue[0];
   tetrominoQueue = tetrominoQueue.slice(1);
@@ -183,44 +223,4 @@ export const createTetrominoQueue = tetrominoQueue => {
       };
     }),
   ];
-};
-
-export const lockActiveTetromino = state => {
-  let { activeTetromino, isPlaying, isGameOver } = state;
-  const { color, rotation } = activeTetromino;
-  const board = [...state.board];
-  for (let y = 0, len = rotation.length; y < len; y++) {
-    for (let x = 0; x < len; x++) {
-      if (!rotation[y][x]) {
-        continue;
-      }
-      if (activeTetromino.y + y < 1) {
-        isPlaying = false;
-        isGameOver = false;
-        break;
-      }
-      board[activeTetromino.y + y][activeTetromino.x + x] = color;
-    }
-  }
-  let linesCleared = 0;
-  for (let y = BOARD_ROWS - 1; y >= 0; y--) {
-    if (board[y].some(x => !x)) {
-      continue;
-    }
-    board.splice(y++, 1);
-    board.unshift(Array(BOARD_COLS).fill(null));
-    linesCleared++;
-  }
-  linesCleared += state.linesCleared;
-  return {
-    board,
-    activeTetromino: {
-      ...activeTetromino,
-      isLocked: true,
-    },
-    isPlaying,
-    isGameOver,
-    isHoldUsed: false,
-    linesCleared,
-  };
 };
