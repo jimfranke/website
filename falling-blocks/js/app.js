@@ -22,7 +22,7 @@ import {
   drawHoldTetromino,
   drawTetrominoQueue,
 } from './drawing.js';
-import { createStore } from './helpers.js';
+import { getStore } from './store.js';
 
 export const app = $node => {
   const $linesCleared = $node.querySelector('.lines-cleared');
@@ -41,22 +41,10 @@ export const app = $node => {
   $holdCanvas.width = BLOCK_SIZE * 4;
   $holdCanvas.height = BLOCK_SIZE * 2;
 
-  const store = createStore({
-    board: Array(BOARD_ROWS)
-      .fill()
-      .map(() => Array(BOARD_COLS).fill(null)),
-    tetrominoQueue: [],
-    activeTetromino: null,
-    holdTetromino: null,
-    isPlaying: false,
-    isGameOver: false,
-    isHoldUsed: false,
-    linesCleared: 0,
-  });
-
+  const store = getStore();
   const { getState, setState } = store;
-  let state = getState();
 
+  let state = getState();
   let dropTime;
   let rafId;
 
