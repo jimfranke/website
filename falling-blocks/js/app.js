@@ -21,7 +21,7 @@ import {
   drawHoldTetromino,
   drawTetrominoQueue,
 } from './drawing.js';
-import { createState } from './helpers.js';
+import { createStore } from './helpers.js';
 
 export const app = $node => {
   const $linesCleared = $node.querySelector('.lines-cleared');
@@ -40,7 +40,7 @@ export const app = $node => {
   $holdCanvas.width = BLOCK_SIZE * 4;
   $holdCanvas.height = BLOCK_SIZE * 2;
 
-  let state = createState({
+  const store = createStore({
     board: Array(BOARD_ROWS)
       .fill()
       .map(() => Array(BOARD_COLS).fill(null)),
@@ -52,6 +52,9 @@ export const app = $node => {
     isHoldUsed: false,
     linesCleared: 0,
   });
+
+  const { getState, setState } = store;
+  let state = getState();
 
   let dropTime;
   let rafId;
@@ -69,27 +72,26 @@ export const app = $node => {
     }
     switch (e.code) {
       case 'KeyZ':
-        return (state = state.update(rotateActiveTetromino(state, -1)));
+        return (state = setState(rotateActiveTetromino(state, -1)));
       case 'KeyX':
-        return (state = state.update(rotateActiveTetromino(state)));
+        return (state = setState(rotateActiveTetromino(state)));
       case 'KeyC':
-        return (state = state.update(holdActiveTetromino(state)));
+        return (state = setState(holdActiveTetromino(state)));
       case 'ArrowLeft':
-        return (state = state.update(moveActiveTetrominoLeft(state)));
+        return (state = setState(moveActiveTetrominoLeft(state)));
       case 'ArrowRight':
-        return (state = state.update(moveActiveTetrominoRight(state)));
+        return (state = setState(moveActiveTetrominoRight(state)));
       case 'ArrowUp':
-        return (state = state.update(moveActiveTetrominoDown(state, true)));
+        return (state = setState(moveActiveTetrominoDown(state, true)));
       case 'ArrowDown':
-        return (state = state.update(moveActiveTetrominoDown(state)));
+        return (state = setState(moveActiveTetrominoDown(state)));
     }
   });
 
   const startPause = () => {
-    state = state.update({
-      isPlaying: !state.isPlaying,
-    });
-    if (state.isPlaying) {
+    const isPlaying = !state.isPlaying;
+    state = setState({ isPlaying });
+    if (isPlaying) {
       render();
     }
   };
@@ -109,7 +111,7 @@ export const app = $node => {
       tetrominoQueue = createTetrominoQueue(tetrominoQueue);
       activeTetromino = tetrominoQueue[0];
       tetrominoQueue = tetrominoQueue.slice(1);
-      state = state.update({
+      state = setState({
         tetrominoQueue,
         activeTetromino,
       });
@@ -120,7 +122,7 @@ export const app = $node => {
     drawTetrominoQueue(queueContext, tetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
     if (time - dropTime > DROP_SPEED) {
-      state = state.update(moveActiveTetrominoDown(state));
+      state = setState(moveActiveTetrominoDown(state));
       dropTime = time;
     }
     const { isPlaying, isGameOver } = state;
