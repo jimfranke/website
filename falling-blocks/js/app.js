@@ -62,7 +62,7 @@ export const app = $node => {
       return;
     }
     if (e.code === 'Space') {
-      startPauseGame();
+      startPause();
     }
     if (!isPlaying) {
       return;
@@ -85,7 +85,7 @@ export const app = $node => {
     }
   });
 
-  const startPauseGame = () => {
+  const startPause = () => {
     state = state.update({
       isPlaying: !state.isPlaying,
     });
