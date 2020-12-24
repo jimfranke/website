@@ -98,8 +98,9 @@ export const holdActiveTetromino = state => {
   }
   if (!holdTetromino) {
     holdTetromino = activeTetromino;
-    activeTetromino = tetrominoQueue[0];
-    tetrominoQueue = tetrominoQueue.slice(1);
+    ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(
+      tetrominoQueue,
+    ));
   } else {
     const prevActiveTetromino = activeTetromino;
     activeTetromino = holdTetromino;
@@ -151,6 +152,12 @@ export const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
     }
   }
   return false;
+};
+
+export const shiftFromTetrominoQueue = tetrominoQueue => {
+  const activeTetromino = tetrominoQueue[0];
+  tetrominoQueue = tetrominoQueue.slice(1);
+  return { tetrominoQueue, activeTetromino };
 };
 
 export const createTetrominoQueue = tetrominoQueue => {

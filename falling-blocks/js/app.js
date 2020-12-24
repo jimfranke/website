@@ -13,6 +13,7 @@ import {
   moveActiveTetrominoLeft,
   moveActiveTetrominoRight,
   rotateActiveTetromino,
+  shiftFromTetrominoQueue,
 } from './core.js';
 import {
   drawActiveTetromino,
@@ -116,12 +117,10 @@ export const app = $node => {
     $linesCleared.textContent = linesCleared;
     if (!activeTetromino || activeTetromino.isLocked) {
       tetrominoQueue = createTetrominoQueue(tetrominoQueue);
-      activeTetromino = tetrominoQueue[0];
-      tetrominoQueue = tetrominoQueue.slice(1);
-      state = setState({
+      ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(
         tetrominoQueue,
-        activeTetromino,
-      });
+      ));
+      state = setState({ tetrominoQueue, activeTetromino });
     }
     drawBoard(mainContext, board);
     drawGhostTetromino(mainContext, createGhostTetromino(state));
