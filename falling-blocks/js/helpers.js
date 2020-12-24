@@ -3,10 +3,11 @@ export const createStore = initialState => {
   return {
     getState: () => globalState,
     setState: state => {
-      return (globalState = {
+      globalState = {
         ...globalState,
         ...state,
-      });
+      };
+      return globalState;
     },
   };
 };
