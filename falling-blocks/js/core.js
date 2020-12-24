@@ -98,13 +98,15 @@ export const holdActiveTetromino = state => {
   }
   if (!holdTetromino) {
     holdTetromino = activeTetromino;
-    activeTetromino = tetrominoQueue.shift();
+    activeTetromino = tetrominoQueue[0];
+    tetrominoQueue = tetrominoQueue.slice(1);
   } else {
     const prevActiveTetromino = activeTetromino;
     activeTetromino = holdTetromino;
     holdTetromino = prevActiveTetromino;
   }
   return {
+    tetrominoQueue,
     activeTetromino,
     holdTetromino: {
       ...holdTetromino,
