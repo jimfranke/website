@@ -6,8 +6,7 @@
     <title>Falling Blocks</title>
     <link rel="stylesheet" href="css/app.css" />
     <script type="module">
-      import { app } from './js/app.js';
-      app(document.getElementById('app'));
+      import './js/app.js';
     </script>
   </head>
   <body>
@@ -16,21 +15,35 @@
         <button data-action="start">Start</button>
       </div>
       <div class="game" style="display: none">
-        <div class="paused" style="display: none">Paused</div>
+        <ul class="stats">
+          <li>Score: <strong data-score>0</strong></li>
+          <li>Lines: <strong data-lines>0</strong></li>
+          <li>Level: <strong data-level>0</strong></li>
+        </ul>
         <div class="row">
           <div class="col col-side">
             <canvas class="canvas-hold"></canvas>
           </div>
           <div class="col col-main">
+            <div class="paused" style="display: none">Paused</div>
             <canvas class="canvas-main"></canvas>
           </div>
           <div class="col col-side">
             <canvas class="canvas-queue"></canvas>
-            <ul class="stats">
-              <li>Score: <strong data-score>0</strong></li>
-              <li>Lines: <strong data-lines>0</strong></li>
-              <li>Level: <strong data-level>0</strong></li>
-            </ul>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="control-pad">
+            <button class="up" data-keydown="ArrowUp"></button>
+            <button class="left" data-keydown="ArrowLeft"></button>
+            <button class="right" data-keydown="ArrowRight"></button>
+            <button class="down" data-keydown="ArrowDown"></button>
+          </div>
+          <div class="actions">
+            <button class="hold" data-keydown="KeyC"></button>
+            <button class="hard-drop" data-keydown="ArrowUp"></button>
+            <button class="rotate-right" data-keydown="KeyX"></button>
+            <button class="rotate-left" data-keydown="KeyZ"></button>
           </div>
         </div>
       </div>

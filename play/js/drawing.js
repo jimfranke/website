@@ -43,7 +43,8 @@ export const drawTetrominoQueue = (context, tetrominoQueue) => {
     let y = i * 3;
     if (tetromino.name === 'I') {
       y--;
-    } else if (prevTetromino?.name === 'I') {
+    }
+    if (prevTetromino?.name === 'I') {
       spacingY--;
     }
     y += spacingY;
