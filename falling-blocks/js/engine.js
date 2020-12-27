@@ -25,7 +25,7 @@ const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
 };
 
 const lockActiveTetromino = state => {
-  let { activeTetromino, isPlaying, isGameOver } = state;
+  let { activeTetromino, isGameOver } = state;
   const { color, rotation } = activeTetromino;
   const board = [...state.board];
   for (let y = 0, len = rotation.length; y < len; y++) {
@@ -34,7 +34,6 @@ const lockActiveTetromino = state => {
         continue;
       }
       if (activeTetromino.y + y < 1) {
-        isPlaying = false;
         isGameOver = false;
         break;
       }
@@ -60,7 +59,6 @@ const lockActiveTetromino = state => {
       ...activeTetromino,
       isLocked: true,
     },
-    isPlaying,
     isGameOver,
     isHoldUsed: false,
     score,

@@ -18,15 +18,19 @@ import {
 import { getStore } from './store.js';
 
 export const app = $node => {
-  const $score = $node.querySelector('[data-score]');
-  const $lines = $node.querySelector('[data-lines]');
-  const $level = $node.querySelector('[data-level]');
+  const $menu = $node.querySelector('.menu');
+  const $game = $node.querySelector('.game');
+  const $paused = $game.querySelector('.paused');
 
-  const $mainCanvas = $node.querySelector('.canvas-main');
+  const $score = $game.querySelector('[data-score]');
+  const $lines = $game.querySelector('[data-lines]');
+  const $level = $game.querySelector('[data-level]');
+
+  const $mainCanvas = $game.querySelector('.canvas-main');
   const mainContext = $mainCanvas.getContext('2d');
-  const $holdCanvas = $node.querySelector('.canvas-hold');
+  const $holdCanvas = $game.querySelector('.canvas-hold');
   const holdContext = $holdCanvas.getContext('2d');
-  const $queueCanvas = $node.querySelector('.canvas-queue');
+  const $queueCanvas = $game.querySelector('.canvas-queue');
   const queueContext = $queueCanvas.getContext('2d');
 
   $mainCanvas.width = BLOCK_SIZE * BOARD_COLS;
@@ -43,15 +47,25 @@ export const app = $node => {
   let dropTime;
   let rafId;
 
+  $menu.addEventListener('click', e => {
+    const action = e.target.getAttribute('data-action');
+    if (action === 'start') {
+      state = setState({ isPlaying: true });
+      $menu.style.display = 'none';
+      $game.style.display = null;
+      render();
+    }
+  });
+
   document.addEventListener('keydown', e => {
-    const { isPlaying, isGameOver } = state;
-    if (isGameOver) {
+    const { isPlaying, isPaused, isGameOver } = state;
+    if (!isPlaying || isGameOver) {
       return;
     }
     if (e.code === 'Space') {
       startPause();
     }
-    if (!isPlaying) {
+    if (isPaused) {
       return;
     }
     switch (e.code) {
@@ -80,9 +94,12 @@ export const app = $node => {
   });
 
   const startPause = () => {
-    const isPlaying = !state.isPlaying;
-    state = setState({ isPlaying });
-    if (isPlaying) {
+    const isPaused = !state.isPaused;
+    state = setState({ isPaused });
+    if (isPaused) {
+      $paused.style.display = null;
+    } else {
+      $paused.style.display = 'none';
       render();
     }
   };
@@ -119,14 +136,11 @@ export const app = $node => {
       state = setState(moveActiveTetrominoDown(state));
       dropTime = time;
     }
-    const { isPlaying, isGameOver } = state;
-    if (!isPlaying || isGameOver) {
+    const { isPaused, isGameOver } = state;
+    if (isPaused || isGameOver) {
       rafId = cancelAnimationFrame(rafId);
       return;
     }
     rafId = requestAnimationFrame(render);
   };
-
-  render();
-  $node.style.display = null;
 };

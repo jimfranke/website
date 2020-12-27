@@ -10,6 +10,7 @@ export const getStore = () =>
     activeTetromino: null,
     holdTetromino: null,
     isPlaying: false,
+    isPaused: false,
     isGameOver: false,
     isHoldUsed: false,
     score: 0,
