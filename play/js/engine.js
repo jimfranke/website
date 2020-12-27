@@ -52,20 +52,33 @@ const lockActiveTetromino = state => {
 };
 
 const clearLines = state => {
-  const { board } = state;
-  let score = 0;
-  let lines = 0;
+  let { board, score, lines, level } = state;
+  let clears = 0;
   for (let y = BOARD_ROWS - 1; y >= 0; y--) {
     if (board[y].some(x => !x)) {
       continue;
     }
     board.splice(y++, 1);
     board.unshift(Array(BOARD_COLS).fill(null));
-    lines++;
-    score += 100 * lines;
+    clears++;
+    lines += clears;
   }
-  score += state.score;
-  lines += state.lines;
+  let points = 0;
+  switch (clears) {
+    case 1:
+      points = 40;
+      break;
+    case 2:
+      points = 100;
+      break;
+    case 3:
+      points = 300;
+      break;
+    case 4:
+      points = 1200;
+      break;
+  }
+  score += points * (level + 1);
   return { board, score, lines };
 };
 

@@ -10,9 +10,9 @@ const keyMap = {
   KeyZ: 'rotate-left',
   KeyX: 'rotate-right',
   KeyC: 'hold',
+  ArrowUp: 'hard-drop',
   ArrowLeft: 'move-left',
   ArrowRight: 'move-right',
-  ArrowUp: 'hard-drop',
   ArrowDown: 'move-down',
 };
 
@@ -50,14 +50,14 @@ export const handleInput = ({
       case 'hold':
         setState(holdActiveTetromino(state));
         break;
+      case 'hard-drop':
+        setState(moveActiveTetrominoDown(state, true));
+        break;
       case 'move-left':
         setState(moveActiveTetrominoLeft(state));
         break;
       case 'move-right':
         setState(moveActiveTetrominoRight(state));
-        break;
-      case 'hard-drop':
-        setState(moveActiveTetrominoDown(state, true));
         break;
       case 'move-down':
         setState(moveActiveTetrominoDown(state));
