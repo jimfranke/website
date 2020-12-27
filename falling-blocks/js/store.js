@@ -12,5 +12,7 @@ export const getStore = () =>
     isPlaying: false,
     isGameOver: false,
     isHoldUsed: false,
-    linesCleared: 0,
+    score: 0,
+    lines: 0,
+    level: 0,
   });

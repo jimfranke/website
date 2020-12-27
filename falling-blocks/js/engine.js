@@ -41,16 +41,19 @@ const lockActiveTetromino = state => {
       board[activeTetromino.y + y][activeTetromino.x + x] = color;
     }
   }
-  let linesCleared = 0;
+  let score = 0;
+  let lines = 0;
   for (let y = BOARD_ROWS - 1; y >= 0; y--) {
     if (board[y].some(x => !x)) {
       continue;
     }
     board.splice(y++, 1);
     board.unshift(Array(BOARD_COLS).fill(null));
-    linesCleared++;
+    lines++;
+    score += 100 * lines;
   }
-  linesCleared += state.linesCleared;
+  score += state.score;
+  lines += state.lines;
   return {
     board,
     activeTetromino: {
@@ -60,7 +63,8 @@ const lockActiveTetromino = state => {
     isPlaying,
     isGameOver,
     isHoldUsed: false,
-    linesCleared,
+    score,
+    lines,
   };
 };
 

@@ -1,10 +1,4 @@
-import {
-  BLOCK_SIZE,
-  BOARD_COLS,
-  BOARD_ROWS,
-  DROP_SPEED,
-  QUEUE_SIZE,
-} from './constants.js';
+import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS, QUEUE_SIZE } from './constants.js';
 import {
   drawBoard,
   drawHoldTetromino,
@@ -101,9 +95,14 @@ export const app = $node => {
       tetrominoQueue,
       activeTetromino,
       holdTetromino,
-      linesCleared,
+      score,
+      lines,
+      level,
     } = state;
-    $lines.textContent = linesCleared;
+    const dropSpeed = 750;
+    $score.textContent = score;
+    $lines.textContent = lines;
+    $level.textContent = level;
     if (!activeTetromino || activeTetromino.isLocked) {
       tetrominoQueue = createTetrominoQueue(tetrominoQueue);
       ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(
@@ -116,7 +115,7 @@ export const app = $node => {
     drawTetromino(mainContext, activeTetromino);
     drawTetrominoQueue(queueContext, tetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
-    if (time - dropTime > DROP_SPEED) {
+    if (time - dropTime > dropSpeed) {
       state = setState(moveActiveTetrominoDown(state));
       dropTime = time;
     }
