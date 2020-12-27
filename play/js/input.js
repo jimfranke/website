@@ -6,11 +6,11 @@ import {
   rotateActiveTetromino,
 } from './engine.js';
 
-export const handleInput = ({ $app, $game, $menu, store, render }) => {
+export const handleInput = ({ $app, $menu, $game, $paused, store, render }) => {
   const { getState, setState } = store;
   const touchTimers = [];
 
-  const startPause = state => {
+  const pauseResume = state => {
     const isPaused = !state.isPaused;
     state = setState({ isPaused });
     if (isPaused) {
@@ -21,7 +21,7 @@ export const handleInput = ({ $app, $game, $menu, store, render }) => {
     }
   };
 
-  const dispatchKeydown = code => {
+  const dispatchKeydownEvent = code => {
     document.dispatchEvent(new KeyboardEvent('keydown', { code }));
   };
 
@@ -40,11 +40,14 @@ export const handleInput = ({ $app, $game, $menu, store, render }) => {
     if (!code) {
       return;
     }
-    dispatchKeydown(code);
+    dispatchKeydownEvent(code);
+    if (!code.startsWith('Arrow')) {
+      return;
+    }
     touchTimers.push(
       setInterval(() => {
-        dispatchKeydown(code);
-      }, 70),
+        dispatchKeydownEvent(code);
+      }, 50),
     );
   });
 
@@ -61,7 +64,7 @@ export const handleInput = ({ $app, $game, $menu, store, render }) => {
       return;
     }
     if (e.code === 'Space') {
-      startPause(state);
+      pauseResume(state);
     }
     if (isPaused) {
       return;

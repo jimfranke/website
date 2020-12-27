@@ -17,17 +17,17 @@ import { getStore } from './store.js';
 const $app = document.getElementById('app');
 const $menu = $app.querySelector('.menu');
 const $game = $app.querySelector('.game');
-const $paused = $game.querySelector('.paused');
+const $paused = $game.querySelector('.view__paused');
 
 const $score = $game.querySelector('[data-score]');
 const $lines = $game.querySelector('[data-lines]');
 const $level = $game.querySelector('[data-level]');
 
-const $mainCanvas = $game.querySelector('.canvas-main');
+const $mainCanvas = $game.querySelector('.view__canvas-main');
 const mainContext = $mainCanvas.getContext('2d');
-const $holdCanvas = $game.querySelector('.canvas-hold');
+const $holdCanvas = $game.querySelector('.view__canvas-hold');
 const holdContext = $holdCanvas.getContext('2d');
-const $queueCanvas = $game.querySelector('.canvas-queue');
+const $queueCanvas = $game.querySelector('.view__canvas-queue');
 const queueContext = $queueCanvas.getContext('2d');
 
 $mainCanvas.width = BLOCK_SIZE * BOARD_COLS;
@@ -86,8 +86,9 @@ const render = () => {
 
 handleInput({
   $app,
-  $game,
   $menu,
+  $game,
+  $paused,
   store,
   render,
 });

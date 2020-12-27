@@ -12,7 +12,7 @@
   <body>
     <div id="app">
       <div class="menu">
-        <button data-action="start">Start</button>
+        <button class="button" data-action="start">Start</button>
       </div>
       <div class="game" style="display: none">
         <ul class="stats">
@@ -20,30 +20,54 @@
           <li>Lines: <strong data-lines>0</strong></li>
           <li>Level: <strong data-level>0</strong></li>
         </ul>
-        <div class="row">
-          <div class="col col-side">
-            <canvas class="canvas-hold"></canvas>
+        <div class="view">
+          <div class="view__col--side">
+            <canvas class="view__canvas-hold"></canvas>
           </div>
-          <div class="col col-main">
-            <div class="paused" style="display: none">Paused</div>
-            <canvas class="canvas-main"></canvas>
+          <div class="view__col--main">
+            <div class="view__paused" style="display: none">Paused</div>
+            <canvas class="view__canvas-main"></canvas>
           </div>
-          <div class="col col-side">
-            <canvas class="canvas-queue"></canvas>
+          <div class="view__col--side">
+            <canvas class="view__canvas-queue"></canvas>
           </div>
         </div>
         <div class="controls">
-          <div class="control-pad">
-            <button class="up" data-keydown="ArrowUp"></button>
-            <button class="left" data-keydown="ArrowLeft"></button>
-            <button class="right" data-keydown="ArrowRight"></button>
-            <button class="down" data-keydown="ArrowDown"></button>
+          <div class="controls__control-pad">
+            <button
+              class="button controls__button controls__button--up"
+              data-keydown="ArrowUp"
+            ></button>
+            <button
+              class="button controls__button controls__button--left"
+              data-keydown="ArrowLeft"
+            ></button>
+            <button
+              class="button controls__button controls__button--right"
+              data-keydown="ArrowRight"
+            ></button>
+            <button
+              class="button controls__button controls__button--down"
+              data-keydown="ArrowDown"
+            ></button>
           </div>
-          <div class="actions">
-            <button class="hold" data-keydown="KeyC"></button>
-            <button class="hard-drop" data-keydown="ArrowUp"></button>
-            <button class="rotate-right" data-keydown="KeyX"></button>
-            <button class="rotate-left" data-keydown="KeyZ"></button>
+          <div class="controls__action-pad">
+            <button
+              class="button controls__button controls__button--hold"
+              data-keydown="KeyC"
+            ></button>
+            <button
+              class="button controls__button controls__button--hard-drop"
+              data-keydown="ArrowUp"
+            ></button>
+            <button
+              class="button controls__button controls__button--rotate-right"
+              data-keydown="KeyX"
+            ></button>
+            <button
+              class="button controls__button controls__button--rotate-left"
+              data-keydown="KeyZ"
+            ></button>
           </div>
         </div>
       </div>
