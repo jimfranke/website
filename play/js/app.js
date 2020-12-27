@@ -18,6 +18,7 @@ const $app = document.getElementById('app');
 const $menu = $app.querySelector('.menu');
 const $game = $app.querySelector('.game');
 const $paused = $game.querySelector('.view__paused');
+const $controls = $game.querySelector('.controls');
 
 const $score = $game.querySelector('[data-score]');
 const $lines = $game.querySelector('[data-lines]');
@@ -89,6 +90,7 @@ handleInput({
   $menu,
   $game,
   $paused,
+  $controls,
   store,
   render,
 });

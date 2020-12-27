@@ -82,6 +82,12 @@ ul {
     padding: 0 2rem;
 }
 
+@media (min-width: 600px) {
+    .controls {
+        display: none;
+    }
+}
+
 .controls > div {
     position: relative;
     width: 50%;

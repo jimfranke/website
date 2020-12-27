@@ -6,9 +6,64 @@ import {
   rotateActiveTetromino,
 } from './engine.js';
 
-export const handleInput = ({ $app, $menu, $game, $paused, store, render }) => {
+const keyMap = {
+  KeyZ: 'rotate-left',
+  KeyX: 'rotate-right',
+  KeyC: 'hold',
+  ArrowLeft: 'move-left',
+  ArrowRight: 'move-right',
+  ArrowUp: 'hard-drop',
+  ArrowDown: 'move-down',
+};
+
+export const handleInput = ({
+  $app,
+  $menu,
+  $game,
+  $paused,
+  $controls,
+  store,
+  render,
+}) => {
   const { getState, setState } = store;
   const touchTimers = [];
+
+  const handleAction = action => {
+    const state = getState();
+    const { isPlaying, isPaused, isGameOver } = state;
+    if (!isPlaying || isGameOver) {
+      return;
+    }
+    if (action === 'Space') {
+      pauseResume(state);
+    }
+    if (isPaused) {
+      return;
+    }
+    switch (action) {
+      case 'rotate-left':
+        setState(rotateActiveTetromino(state, -1));
+        break;
+      case 'rotate-right':
+        setState(rotateActiveTetromino(state));
+        break;
+      case 'hold':
+        setState(holdActiveTetromino(state));
+        break;
+      case 'move-left':
+        setState(moveActiveTetrominoLeft(state));
+        break;
+      case 'move-right':
+        setState(moveActiveTetrominoRight(state));
+        break;
+      case 'hard-drop':
+        setState(moveActiveTetrominoDown(state, true));
+        break;
+      case 'move-down':
+        setState(moveActiveTetrominoDown(state));
+        break;
+    }
+  };
 
   const pauseResume = state => {
     const isPaused = !state.isPaused;
@@ -21,10 +76,6 @@ export const handleInput = ({ $app, $menu, $game, $paused, store, render }) => {
     }
   };
 
-  const dispatchKeydownEvent = code => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { code }));
-  };
-
   $menu.addEventListener('click', e => {
     const action = e.target.getAttribute('data-action');
     if (action === 'start') {
@@ -35,62 +86,29 @@ export const handleInput = ({ $app, $menu, $game, $paused, store, render }) => {
     }
   });
 
-  $app.addEventListener('touchstart', e => {
-    const code = e.target.getAttribute('data-keydown');
-    if (!code) {
+  document.addEventListener('keydown', ({ code }) => {
+    handleAction(keyMap[code]);
+  });
+
+  $controls.addEventListener('touchstart', e => {
+    const action = e.target.getAttribute('data-action');
+    if (!action) {
       return;
     }
-    dispatchKeydownEvent(code);
-    if (!code.startsWith('Arrow')) {
+    handleAction(action);
+    if (!action.startsWith('move-')) {
       return;
     }
     touchTimers.push(
       setInterval(() => {
-        dispatchKeydownEvent(code);
+        handleAction(action);
       }, 50),
     );
   });
 
-  $app.addEventListener('touchend', () => {
+  $controls.addEventListener('touchend', () => {
     while (touchTimers.length) {
       clearInterval(touchTimers.pop());
-    }
-  });
-
-  document.addEventListener('keydown', e => {
-    const state = getState();
-    const { isPlaying, isPaused, isGameOver } = state;
-    if (!isPlaying || isGameOver) {
-      return;
-    }
-    if (e.code === 'Space') {
-      pauseResume(state);
-    }
-    if (isPaused) {
-      return;
-    }
-    switch (e.code) {
-      case 'KeyZ':
-        setState(rotateActiveTetromino(state, -1));
-        break;
-      case 'KeyX':
-        setState(rotateActiveTetromino(state));
-        break;
-      case 'KeyC':
-        setState(holdActiveTetromino(state));
-        break;
-      case 'ArrowLeft':
-        setState(moveActiveTetrominoLeft(state));
-        break;
-      case 'ArrowRight':
-        setState(moveActiveTetrominoRight(state));
-        break;
-      case 'ArrowUp':
-        setState(moveActiveTetrominoDown(state, true));
-        break;
-      case 'ArrowDown':
-        setState(moveActiveTetrominoDown(state));
-        break;
     }
   });
 };
