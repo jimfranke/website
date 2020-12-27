@@ -7,6 +7,7 @@ import {
 } from './engine.js';
 
 const keyMap = {
+  Space: 'pause',
   KeyZ: 'rotate-left',
   KeyX: 'rotate-right',
   KeyC: 'hold',
@@ -34,7 +35,7 @@ export const handleInput = ({
     if (!isPlaying || isGameOver) {
       return;
     }
-    if (action === 'Space') {
+    if (action === 'pause') {
       pauseResume(state);
     }
     if (isPaused) {
