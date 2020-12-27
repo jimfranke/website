@@ -39,18 +39,18 @@ export const drawTetrominoQueue = (context, tetrominoQueue) => {
     }
     const prevTetromino = tetrominoQueue[i - 1];
     const { name } = tetromino;
-    const offsetX = name === 'O' ? -1 : 0;
-    let offsetY = i * 3;
+    const x = name === 'O' ? -1 : 0;
+    let y = i * 3;
     if (tetromino.name === 'I') {
-      offsetY--;
+      y--;
     } else if (prevTetromino?.name === 'I') {
       spacingY--;
     }
-    offsetY += spacingY;
+    y += spacingY;
     drawTetromino(context, {
       ...tetromino,
-      x: offsetX,
-      y: offsetY,
+      x,
+      y,
     });
   }
 };
@@ -61,11 +61,11 @@ export const drawHoldTetromino = (context, tetromino) => {
     return;
   }
   const { name } = tetromino;
-  const offsetX = name === 'I' ? 0 : 1;
-  const offsetY = offsetX ? 0 : -1;
+  const x = name === 'I' ? 0 : 1;
+  const y = x ? 0 : -1;
   drawTetromino(context, {
     ...tetromino,
-    x: offsetX,
-    y: offsetY,
+    x,
+    y,
   });
 };
