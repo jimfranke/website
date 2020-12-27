@@ -6,6 +6,12 @@ import {
   QUEUE_SIZE,
 } from './constants.js';
 import {
+  drawBoard,
+  drawHoldTetromino,
+  drawTetromino,
+  drawTetrominoQueue,
+} from './drawing.js';
+import {
   createGhostTetromino,
   createTetrominoQueue,
   holdActiveTetromino,
@@ -14,18 +20,13 @@ import {
   moveActiveTetrominoRight,
   rotateActiveTetromino,
   shiftFromTetrominoQueue,
-} from './core.js';
-import {
-  drawActiveTetromino,
-  drawBoard,
-  drawGhostTetromino,
-  drawHoldTetromino,
-  drawTetrominoQueue,
-} from './drawing.js';
+} from './engine.js';
 import { getStore } from './store.js';
 
 export const app = $node => {
-  const $linesCleared = $node.querySelector('.lines-cleared');
+  const $score = $node.querySelector('[data-score]');
+  const $lines = $node.querySelector('[data-lines]');
+  const $level = $node.querySelector('[data-level]');
 
   const $mainCanvas = $node.querySelector('.canvas-main');
   const mainContext = $mainCanvas.getContext('2d');
@@ -102,7 +103,7 @@ export const app = $node => {
       holdTetromino,
       linesCleared,
     } = state;
-    $linesCleared.textContent = linesCleared;
+    $lines.textContent = linesCleared;
     if (!activeTetromino || activeTetromino.isLocked) {
       tetrominoQueue = createTetrominoQueue(tetrominoQueue);
       ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(
@@ -111,8 +112,8 @@ export const app = $node => {
       state = setState({ tetrominoQueue, activeTetromino });
     }
     drawBoard(mainContext, board);
-    drawGhostTetromino(mainContext, createGhostTetromino(state));
-    drawActiveTetromino(mainContext, activeTetromino);
+    drawTetromino(mainContext, createGhostTetromino(state));
+    drawTetromino(mainContext, activeTetromino);
     drawTetrominoQueue(queueContext, tetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
     if (time - dropTime > DROP_SPEED) {

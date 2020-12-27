@@ -1,5 +1,5 @@
 import { BOARD_COLS, BOARD_ROWS } from './constants.js';
-import { tetrominoes } from './tetrominoes.js';
+import { tetrominoes } from './srs/tetrominoes.js';
 
 const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
   const { board, activeTetromino } = state;
@@ -182,7 +182,7 @@ export const holdActiveTetromino = state => {
 
 export const createGhostTetromino = state => {
   const { activeTetromino } = state;
-  const { rotation, y } = activeTetromino;
+  const { color, rotation, y } = activeTetromino;
   let offsetY = 1;
   while (!tetrominoCollision(state, rotation, 0, offsetY)) {
     offsetY++;
@@ -190,15 +190,15 @@ export const createGhostTetromino = state => {
   offsetY--;
   return {
     ...activeTetromino,
+    color: `${color}40`,
     y: y + offsetY,
   };
 };
 
-export const shiftFromTetrominoQueue = tetrominoQueue => {
-  const activeTetromino = tetrominoQueue[0];
-  tetrominoQueue = tetrominoQueue.slice(1);
-  return { tetrominoQueue, activeTetromino };
-};
+export const shiftFromTetrominoQueue = tetrominoQueue => ({
+  activeTetromino: tetrominoQueue[0],
+  tetrominoQueue: tetrominoQueue.slice(1),
+});
 
 export const createTetrominoQueue = tetrominoQueue => {
   if (tetrominoQueue.length > tetrominoes.length) {
@@ -209,10 +209,9 @@ export const createTetrominoQueue = tetrominoQueue => {
     ...tetrominoQueue,
     ...randomTetrominoes.map(tetromino => {
       const { rotations } = tetromino;
-      const rotationIndex = 0;
       const defaults = {
-        rotation: rotations[rotationIndex],
-        rotationIndex,
+        rotation: rotations[0],
+        rotationIndex: 0,
         x: 3,
         y: 0,
       };

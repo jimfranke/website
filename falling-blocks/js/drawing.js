@@ -17,7 +17,7 @@ export const drawBoard = (context, board) => {
   }
 };
 
-export const drawActiveTetromino = (context, tetromino) => {
+export const drawTetromino = (context, tetromino) => {
   const { color, rotation } = tetromino;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
@@ -25,23 +25,6 @@ export const drawActiveTetromino = (context, tetromino) => {
         continue;
       }
       drawBlock(context, x + tetromino.x, y + tetromino.y, color);
-    }
-  }
-};
-
-export const drawGhostTetromino = (context, ghostTetromino) => {
-  const { color, rotation } = ghostTetromino;
-  for (let y = 0, len = rotation.length; y < len; y++) {
-    for (let x = 0; x < len; x++) {
-      if (!rotation[y][x]) {
-        continue;
-      }
-      drawBlock(
-        context,
-        x + ghostTetromino.x,
-        y + ghostTetromino.y,
-        `${color}40`,
-      );
     }
   }
 };
@@ -55,7 +38,7 @@ export const drawTetrominoQueue = (context, tetrominoQueue) => {
       continue;
     }
     const prevTetromino = tetrominoQueue[i - 1];
-    const { name, color, rotation } = tetromino;
+    const { name } = tetromino;
     const offsetX = name === 'O' ? -1 : 0;
     let offsetY = i * 3;
     if (tetromino.name === 'I') {
@@ -64,14 +47,11 @@ export const drawTetrominoQueue = (context, tetrominoQueue) => {
       spacingY--;
     }
     offsetY += spacingY;
-    for (let y = 0, len = rotation.length; y < len; y++) {
-      for (let x = 0; x < len; x++) {
-        if (!rotation[y][x]) {
-          continue;
-        }
-        drawBlock(context, x + offsetX, y + offsetY, color);
-      }
-    }
+    drawTetromino(context, {
+      ...tetromino,
+      x: offsetX,
+      y: offsetY,
+    });
   }
 };
 
@@ -80,15 +60,12 @@ export const drawHoldTetromino = (context, tetromino) => {
   if (!tetromino) {
     return;
   }
-  const { name, color, rotation } = tetromino;
+  const { name } = tetromino;
   const offsetX = name === 'I' ? 0 : 1;
   const offsetY = offsetX ? 0 : -1;
-  for (let y = 0, len = rotation.length; y < len; y++) {
-    for (let x = 0; x < len; x++) {
-      if (!rotation[y][x]) {
-        continue;
-      }
-      drawBlock(context, x + offsetX, y + offsetY, color);
-    }
-  }
+  drawTetromino(context, {
+    ...tetromino,
+    x: offsetX,
+    y: offsetY,
+  });
 };

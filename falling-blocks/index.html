@@ -13,9 +13,6 @@
   <body>
     <div id="app" style="display: none">
       <div class="row">
-        <div class="col">Lines: <strong class="lines-cleared">0</strong></div>
-      </div>
-      <div class="row">
         <div class="col col-side">
           <canvas class="canvas-hold"></canvas>
         </div>
@@ -24,6 +21,11 @@
         </div>
         <div class="col col-side">
           <canvas class="canvas-queue"></canvas>
+          <ul class="stats">
+            <li>Score: <strong data-score>0</strong></li>
+            <li>Lines: <strong data-lines>0</strong></li>
+            <li>Level: <strong data-level>0</strong></li>
+          </ul>
         </div>
       </div>
     </div>
