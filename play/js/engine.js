@@ -1,4 +1,4 @@
-import { BOARD_COLS, BOARD_ROWS } from './constants.js';
+import { BOARD_COLS, BOARD_ROWS, GHOST_OPACITY } from './constants.js';
 import { tetrominoes } from './tetrominoes.js';
 
 const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
@@ -208,7 +208,7 @@ export const createGhostTetromino = state => {
   offsetY--;
   return {
     ...activeTetromino,
-    color: `${color}50`,
+    color: color + GHOST_OPACITY,
     y: y + offsetY,
   };
 };
