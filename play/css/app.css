@@ -22,13 +22,22 @@ body {
     text-align: center;
 }
 
+.canvas {
+    width: 100%;
+}
+
 .list {
     list-style: none;
+}
+
+.label {
+    margin-right: .2rem;
 }
 
 .button {
     padding: 1rem;
     background: #000;
+    font: 1rem Arial, Verdana, sans-serif;
     color: #fff;
     font-weight: bold;
     letter-spacing: .1rem;
@@ -36,8 +45,15 @@ body {
     border-radius: .25rem;
 }
 
-.canvas {
-    width: 100%;
+.input-select {
+    padding: .25rem;
+    background: #000;
+    font: 1rem Arial, Verdana, sans-serif;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    border: 1px solid #fff;
+    border-radius: .25rem;
 }
 
 #app {
@@ -57,6 +73,10 @@ body {
 
 .menu__button {
     width: 10rem;
+}
+
+.menu__level-select {
+    margin-top: 2rem;
 }
 
 .stats {

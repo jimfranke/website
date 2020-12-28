@@ -17,7 +17,13 @@ const keyMap = {
   ArrowDown: 'move-down',
 };
 
-export const handleMenuInput = ({ store, render, $menu, $game }) => {
+export const handleMenuInput = ({
+  store,
+  render,
+  getSelectedLevel,
+  $menu,
+  $game,
+}) => {
   const { setState } = store;
 
   const handleAction = action => {
@@ -29,7 +35,10 @@ export const handleMenuInput = ({ store, render, $menu, $game }) => {
   };
 
   const startGame = () => {
-    setState({ isPlaying: true });
+    setState({
+      level: getSelectedLevel(),
+      isPlaying: true,
+    });
     $menu.style.display = 'none';
     $game.style.display = null;
     render();
