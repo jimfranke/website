@@ -22,7 +22,7 @@ body {
     text-align: center;
 }
 
-ul {
+.list {
     list-style: none;
 }
 
@@ -36,9 +36,13 @@ ul {
     border-radius: .25rem;
 }
 
+.canvas {
+    width: 100%;
+}
+
 #app {
     display: inline-block;
-    margin-top: 1rem;
+    margin: 1rem .5rem;
     text-align: left;
 }
 
@@ -58,7 +62,7 @@ ul {
 .stats {
     display: flex;
     justify-content: space-between;
-    margin: 0 1rem 1rem;
+    margin: 0 .5rem 1rem;
     font-size: 1.1rem;
 }
 
@@ -82,7 +86,6 @@ ul {
 }
 
 .view__canvas-main {
-    width: 100%;
     height: 100%;
 }
 
@@ -90,14 +93,9 @@ ul {
     position: absolute;
 }
 
-.view__canvas-next, .view__canvas-hold {
-    width: 70%;
-}
-
 .controls {
     display: flex;
-    margin-top: 2rem;
-    padding: 0 2rem;
+    margin: 1.2rem;
 }
 
 @media (min-width: 600px) {
