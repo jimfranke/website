@@ -9,9 +9,9 @@ const $game = $app.querySelector('.game');
 const $paused = $game.querySelector('.view__paused');
 const $controls = $game.querySelector('.controls');
 
-const $statsScore = $game.querySelector('[data-stats-score]');
-const $statsLines = $game.querySelector('[data-stats-lines]');
-const $statsLevel = $game.querySelector('[data-stats-level]');
+const $statsScore = $game.querySelector('[data-stats=score]');
+const $statsLines = $game.querySelector('[data-stats=lines]');
+const $statsLevel = $game.querySelector('[data-stats=level]');
 
 const $mainCanvas = $game.querySelector('.view__canvas-main');
 const mainContext = $mainCanvas.getContext('2d');
