@@ -17,15 +17,30 @@ const keyMap = {
   ArrowDown: 'move-down',
 };
 
-export const handleInput = ({
-  $app,
-  $menu,
-  $game,
-  $paused,
-  $controls,
-  store,
-  render,
-}) => {
+export const handleMenuInput = ({ store, render, $menu, $game }) => {
+  const { setState } = store;
+
+  const handleAction = action => {
+    switch (action) {
+      case 'start':
+        startGame();
+        break;
+    }
+  };
+
+  const startGame = () => {
+    setState({ isPlaying: true });
+    $menu.style.display = 'none';
+    $game.style.display = null;
+    render();
+  };
+
+  $menu.addEventListener('click', ({ target }) => {
+    handleAction(target.getAttribute('data-action'));
+  });
+};
+
+export const handleGameInput = ({ store, render, $paused, $controls }) => {
   const { getState, setState } = store;
   const touchTimers = [];
 
@@ -36,7 +51,7 @@ export const handleInput = ({
       return;
     }
     if (action === 'pause') {
-      pauseResume(state);
+      togglePause(state);
     }
     if (isPaused) {
       return;
@@ -66,7 +81,7 @@ export const handleInput = ({
     }
   };
 
-  const pauseResume = state => {
+  const togglePause = state => {
     const isPaused = !state.isPaused;
     state = setState({ isPaused });
     if (isPaused) {
@@ -76,16 +91,6 @@ export const handleInput = ({
       render();
     }
   };
-
-  $menu.addEventListener('click', e => {
-    const action = e.target.getAttribute('data-action');
-    if (action === 'start') {
-      setState({ isPlaying: true });
-      $menu.style.display = 'none';
-      $game.style.display = null;
-      render();
-    }
-  });
 
   document.addEventListener('keydown', ({ code }) => {
     handleAction(keyMap[code]);

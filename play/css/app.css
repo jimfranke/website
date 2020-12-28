@@ -80,7 +80,7 @@ ul {
     position: absolute;
 }
 
-.view__canvas-queue, .view__canvas-hold {
+.view__canvas-next, .view__canvas-hold {
     width: 70%;
 }
 

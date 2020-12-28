@@ -1,20 +1,20 @@
 import {
   drawBoard,
   drawHoldTetromino,
+  drawNextTetrominoes,
   drawTetromino,
-  drawTetrominoQueue,
 } from './drawing.js';
 import {
   createGhostTetromino,
-  createTetrominoQueue,
+  createNextTextrominoes,
   moveActiveTetrominoDown,
-  shiftFromTetrominoQueue,
+  shiftNextTetromino,
 } from './engine.js';
 
 export const createRenderer = ({
   store,
   mainContext,
-  queueContext,
+  nextContext,
   holdContext,
   updateStats,
 }) => {
@@ -29,7 +29,7 @@ export const createRenderer = ({
     let state = getState();
     let {
       board,
-      tetrominoQueue,
+      nextTextrominoes,
       activeTetromino,
       holdTetromino,
       score,
@@ -37,23 +37,23 @@ export const createRenderer = ({
       level,
     } = state;
     const dropSpeed = 750;
-    updateStats({ score, lines, level });
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
-        ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(
-          createTetrominoQueue(tetrominoQueue),
+        ({ nextTextrominoes, activeTetromino } = shiftNextTetromino(
+          createNextTextrominoes(nextTextrominoes),
         )),
       );
     }
     drawBoard(mainContext, board);
     drawTetromino(mainContext, createGhostTetromino(state));
     drawTetromino(mainContext, activeTetromino);
-    drawTetrominoQueue(queueContext, tetrominoQueue);
+    drawNextTetrominoes(nextContext, nextTextrominoes);
     drawHoldTetromino(holdContext, holdTetromino);
     if (time - dropTime > dropSpeed) {
       state = setState(moveActiveTetrominoDown(state));
       dropTime = time;
     }
+    updateStats({ score, lines, level });
     const { isPaused, isGameOver } = state;
     if (isPaused || isGameOver) {
       rafId = cancelAnimationFrame(rafId);

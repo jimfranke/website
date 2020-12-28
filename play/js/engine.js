@@ -173,14 +173,14 @@ export const rotateActiveTetromino = (state, direction = 1) => {
 };
 
 export const holdActiveTetromino = state => {
-  let { tetrominoQueue, activeTetromino, holdTetromino, isHoldUsed } = state;
+  let { nextTextrominoes, activeTetromino, holdTetromino, isHoldUsed } = state;
   if (isHoldUsed) {
     return null;
   }
   if (!holdTetromino) {
     holdTetromino = activeTetromino;
-    ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(
-      tetrominoQueue,
+    ({ nextTextrominoes, activeTetromino } = shiftNextTetromino(
+      nextTextrominoes,
     ));
   } else {
     const prevActiveTetromino = activeTetromino;
@@ -188,7 +188,7 @@ export const holdActiveTetromino = state => {
     holdTetromino = prevActiveTetromino;
   }
   return {
-    tetrominoQueue,
+    nextTextrominoes,
     activeTetromino,
     holdTetromino: {
       ...holdTetromino,
@@ -213,18 +213,18 @@ export const createGhostTetromino = state => {
   };
 };
 
-export const shiftFromTetrominoQueue = tetrominoQueue => ({
-  activeTetromino: tetrominoQueue[0],
-  tetrominoQueue: tetrominoQueue.slice(1),
+export const shiftNextTetromino = nextTextrominoes => ({
+  activeTetromino: nextTextrominoes[0],
+  nextTextrominoes: nextTextrominoes.slice(1),
 });
 
-export const createTetrominoQueue = tetrominoQueue => {
-  if (tetrominoQueue.length > tetrominoes.length) {
-    return tetrominoQueue;
+export const createNextTextrominoes = nextTextrominoes => {
+  if (nextTextrominoes.length > tetrominoes.length) {
+    return nextTextrominoes;
   }
   const randomTetrominoes = [...tetrominoes].sort(() => Math.random() - 0.5);
   return [
-    ...tetrominoQueue,
+    ...nextTextrominoes,
     ...randomTetrominoes.map(tetromino => {
       const { rotations } = tetromino;
       const defaults = {

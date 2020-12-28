@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS, QUEUE_SIZE } from './constants.js';
+import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS, NEXT_SIZE } from './constants.js';
 
 const drawBlock = (context, x, y, color) => {
   if (!color) {
@@ -29,15 +29,15 @@ export const drawTetromino = (context, tetromino) => {
   }
 };
 
-export const drawTetrominoQueue = (context, tetrominoQueue) => {
+export const drawNextTetrominoes = (context, nextTetrominoes) => {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
   let spacingY = 0;
-  for (let i = 0; i < QUEUE_SIZE; i++) {
-    const tetromino = tetrominoQueue[i];
+  for (let i = 0; i < NEXT_SIZE; i++) {
+    const tetromino = nextTetrominoes[i];
     if (!tetromino) {
       continue;
     }
-    const prevTetromino = tetrominoQueue[i - 1];
+    const prevTetromino = nextTetrominoes[i - 1];
     const { name } = tetromino;
     const x = name === 'O' ? -1 : 0;
     let y = i * 3;
