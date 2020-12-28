@@ -39,11 +39,11 @@ export const createRenderer = ({
     const dropSpeed = 750;
     updateStats({ score, lines, level });
     if (!activeTetromino || activeTetromino.isLocked) {
-      tetrominoQueue = createTetrominoQueue(tetrominoQueue);
-      ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(
-        tetrominoQueue,
-      ));
-      state = setState({ tetrominoQueue, activeTetromino });
+      state = setState(
+        ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(
+          createTetrominoQueue(tetrominoQueue),
+        )),
+      );
     }
     drawBoard(mainContext, board);
     drawTetromino(mainContext, createGhostTetromino(state));
