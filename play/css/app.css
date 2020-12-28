@@ -30,10 +30,6 @@ body {
     list-style: none;
 }
 
-.label {
-    margin-right: .2rem;
-}
-
 .button {
     padding: 1rem;
     background: #000;
