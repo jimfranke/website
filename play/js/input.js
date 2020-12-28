@@ -117,7 +117,7 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     touchTimers.push(
       setInterval(() => {
         handleAction(action);
-      }, 50),
+      }, 60),
     );
   });
 
