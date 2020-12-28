@@ -39,6 +39,14 @@ ul {
     text-align: left;
 }
 
+.menu {
+    text-align: center;
+}
+
+.menu__title {
+    margin-bottom: 2rem;
+}
+
 .stats {
     display: flex;
     justify-content: space-between;
