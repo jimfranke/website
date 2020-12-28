@@ -34,9 +34,11 @@ const render = createRenderer({
   mainContext,
   queueContext,
   holdContext,
-  $score,
-  $lines,
-  $level,
+  updateStats: ({ score, lines, level }) => {
+    $score.textContent = score;
+    $lines.textContent = lines;
+    $level.textContent = level;
+  },
 });
 
 handleInput({

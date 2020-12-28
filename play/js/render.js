@@ -16,9 +16,7 @@ export const createRenderer = ({
   mainContext,
   queueContext,
   holdContext,
-  $score,
-  $lines,
-  $level,
+  updateStats,
 }) => {
   const { getState, setState } = store;
 
@@ -39,9 +37,7 @@ export const createRenderer = ({
       level,
     } = state;
     const dropSpeed = 750;
-    $score.textContent = score;
-    $lines.textContent = lines;
-    $level.textContent = level;
+    updateStats({ score, lines, level });
     if (!activeTetromino || activeTetromino.isLocked) {
       tetrominoQueue = createTetrominoQueue(tetrominoQueue);
       ({ tetrominoQueue, activeTetromino } = shiftFromTetrominoQueue(

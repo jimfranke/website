@@ -7,7 +7,7 @@ import {
 } from './engine.js';
 
 const keyMap = {
-  Space: 'pause',
+  Escape: 'pause',
   KeyZ: 'rotate-left',
   KeyX: 'rotate-right',
   KeyC: 'hold',
