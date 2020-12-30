@@ -12,7 +12,7 @@ import {
   shiftNextTetromino,
 } from './engine.js';
 
-const finalDropSpeed = DROP_SPEEDS.slice(-1);
+const [finalDropSpeed] = DROP_SPEEDS.slice(-1);
 
 export const createRenderer = ({
   store,
