@@ -4,6 +4,7 @@ import {
   GHOST_OPACITY,
   POINTS_DOUBLE,
   POINTS_SINGLE,
+  POINTS_TETRIS,
   POINTS_TRIPLE,
 } from './constants.js';
 import { tetrominoes } from './tetrominoes.js';
