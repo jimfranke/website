@@ -49,13 +49,7 @@ export const handleMenuInput = ({
   });
 };
 
-export const handleGameInput = ({
-  store,
-  render,
-  inputQueue,
-  $paused,
-  $controls,
-}) => {
+export const handleGameInput = ({ store, render, $paused, $controls }) => {
   const { getState, setState } = store;
   const touchTimers = [];
 

@@ -16,7 +16,6 @@ const finalDropSpeed = DROP_SPEEDS[DROP_SPEEDS.length - 1];
 
 export const createRenderer = ({
   store,
-  inputQueue,
   mainContext,
   nextContext,
   holdContext,
