@@ -1,3 +1,4 @@
+import { DROP_SPEEDS } from './constants.js';
 import {
   drawBoard,
   drawHoldTetromino,
@@ -10,6 +11,8 @@ import {
   moveActiveTetrominoDown,
   shiftNextTetromino,
 } from './engine.js';
+
+const finalDropSpeed = DROP_SPEEDS.slice(-1);
 
 export const createRenderer = ({
   store,
@@ -36,7 +39,7 @@ export const createRenderer = ({
       lines,
       level,
     } = state;
-    const dropSpeed = 750;
+    const dropSpeed = DROP_SPEEDS[level] ?? finalDropSpeed;
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
         ({ nextTextrominoes, activeTetromino } = shiftNextTetromino(

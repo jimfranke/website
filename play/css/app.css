@@ -62,20 +62,20 @@ body {
 }
 
 .menu__title {
+    margin-bottom: 1.5rem;
     font-size: 2.5rem;
 }
 
-.menu__subtitle {
-    margin: .5rem 0 2rem;
-    font-size: 1.2rem;
-}
-
 .menu__button {
-    width: 10rem;
+    width: 14rem;
 }
 
 .menu__level-select {
     margin-top: 2rem;
+}
+
+.menu__input-level-select {
+    width: 6rem;
 }
 
 .stats {

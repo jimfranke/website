@@ -1,4 +1,11 @@
-import { BOARD_COLS, BOARD_ROWS, GHOST_OPACITY } from './constants.js';
+import {
+  BOARD_COLS,
+  BOARD_ROWS,
+  GHOST_OPACITY,
+  POINTS_DOUBLE,
+  POINTS_SINGLE,
+  POINTS_TRIPLE,
+} from './constants.js';
 import { tetrominoes } from './tetrominoes.js';
 
 const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
@@ -61,57 +68,64 @@ const clearLines = state => {
     board.splice(y++, 1);
     board.unshift(Array(BOARD_COLS).fill(null));
     clears++;
-    lines += clears;
   }
   let points = 0;
   switch (clears) {
     case 1:
-      points = 40;
+      points = POINTS_SINGLE;
       break;
     case 2:
-      points = 100;
+      points = POINTS_DOUBLE;
       break;
     case 3:
-      points = 300;
+      points = POINTS_TRIPLE;
       break;
     case 4:
-      points = 1200;
+      points = POINTS_TETRIS;
       break;
   }
-  score += points * (level + 1);
-  return { board, score, lines };
+  if (points) {
+    score += points * (level + 1);
+    lines += clears;
+    if (lines % 20 === 0) {
+      level++;
+    }
+  }
+  return { board, score, lines, level };
 };
 
 export const moveActiveTetrominoLeft = state => {
   const { activeTetromino } = state;
-  if (tetrominoCollision(state, activeTetromino.rotation, -1, 0)) {
+  const { rotation, x } = activeTetromino;
+  if (tetrominoCollision(state, rotation, -1, 0)) {
     return null;
   }
   return {
     activeTetromino: {
       ...activeTetromino,
-      x: activeTetromino.x - 1,
+      x: x - 1,
     },
   };
 };
 
 export const moveActiveTetrominoRight = state => {
   const { activeTetromino } = state;
-  if (tetrominoCollision(state, activeTetromino.rotation, 1, 0)) {
+  const { rotation, x } = activeTetromino;
+  if (tetrominoCollision(state, rotation, 1, 0)) {
     return null;
   }
   return {
     activeTetromino: {
       ...activeTetromino,
-      x: activeTetromino.x + 1,
+      x: x + 1,
     },
   };
 };
 
-export const moveActiveTetrominoDown = (state, isHard) => {
+export const moveActiveTetrominoDown = (state, isHardDrop) => {
   const { activeTetromino } = state;
-  const { y } = activeTetromino;
-  if (tetrominoCollision(state, activeTetromino.rotation, 0, 1)) {
+  const { rotation, y } = activeTetromino;
+  if (tetrominoCollision(state, rotation, 0, 1)) {
     return lockActiveTetromino(state);
   }
   const nextState = {
@@ -120,7 +134,7 @@ export const moveActiveTetrominoDown = (state, isHard) => {
       y: y + 1,
     },
   };
-  if (isHard) {
+  if (isHardDrop) {
     state = { ...state, ...nextState };
     return moveActiveTetrominoDown(state, true);
   }
