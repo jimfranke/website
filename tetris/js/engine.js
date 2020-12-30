@@ -188,14 +188,19 @@ export const rotateActiveTetromino = (state, direction = 1) => {
 };
 
 export const holdActiveTetromino = state => {
-  let { nextTextrominoes, activeTetromino, holdTetromino, isHoldUsed } = state;
+  let {
+    nextTetrominoQueue,
+    activeTetromino,
+    holdTetromino,
+    isHoldUsed,
+  } = state;
   if (isHoldUsed) {
     return null;
   }
   if (!holdTetromino) {
     holdTetromino = activeTetromino;
-    ({ nextTextrominoes, activeTetromino } = shiftNextTetrominoQueue(
-      nextTextrominoes,
+    ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(
+      nextTetrominoQueue,
     ));
   } else {
     const prevActiveTetromino = activeTetromino;
@@ -203,7 +208,7 @@ export const holdActiveTetromino = state => {
     holdTetromino = prevActiveTetromino;
   }
   return {
-    nextTextrominoes,
+    nextTetrominoQueue,
     activeTetromino,
     holdTetromino: {
       ...holdTetromino,
