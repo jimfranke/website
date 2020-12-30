@@ -49,13 +49,19 @@ export const handleMenuInput = ({
   });
 };
 
-export const handleGameInput = ({ store, render, $paused, $controls }) => {
+export const handleGameInput = ({
+  store,
+  render,
+  inputQueue,
+  $paused,
+  $controls,
+}) => {
   const { getState, setState } = store;
   const touchTimers = [];
 
   const handleAction = action => {
     const state = getState();
-    const { isPlaying, isPaused, isGameOver } = state;
+    const { inputQueue, isPlaying, isPaused, isGameOver } = state;
     if (!isPlaying || isGameOver) {
       return;
     }
@@ -67,25 +73,39 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     }
     switch (action) {
       case 'rotate-left':
-        setState(rotateActiveTetromino(state, -1));
+        setState({
+          inputQueue: [...inputQueue, rotateActiveTetromino(state, -1)],
+        });
         break;
       case 'rotate-right':
-        setState(rotateActiveTetromino(state));
+        setState({
+          inputQueue: [...inputQueue, rotateActiveTetromino(state)],
+        });
         break;
       case 'hold':
-        setState(holdActiveTetromino(state));
+        setState({
+          inputQueue: [...inputQueue, holdActiveTetromino(state)],
+        });
         break;
       case 'hard-drop':
-        setState(moveActiveTetrominoDown(state, true));
+        setState({
+          inputQueue: [...inputQueue, moveActiveTetrominoDown(state, true)],
+        });
         break;
       case 'move-left':
-        setState(moveActiveTetrominoLeft(state));
+        setState({
+          inputQueue: [...inputQueue, moveActiveTetrominoLeft(state)],
+        });
         break;
       case 'move-right':
-        setState(moveActiveTetrominoRight(state));
+        setState({
+          inputQueue: [...inputQueue, moveActiveTetrominoRight(state)],
+        });
         break;
       case 'move-down':
-        setState(moveActiveTetrominoDown(state));
+        setState({
+          inputQueue: [...inputQueue, moveActiveTetrominoDown(state)],
+        });
         break;
     }
   };

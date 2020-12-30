@@ -194,7 +194,7 @@ export const holdActiveTetromino = state => {
   }
   if (!holdTetromino) {
     holdTetromino = activeTetromino;
-    ({ nextTextrominoes, activeTetromino } = shiftNextTetromino(
+    ({ nextTextrominoes, activeTetromino } = shiftNextTetrominoQueue(
       nextTextrominoes,
     ));
   } else {
@@ -228,18 +228,18 @@ export const createGhostTetromino = state => {
   };
 };
 
-export const shiftNextTetromino = nextTextrominoes => ({
-  activeTetromino: nextTextrominoes[0],
-  nextTextrominoes: nextTextrominoes.slice(1),
+export const shiftNextTetrominoQueue = nextTetrominoQueue => ({
+  activeTetromino: nextTetrominoQueue[0],
+  nextTetrominoQueue: nextTetrominoQueue.slice(1),
 });
 
-export const createNextTextrominoes = nextTextrominoes => {
-  if (nextTextrominoes.length > tetrominoes.length) {
-    return nextTextrominoes;
+export const createNextTextrominoQueue = nextTetrominoQueue => {
+  if (nextTetrominoQueue.length > tetrominoes.length) {
+    return nextTetrominoQueue;
   }
   const randomTetrominoes = [...tetrominoes].sort(() => Math.random() - 0.5);
   return [
-    ...nextTextrominoes,
+    ...nextTetrominoQueue,
     ...randomTetrominoes.map(tetromino => {
       const { rotations } = tetromino;
       const defaults = {

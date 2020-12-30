@@ -2,20 +2,21 @@ import { DROP_SPEEDS } from './constants.js';
 import {
   drawBoard,
   drawHoldTetromino,
-  drawNextTetrominoes,
+  drawNextTetrominoQueue,
   drawTetromino,
 } from './drawing.js';
 import {
   createGhostTetromino,
-  createNextTextrominoes,
+  createNextTextrominoQueue,
   moveActiveTetrominoDown,
-  shiftNextTetromino,
+  shiftNextTetrominoQueue,
 } from './engine.js';
 
-const [finalDropSpeed] = DROP_SPEEDS.slice(-1);
+const finalDropSpeed = DROP_SPEEDS[DROP_SPEEDS.length - 1];
 
 export const createRenderer = ({
   store,
+  inputQueue,
   mainContext,
   nextContext,
   holdContext,
@@ -30,9 +31,16 @@ export const createRenderer = ({
     const time = Date.now();
     dropTime ??= time;
     let state = getState();
+    while (state.inputQueue.length) {
+      const { inputQueue } = state;
+      state = setState({
+        ...inputQueue[0],
+        inputQueue: inputQueue.slice(1),
+      });
+    }
     let {
       board,
-      nextTextrominoes,
+      nextTetrominoQueue,
       activeTetromino,
       holdTetromino,
       score,
@@ -42,15 +50,15 @@ export const createRenderer = ({
     const dropSpeed = DROP_SPEEDS[level] ?? finalDropSpeed;
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
-        ({ nextTextrominoes, activeTetromino } = shiftNextTetromino(
-          createNextTextrominoes(nextTextrominoes),
+        ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(
+          createNextTextrominoQueue(nextTetrominoQueue),
         )),
       );
     }
     drawBoard(mainContext, board);
     drawTetromino(mainContext, createGhostTetromino(state));
     drawTetromino(mainContext, activeTetromino);
-    drawNextTetrominoes(nextContext, nextTextrominoes);
+    drawNextTetrominoQueue(nextContext, nextTetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
     if (time - dropTime > dropSpeed) {
       state = setState(moveActiveTetrominoDown(state));

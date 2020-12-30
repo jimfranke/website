@@ -6,7 +6,8 @@ export const getStore = () =>
     board: Array(BOARD_ROWS)
       .fill()
       .map(() => Array(BOARD_COLS).fill(null)),
-    nextTextrominoes: [],
+    inputQueue: [],
+    nextTetrominoQueue: [],
     activeTetromino: null,
     holdTetromino: null,
     isHoldUsed: false,

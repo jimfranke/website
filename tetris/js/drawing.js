@@ -29,15 +29,15 @@ export const drawTetromino = (context, tetromino) => {
   }
 };
 
-export const drawNextTetrominoes = (context, nextTetrominoes) => {
+export const drawNextTetrominoQueue = (context, nextTetrominoQueue) => {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
   let spacingY = 0;
   for (let i = 0; i < NEXT_SIZE; i++) {
-    const tetromino = nextTetrominoes[i];
+    const tetromino = nextTetrominoQueue[i];
     if (!tetromino) {
       continue;
     }
-    const prevTetromino = nextTetrominoes[i - 1];
+    const prevTetromino = nextTetrominoQueue[i - 1];
     const { name } = tetromino;
     const x = name === 'O' ? -1 : 0;
     let y = i * 3;
