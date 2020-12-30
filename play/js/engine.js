@@ -54,8 +54,8 @@ const lockActiveTetromino = state => {
       ...activeTetromino,
       isLocked: true,
     },
-    isGameOver,
     isHoldUsed: false,
+    isGameOver,
   };
 };
 
@@ -163,12 +163,12 @@ export const rotateActiveTetromino = (state, direction = 1) => {
       },
     };
   }
-  const tests = wallKicks?.find(
-    wk => wk.rotation === newRotationIndex && wk.direction === direction,
-  ).tests;
-  if (!tests) {
+  if (!wallKicks) {
     return null;
   }
+  const { tests } = wallKicks.find(
+    wk => wk.rotation === newRotationIndex && wk.direction === direction,
+  );
   for (let i = 0, len = tests.length; i < len; i++) {
     const [x, y] = tests[i];
     if (tetrominoCollision(state, rotation, x, y)) {
