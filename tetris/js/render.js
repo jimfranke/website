@@ -31,15 +31,9 @@ export const createRenderer = ({
     const time = Date.now();
     dropTime ??= time;
     let state = getState();
-    while (state.inputQueue.length) {
-      const { inputQueue } = state;
-      state = setState({
-        ...inputQueue[0],
-        inputQueue: inputQueue.slice(1),
-      });
-    }
     let {
       board,
+      inputQueue,
       nextTetrominoQueue,
       activeTetromino,
       holdTetromino,
@@ -47,6 +41,13 @@ export const createRenderer = ({
       lines,
       level,
     } = state;
+    while (inputQueue.length) {
+      inputQueue = state.inputQueue;
+      state = setState({
+        ...inputQueue[0],
+        inputQueue: inputQueue.slice(1),
+      });
+    }
     const dropSpeed = DROP_SPEEDS[level] ?? finalDropSpeed;
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
