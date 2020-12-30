@@ -1,4 +1,4 @@
-import { DROP_SPEEDS } from './constants.js';
+import { DROP_SPEEDS, LOCK_DELAY } from './constants.js';
 import {
   drawBoard,
   drawHoldTetromino,
@@ -36,6 +36,7 @@ export const createRenderer = ({
       nextTetrominoQueue,
       activeTetromino,
       holdTetromino,
+      lockDelay,
       score,
       lines,
       level,
@@ -60,9 +61,13 @@ export const createRenderer = ({
     drawTetromino(mainContext, activeTetromino);
     drawNextTetrominoQueue(nextContext, nextTetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
-    if (time - dropTime > dropSpeed) {
+    if (!lockDelay && time - dropTime > dropSpeed) {
       state = setState(moveActiveTetrominoDown(state));
+      lockDelay = state.lockDelay;
       dropTime = time;
+    }
+    if (lockDelay && time - lockDelay > LOCK_DELAY) {
+      state = setState(moveActiveTetrominoDown(state));
     }
     updateStats({ score, lines, level });
     const { isPaused, isGameOver } = state;

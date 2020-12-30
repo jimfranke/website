@@ -11,6 +11,7 @@ export const getStore = () =>
     activeTetromino: null,
     holdTetromino: null,
     isHoldUsed: false,
+    lockDelay: null,
     isPlaying: false,
     isPaused: false,
     isGameOver: false,
