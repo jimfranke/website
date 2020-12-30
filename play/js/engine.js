@@ -88,7 +88,7 @@ const clearLines = state => {
   if (points) {
     score += points * (level + 1);
     lines += clears;
-    if (lines % 20 === 0) {
+    if (lines % 20 < 1) {
       level++;
     }
   }
