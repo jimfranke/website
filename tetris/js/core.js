@@ -79,6 +79,8 @@ export const lockActiveTetromino = state => {
         continue;
       }
       if (activeTetromino.y + y < 1) {
+        // console.log(state);
+        // throw new Error('DEBUG: GAME OVER');
         isGameOver = true;
         break;
       }

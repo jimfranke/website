@@ -10,7 +10,7 @@ export const getStore = () =>
     nextTetrominoQueue: [],
     activeTetromino: null,
     holdTetromino: null,
-    lockDelay: null,
+    lockTime: null,
     isHoldUsed: false,
     isPlaying: false,
     isPaused: false,
