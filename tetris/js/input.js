@@ -115,7 +115,11 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     }
   };
 
-  document.addEventListener('keydown', ({ code }) => {
+  document.addEventListener('keydown', ({ code, repeat }) => {
+    const action = keyMap[code];
+    if (!action?.startsWith('move-') && repeat) {
+      return;
+    }
     handleAction(keyMap[code]);
   });
 
