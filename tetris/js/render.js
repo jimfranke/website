@@ -62,8 +62,12 @@ export const createRenderer = ({
     drawTetromino(mainContext, activeTetromino);
     drawNextTetrominoQueue(nextContext, nextTetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
-    if (time - dropTime > dropSpeed) {
-      state = setState(moveActiveTetrominoDown(state));
+    if (!dropSpeed || time - dropTime > dropSpeed) {
+      state = setState(
+        dropSpeed
+          ? moveActiveTetrominoDown(state)
+          : moveActiveTetrominoDown(state, true, true),
+      );
       lockTime = state.lockTime;
       dropTime = time;
     }

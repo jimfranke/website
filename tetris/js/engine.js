@@ -126,11 +126,11 @@ export const moveActiveTetrominoRight = state => {
   };
 };
 
-export const moveActiveTetrominoDown = (state, isHardDrop) => {
+export const moveActiveTetrominoDown = (state, isHardDrop, noLock) => {
   let { lockTime, activeTetromino } = state;
   const { rotation, y } = activeTetromino;
   if (tetrominoCollision(state, rotation, 0, 1)) {
-    if (isHardDrop) {
+    if (isHardDrop && !noLock) {
       return lockActiveTetromino(state);
     }
     lockTime ??= Date.now();
@@ -147,7 +147,7 @@ export const moveActiveTetrominoDown = (state, isHardDrop) => {
   };
   if (isHardDrop) {
     state = { ...state, ...nextState };
-    return moveActiveTetrominoDown(state, true);
+    return moveActiveTetrominoDown(state, true, noLock);
   }
   return nextState;
 };
