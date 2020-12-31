@@ -31,6 +31,6 @@ export const DROP_SPEEDS = [
   100,
   80,
   60,
-  50,
-  1,
+  40,
+  20,
 ];
