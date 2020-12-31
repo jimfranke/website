@@ -1,19 +1,19 @@
 import { DROP_SPEEDS, LOCK_DELAY } from './constants.js';
 import {
-  drawBoard,
-  drawHoldTetromino,
-  drawNextTetrominoQueue,
-  drawTetromino,
-} from './drawing.js';
-import {
   createGhostTetromino,
   createNextTextrominoQueue,
   lockActiveTetromino,
   moveActiveTetrominoDown,
   shiftNextTetrominoQueue,
-} from './engine.js';
+} from './core.js';
+import {
+  drawBoard,
+  drawHoldTetromino,
+  drawNextTetrominoQueue,
+  drawTetromino,
+} from './drawing.js';
 
-const finalDropSpeed = DROP_SPEEDS[DROP_SPEEDS.length - 1];
+const lastDropSpeed = DROP_SPEEDS[DROP_SPEEDS.length - 1];
 
 export const createRenderer = ({
   store,
@@ -49,7 +49,7 @@ export const createRenderer = ({
         inputQueue: inputQueue.slice(1),
       });
     }
-    const dropSpeed = DROP_SPEEDS[level] ?? finalDropSpeed;
+    const dropSpeed = DROP_SPEEDS[level - 1] ?? lastDropSpeed;
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
         ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(

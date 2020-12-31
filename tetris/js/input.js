@@ -4,7 +4,7 @@ import {
   moveActiveTetrominoLeft,
   moveActiveTetrominoRight,
   rotateActiveTetromino,
-} from './engine.js';
+} from './core.js';
 
 const keyMap = {
   Escape: 'pause',
@@ -131,7 +131,7 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     touchTimers.push(
       setInterval(() => {
         handleAction(action);
-      }, 60),
+      }, 50),
     );
   });
 
