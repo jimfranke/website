@@ -8,6 +8,7 @@ import {
 import {
   createGhostTetromino,
   createNextTextrominoQueue,
+  lockActiveTetromino,
   moveActiveTetrominoDown,
   shiftNextTetrominoQueue,
 } from './engine.js';
@@ -36,7 +37,7 @@ export const createRenderer = ({
       nextTetrominoQueue,
       activeTetromino,
       holdTetromino,
-      lockDelay,
+      lockTime,
       score,
       lines,
       level,
@@ -61,13 +62,13 @@ export const createRenderer = ({
     drawTetromino(mainContext, activeTetromino);
     drawNextTetrominoQueue(nextContext, nextTetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
-    if (!lockDelay && time - dropTime > dropSpeed) {
+    if (time - dropTime > dropSpeed) {
       state = setState(moveActiveTetrominoDown(state));
-      lockDelay = state.lockDelay;
+      lockTime = state.lockTime;
       dropTime = time;
     }
-    if (lockDelay && time - lockDelay > LOCK_DELAY) {
-      state = setState(moveActiveTetrominoDown(state));
+    if (lockTime && time - lockTime > LOCK_DELAY) {
+      state = setState(lockActiveTetromino(state));
     }
     updateStats({ score, lines, level });
     const { isPaused, isGameOver } = state;
