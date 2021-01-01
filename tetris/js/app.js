@@ -1,7 +1,7 @@
 import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS, NEXT_SIZE } from './constants.js';
 import { handleGameInput, handleMenuInput } from './input.js';
 import { createRenderer } from './render.js';
-import { getStore } from './store.js';
+import { store } from './store.js';
 
 export const app = () => {
   const $app = document.getElementById('app');
@@ -30,8 +30,6 @@ export const app = () => {
 
   const getSelectedLevel = () =>
     parseInt($menu.querySelector('.menu__input-level-select').value);
-
-  const store = getStore();
 
   const render = createRenderer({
     store,

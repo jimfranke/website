@@ -5,6 +5,7 @@ import {
   moveActiveTetrominoRight,
   rotateActiveTetromino,
 } from './core.js';
+import { addToInputQueue } from './store.js';
 
 const keyMap = {
   Escape: 'pause',
@@ -67,39 +68,25 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     }
     switch (action) {
       case 'rotate-left':
-        setState({
-          inputQueue: [...inputQueue, rotateActiveTetromino(state, -1)],
-        });
+        addToInputQueue(rotateActiveTetromino(state, -1));
         break;
       case 'rotate-right':
-        setState({
-          inputQueue: [...inputQueue, rotateActiveTetromino(state)],
-        });
+        addToInputQueue(rotateActiveTetromino(state));
         break;
       case 'hold':
-        setState({
-          inputQueue: [...inputQueue, holdActiveTetromino(state)],
-        });
+        addToInputQueue(holdActiveTetromino(state));
         break;
       case 'hard-drop':
-        setState({
-          inputQueue: [...inputQueue, moveActiveTetrominoDown(state, true)],
-        });
+        addToInputQueue(moveActiveTetrominoDown(state, true));
         break;
       case 'move-left':
-        setState({
-          inputQueue: [...inputQueue, moveActiveTetrominoLeft(state)],
-        });
+        addToInputQueue(moveActiveTetrominoLeft(state));
         break;
       case 'move-right':
-        setState({
-          inputQueue: [...inputQueue, moveActiveTetrominoRight(state)],
-        });
+        addToInputQueue(moveActiveTetrominoRight(state));
         break;
       case 'move-down':
-        setState({
-          inputQueue: [...inputQueue, moveActiveTetrominoDown(state)],
-        });
+        addToInputQueue(moveActiveTetrominoDown(state));
         break;
     }
   };
