@@ -27,18 +27,13 @@ export const createRenderer = ({
   let dropTime;
   let rafId;
 
-  const render = (time = performance.now()) => {
+  const update = (state, time) => {
     dropTime ??= time;
-    let state = getState();
     let {
-      board,
       inputQueue,
       nextTetrominoQueue,
       activeTetromino,
-      holdTetromino,
       lockTime,
-      score,
-      lines,
       level,
     } = state;
     while (inputQueue.length) {
@@ -68,12 +63,30 @@ export const createRenderer = ({
     if (lockTime && time - lockTime > LOCK_DELAY) {
       state = setState(lockActiveTetromino(state));
     }
+    return state;
+  };
+
+  const draw = state => {
+    const {
+      board,
+      nextTetrominoQueue,
+      activeTetromino,
+      holdTetromino,
+      score,
+      lines,
+      level,
+    } = state;
     drawBoard(mainContext, board);
     drawTetromino(mainContext, createGhostTetromino(state));
     drawTetromino(mainContext, activeTetromino);
     drawNextTetrominoQueue(nextContext, nextTetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
     updateStats({ score, lines, level });
+  };
+
+  const render = (time = performance.now()) => {
+    const state = update(getState(), time);
+    draw(state);
     const { isPaused, isGameOver } = state;
     if (isPaused || isGameOver) {
       rafId = cancelAnimationFrame(rafId);
