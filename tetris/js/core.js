@@ -134,7 +134,7 @@ export const moveActiveTetrominoDown = (state, isHardDrop, noLock) => {
     if (isHardDrop && !noLock) {
       return lockActiveTetromino(state);
     }
-    lockTime ??= Date.now();
+    lockTime ??= performance.now();
     return {
       ...state,
       lockTime,
