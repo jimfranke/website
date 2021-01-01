@@ -250,6 +250,7 @@ export const createGhostTetromino = state => {
 export const shiftNextTetrominoQueue = nextTetrominoQueue => ({
   activeTetromino: nextTetrominoQueue[0],
   nextTetrominoQueue: nextTetrominoQueue.slice(1),
+  lockTime: null,
 });
 
 export const createNextTextrominoQueue = nextTetrominoQueue => {
