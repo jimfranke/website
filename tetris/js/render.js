@@ -57,11 +57,6 @@ export const createRenderer = ({
         )),
       );
     }
-    drawBoard(mainContext, board);
-    drawTetromino(mainContext, createGhostTetromino(state));
-    drawTetromino(mainContext, activeTetromino);
-    drawNextTetrominoQueue(nextContext, nextTetrominoQueue);
-    drawHoldTetromino(holdContext, holdTetromino);
     if (!dropSpeed || time - dropTime > dropSpeed) {
       state = setState(
         dropSpeed
@@ -74,6 +69,11 @@ export const createRenderer = ({
     if (lockTime && time - lockTime > LOCK_DELAY) {
       state = setState(lockActiveTetromino(state));
     }
+    drawBoard(mainContext, board);
+    drawTetromino(mainContext, createGhostTetromino(state));
+    drawTetromino(mainContext, activeTetromino);
+    drawNextTetrominoQueue(nextContext, nextTetrominoQueue);
+    drawHoldTetromino(holdContext, holdTetromino);
     updateStats({ score, lines, level });
     const { isPaused, isGameOver } = state;
     if (isPaused || isGameOver) {
