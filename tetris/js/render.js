@@ -27,8 +27,7 @@ export const createRenderer = ({
   let dropTime;
   let rafId;
 
-  const render = () => {
-    const time = Date.now();
+  const render = (time = performance.now()) => {
     dropTime ??= time;
     let state = getState();
     let {
