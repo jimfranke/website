@@ -147,6 +147,7 @@ export const moveActiveTetrominoDown = (state, isHardDrop, noLock) => {
       ...activeTetromino,
       y: y + 1,
     },
+    lockTime: null,
   };
   if (isHardDrop) {
     state = { ...state, ...nextState };
