@@ -5,7 +5,6 @@ import {
   moveActiveTetrominoRight,
   rotateActiveTetromino,
 } from './core.js';
-import { addToInputQueue } from './store.js';
 
 const keyMap = {
   Escape: 'pause',
@@ -51,7 +50,7 @@ export const handleMenuInput = ({
 };
 
 export const handleGameInput = ({ store, render, $paused, $controls }) => {
-  const { getState, setState } = store;
+  const { getState, setState, addToInputQueue } = store;
   const touchTimers = [];
 
   const handleAction = action => {

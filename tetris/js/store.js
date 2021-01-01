@@ -1,7 +1,6 @@
 import { BOARD_COLS, BOARD_ROWS } from './constants.js';
-import { createStore } from './helpers.js';
 
-const state = {
+let globalState = {
   board: Array(BOARD_ROWS)
     .fill()
     .map(() => Array(BOARD_COLS).fill(null)),
@@ -19,14 +18,22 @@ const state = {
   level: 0,
 };
 
-const store = createStore(state);
-const { getState, setState } = store;
+const getState = () => globalState;
 
-export const addToInputQueue = input => {
+const setState = state => {
+  globalState = { ...globalState, ...state };
+  return globalState;
+};
+
+const addToInputQueue = input => {
   const { inputQueue } = getState();
   return setState({
     inputQueue: [...inputQueue, input],
   });
 };
 
-export { store };
+export const store = {
+  getState,
+  setState,
+  addToInputQueue,
+};
