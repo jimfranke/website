@@ -56,7 +56,7 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
 
   const handleAction = action => {
     const state = getState();
-    const { inputQueue, isPlaying, isPaused, isGameOver } = state;
+    const { isPlaying, isPaused, isGameOver } = state;
     if (!isPlaying || isGameOver) {
       return;
     }
