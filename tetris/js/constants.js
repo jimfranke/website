@@ -2,17 +2,16 @@ export const BOARD_COLS = 10;
 export const BOARD_ROWS = 20;
 export const BLOCK_SIZE = 25;
 
-export const LEVEL_MULTIPLIER = 5;
 export const POINTS_SINGLE = 40;
 export const POINTS_DOUBLE = 100;
 export const POINTS_TRIPLE = 300;
 export const POINTS_TETRIS = 1200;
 
+export const NEXT_QUEUE_SIZE = 6;
 export const LOCK_DELAY = 500;
 export const GHOST_OPACITY = 50;
-export const NEXT_SIZE = 6;
 
-export const DROP_SPEEDS = Object.freeze([
+export const DROP_SPEEDS = [
   800,
   740,
   680,
@@ -33,4 +32,4 @@ export const DROP_SPEEDS = Object.freeze([
   20,
   10,
   0,
-]);
+];

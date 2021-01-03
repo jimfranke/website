@@ -2,7 +2,6 @@ import {
   BOARD_COLS,
   BOARD_ROWS,
   GHOST_OPACITY,
-  LEVEL_MULTIPLIER,
   POINTS_DOUBLE,
   POINTS_SINGLE,
   POINTS_TETRIS,
@@ -62,7 +61,7 @@ const clearLines = state => {
   if (points) {
     score += points * level;
     lines += clears;
-    if (lines >= level * LEVEL_MULTIPLIER) {
+    if (lines >= level * 10 + 10 || lines >= Math.max(100, level * 10 - 50)) {
       level++;
     }
   }
