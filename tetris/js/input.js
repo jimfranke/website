@@ -62,7 +62,7 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
         }, 50),
         ...moveQueue,
       ];
-    }, 100);
+    }, 150);
   };
 
   const executeMoveQueue = () => {

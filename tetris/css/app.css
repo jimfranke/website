@@ -95,9 +95,12 @@ body {
 }
 
 .view__col--main {
-    width: 100%;
     margin: 0 1rem;
     border: 1px solid #fff;
+}
+
+.view__col--side {
+    width: 4rem;
 }
 
 .view__col--side:first-child {
