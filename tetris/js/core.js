@@ -44,6 +44,7 @@ const clearLines = state => {
     clears++;
   }
   let points = 0;
+  let isDifficultClear = false;
   switch (clears) {
     case 1:
       points = POINTS_SINGLE;
@@ -56,16 +57,22 @@ const clearLines = state => {
       break;
     case 4:
       points = POINTS_TETRIS;
+      isDifficultClear = true;
       break;
   }
   if (points) {
     score += points * level;
     lines += clears;
-    if (lines >= level * 10 + 10 || lines >= Math.max(100, level * 10 - 50)) {
+    if (lines >= level * 10 + 10) {
       level++;
     }
   }
-  return { board, score, lines, level };
+  return {
+    board,
+    score,
+    lines,
+    level,
+  };
 };
 
 export const lockActiveTetromino = state => {
@@ -84,8 +91,9 @@ export const lockActiveTetromino = state => {
       board[activeTetromino.y + y][activeTetromino.x + x] = color;
     }
   }
+  state = clearLines(state);
   return {
-    ...clearLines(state),
+    ...state,
     activeTetromino: {
       ...activeTetromino,
       isLocked: true,
