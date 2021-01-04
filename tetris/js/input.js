@@ -51,7 +51,25 @@ export const handleMenuInput = ({
 
 export const handleGameInput = ({ store, render, $paused, $controls }) => {
   const { getState, setState, addToInputQueue } = store;
-  const touchTimers = [];
+  const inputTimers = [];
+  let moveDelay;
+
+  const queueMoveAction = action => {
+    moveDelay = setTimeout(() => {
+      inputTimers.push(
+        setInterval(() => {
+          handleAction(action);
+        }, 50),
+      );
+    }, 100);
+  };
+
+  const executeMoveQueue = () => {
+    clearTimeout(moveDelay);
+    while (inputTimers.length) {
+      clearInterval(inputTimers.pop());
+    }
+  };
 
   const handleAction = action => {
     const state = getState();
@@ -102,11 +120,15 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
   };
 
   document.addEventListener('keydown', ({ code, repeat }) => {
-    const action = keyMap[code];
-    if (!action?.startsWith('move-') && repeat) {
+    if (repeat) {
       return;
     }
+    const action = keyMap[code];
     handleAction(keyMap[code]);
+    if (!action?.startsWith('move-')) {
+      return;
+    }
+    queueMoveAction(action);
   });
 
   $controls.addEventListener('touchstart', e => {
@@ -118,16 +140,14 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     if (!action.startsWith('move-')) {
       return;
     }
-    touchTimers.push(
-      setInterval(() => {
-        handleAction(action);
-      }, 50),
-    );
+    queueMoveAction(action);
+  });
+
+  document.addEventListener('keyup', () => {
+    executeMoveQueue();
   });
 
   $controls.addEventListener('touchend', () => {
-    while (touchTimers.length) {
-      clearInterval(touchTimers.pop());
-    }
+    executeMoveQueue();
   });
 };
