@@ -51,12 +51,12 @@ export const handleMenuInput = ({
 
 export const handleGameInput = ({ store, render, $paused, $controls }) => {
   const { getState, setState, addToInputQueue } = store;
-  const inputTimers = [];
-  let moveDelay;
+  let moveQueue = [];
+  let dasTimer;
 
-  const queueMoveAction = action => {
-    moveDelay = setTimeout(() => {
-      inputTimers.push(
+  const enqueueMoveAction = action => {
+    dasTimer = setTimeout(() => {
+      moveQueue.push(
         setInterval(() => {
           handleAction(action);
         }, 50),
@@ -65,9 +65,10 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
   };
 
   const executeMoveQueue = () => {
-    clearTimeout(moveDelay);
-    while (inputTimers.length) {
-      clearInterval(inputTimers.pop());
+    clearTimeout(dasTimer);
+    while (moveQueue.length) {
+      clearInterval(moveQueue[0]);
+      moveQueue = moveQueue.slice(1);
     }
   };
 
@@ -128,7 +129,11 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     if (!action?.startsWith('move-')) {
       return;
     }
-    queueMoveAction(action);
+    enqueueMoveAction(action);
+  });
+
+  document.addEventListener('keyup', () => {
+    executeMoveQueue();
   });
 
   $controls.addEventListener('touchstart', e => {
@@ -140,18 +145,14 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     if (!action.startsWith('move-')) {
       return;
     }
-    queueMoveAction(action);
+    enqueueMoveAction(action);
   });
 
-  document.addEventListener('keyup', () => {
+  $controls.addEventListener('touchcancel', () => {
     executeMoveQueue();
   });
 
   $controls.addEventListener('touchend', () => {
-    executeMoveQueue();
-  });
-
-  $controls.addEventListener('touchcancel', () => {
     executeMoveQueue();
   });
 };
