@@ -56,19 +56,19 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
 
   const enqueueMoveAction = action => {
     dasTimer = setTimeout(() => {
-      moveQueue.push(
+      moveQueue = [
         setInterval(() => {
           handleAction(action);
         }, 50),
-      );
+        ...moveQueue,
+      ];
     }, 100);
   };
 
   const executeMoveQueue = () => {
     clearTimeout(dasTimer);
     while (moveQueue.length) {
-      clearInterval(moveQueue[0]);
-      moveQueue = moveQueue.slice(1);
+      clearInterval(moveQueue.pop());
     }
   };
 
