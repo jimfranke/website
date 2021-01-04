@@ -150,4 +150,8 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
   $controls.addEventListener('touchend', () => {
     executeMoveQueue();
   });
+
+  $controls.addEventListener('touchcancel', () => {
+    executeMoveQueue();
+  });
 };
