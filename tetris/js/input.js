@@ -50,7 +50,7 @@ export const handleMenuInput = ({
 };
 
 export const handleGameInput = ({ store, render, $paused, $controls }) => {
-  const { getState, setState, addToInputQueue } = store;
+  const { getState, setState, enqueueInput } = store;
   let moveQueue = [];
   let dasTimer;
 
@@ -86,25 +86,25 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
     }
     switch (action) {
       case 'rotate-left':
-        addToInputQueue(rotateActiveTetromino(state, -1));
+        enqueueInput(rotateActiveTetromino(state, -1));
         break;
       case 'rotate-right':
-        addToInputQueue(rotateActiveTetromino(state));
+        enqueueInput(rotateActiveTetromino(state));
         break;
       case 'hold':
-        addToInputQueue(holdActiveTetromino(state));
+        enqueueInput(holdActiveTetromino(state));
         break;
       case 'hard-drop':
-        addToInputQueue(moveActiveTetrominoDown(state, true));
+        enqueueInput(moveActiveTetrominoDown(state, true));
         break;
       case 'move-left':
-        addToInputQueue(moveActiveTetrominoLeft(state));
+        enqueueInput(moveActiveTetrominoLeft(state));
         break;
       case 'move-right':
-        addToInputQueue(moveActiveTetrominoRight(state));
+        enqueueInput(moveActiveTetrominoRight(state));
         break;
       case 'move-down':
-        addToInputQueue(moveActiveTetrominoDown(state));
+        enqueueInput(moveActiveTetrominoDown(state));
         break;
     }
   };

@@ -25,7 +25,7 @@ const setState = state => {
   return globalState;
 };
 
-const addToInputQueue = input => {
+const enqueueInput = input => {
   const { inputQueue } = getState();
   return setState({
     inputQueue: [...inputQueue, input],
@@ -35,5 +35,5 @@ const addToInputQueue = input => {
 export const store = {
   getState,
   setState,
-  addToInputQueue,
+  enqueueInput,
 };
