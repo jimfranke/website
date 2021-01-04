@@ -95,13 +95,13 @@ body {
 }
 
 .view__col--main {
-    width: 100%;
-    margin: 0 1rem;
+    width: fit-content;
+    margin-right: 1rem;
     border: 1px solid #fff;
 }
 
-.view__col--side:first-child {
-    text-align: right;
+.view__col--side {
+    width: fit-content;
 }
 
 .view__canvas-main {

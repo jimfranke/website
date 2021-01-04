@@ -1,5 +1,4 @@
 import {
-  holdActiveTetromino,
   moveActiveTetrominoDown,
   moveActiveTetrominoLeft,
   moveActiveTetrominoRight,
@@ -10,8 +9,7 @@ const keyMap = {
   Escape: 'pause',
   KeyZ: 'rotate-left',
   KeyX: 'rotate-right',
-  KeyC: 'hold',
-  ArrowUp: 'hard-drop',
+  ArrowUp: 'rotate-right',
   ArrowLeft: 'move-left',
   ArrowRight: 'move-right',
   ArrowDown: 'move-down',
@@ -90,12 +88,6 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
         break;
       case 'rotate-right':
         enqueueInput(rotateActiveTetromino(state));
-        break;
-      case 'hold':
-        enqueueInput(holdActiveTetromino(state));
-        break;
-      case 'hard-drop':
-        enqueueInput(moveActiveTetrominoDown(state, true));
         break;
       case 'move-left':
         enqueueInput(moveActiveTetrominoLeft(state));

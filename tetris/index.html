@@ -34,15 +34,7 @@
         </div>
       </div>
       <div class="game" style="display: none">
-        <ul class="list stats">
-          <li>Score: <strong data-stats="score">0</strong></li>
-          <li>Lines: <strong data-stats="lines">0</strong></li>
-          <li>Level: <strong data-stats="level">0</strong></li>
-        </ul>
         <div class="view">
-          <div class="view__col--side">
-            <canvas class="canvas view__canvas-hold"></canvas>
-          </div>
           <div class="view__col--main">
             <div class="view__paused" style="display: none">Paused</div>
             <canvas class="canvas view__canvas-main"></canvas>
@@ -55,7 +47,7 @@
           <div class="controls__control-pad">
             <button
               class="button controls__button controls__button--up"
-              data-action="hard-drop"
+              data-action="rotate-right"
             ></button>
             <button
               class="button controls__button controls__button--left"
@@ -71,14 +63,6 @@
             ></button>
           </div>
           <div class="controls__action-pad">
-            <button
-              class="button controls__button controls__button--hold"
-              data-action="hold"
-            ></button>
-            <button
-              class="button controls__button controls__button--hard-drop"
-              data-action="hard-drop"
-            ></button>
             <button
               class="button controls__button controls__button--rotate-right"
               data-action="rotate-right"

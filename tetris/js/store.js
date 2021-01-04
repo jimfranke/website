@@ -5,11 +5,8 @@ let globalState = {
     .fill()
     .map(() => Array(BOARD_COLS).fill(null)),
   inputQueue: [],
-  nextTetrominoQueue: [],
+  nextTetromino: null,
   activeTetromino: null,
-  holdTetromino: null,
-  lockTime: null,
-  isHoldUsed: false,
   isPlaying: false,
   isPaused: false,
   isGameOver: false,

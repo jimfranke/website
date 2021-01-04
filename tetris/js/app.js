@@ -1,9 +1,4 @@
-import {
-  BLOCK_SIZE,
-  BOARD_COLS,
-  BOARD_ROWS,
-  NEXT_QUEUE_SIZE,
-} from './constants.js';
+import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS } from './constants.js';
 import { handleGameInput, handleMenuInput } from './input.js';
 import { createRenderer } from './render.js';
 import { store } from './store.js';
@@ -20,17 +15,13 @@ const $statsLevel = $game.querySelector('[data-stats=level]');
 
 const $mainCanvas = $game.querySelector('.view__canvas-main');
 const mainContext = $mainCanvas.getContext('2d');
-const $holdCanvas = $game.querySelector('.view__canvas-hold');
-const holdContext = $holdCanvas.getContext('2d');
 const $nextCanvas = $game.querySelector('.view__canvas-next');
 const nextContext = $nextCanvas.getContext('2d');
 
 $mainCanvas.width = BLOCK_SIZE * BOARD_COLS;
 $mainCanvas.height = BLOCK_SIZE * BOARD_ROWS;
 $nextCanvas.width = BLOCK_SIZE * 4;
-$nextCanvas.height = BLOCK_SIZE * (NEXT_QUEUE_SIZE * 3 - 1);
-$holdCanvas.width = BLOCK_SIZE * 4;
-$holdCanvas.height = BLOCK_SIZE * 2;
+$nextCanvas.height = BLOCK_SIZE * 2;
 
 const getSelectedLevel = () =>
   parseInt($menu.querySelector('.menu__input-level-select').value);
@@ -39,7 +30,6 @@ const render = createRenderer({
   store,
   mainContext,
   nextContext,
-  holdContext,
   updateStats: ({ score, lines, level }) => {
     $statsScore.textContent = score;
     $statsLines.textContent = lines;
