@@ -13,7 +13,7 @@ import {
   drawTetromino,
 } from './drawing.js';
 
-const lastDropSpeed = DROP_SPEEDS[DROP_SPEEDS.length - 1];
+const fastestDropSpeed = DROP_SPEEDS[DROP_SPEEDS.length - 1];
 
 export const createRenderer = ({
   store,
@@ -29,13 +29,7 @@ export const createRenderer = ({
 
   const update = (state, time) => {
     dropTime ??= time;
-    let {
-      inputQueue,
-      nextTetrominoQueue,
-      activeTetromino,
-      lockTime,
-      level,
-    } = state;
+    let { inputQueue, nextTetrominoQueue, activeTetromino, level } = state;
     while (inputQueue.length) {
       inputQueue = state.inputQueue;
       state = setState({
@@ -43,7 +37,7 @@ export const createRenderer = ({
         inputQueue: inputQueue.slice(1),
       });
     }
-    const dropSpeed = DROP_SPEEDS[level - 1] ?? lastDropSpeed;
+    const dropSpeed = DROP_SPEEDS[level] ?? fastestDropSpeed;
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
         ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(
@@ -51,17 +45,23 @@ export const createRenderer = ({
         )),
       );
     }
-    if (!dropSpeed || time - dropTime > dropSpeed) {
-      state = setState(
-        dropSpeed
-          ? moveActiveTetrominoDown(state)
-          : moveActiveTetrominoDown(state, true, true),
-      );
-      lockTime = state.lockTime;
+    if (time - dropTime > dropSpeed) {
+      state = setState(moveActiveTetrominoDown(state));
+      activeTetromino = state.activeTetromino;
       dropTime = time;
     }
-    if (lockTime && time - lockTime > LOCK_DELAY) {
-      state = setState(lockActiveTetromino(state));
+    let { lockDelay } = activeTetromino;
+    if (lockDelay) {
+      lockDelay = time - lockDelay;
+      state = setState({
+        activeTetromino: {
+          ...activeTetromino,
+          lockDelay,
+        },
+      });
+      if (lockDelay > LOCK_DELAY) {
+        state = setState(lockActiveTetromino(state));
+      }
     }
     return state;
   };

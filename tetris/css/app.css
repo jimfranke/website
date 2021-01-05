@@ -90,7 +90,6 @@ body {
 }
 
 .view__col {
-    display: inline-block;
     position: relative;
 }
 
@@ -100,7 +99,7 @@ body {
 }
 
 .view__col--side {
-    width: 4rem;
+    width: 5rem;
 }
 
 .view__col--side:first-child {

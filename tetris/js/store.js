@@ -8,7 +8,6 @@ let globalState = {
   nextTetrominoQueue: [],
   activeTetromino: null,
   holdTetromino: null,
-  lockTime: null,
   isHoldUsed: false,
   isPlaying: false,
   isPaused: false,

@@ -1,9 +1,4 @@
-import {
-  BLOCK_SIZE,
-  BOARD_COLS,
-  BOARD_ROWS,
-  NEXT_QUEUE_SIZE,
-} from './constants.js';
+import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS } from './constants.js';
 
 const drawBlock = (context, x, y, color) => {
   if (!color) {
@@ -34,31 +29,16 @@ export const drawTetromino = (context, tetromino) => {
   }
 };
 
-export const drawNextTetrominoQueue = (context, nextTetrominoQueue) => {
+export const drawNextTetrominoQueue = (context, [tetromino]) => {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-  let spacingY = 0;
-  for (let i = 0; i < NEXT_QUEUE_SIZE; i++) {
-    const tetromino = nextTetrominoQueue[i];
-    if (!tetromino) {
-      continue;
-    }
-    const prevTetromino = nextTetrominoQueue[i - 1];
-    const { name } = tetromino;
-    const x = name === 'O' ? -1 : 0;
-    let y = i * 3;
-    if (tetromino.name === 'I') {
-      y--;
-    }
-    if (prevTetromino?.name === 'I') {
-      spacingY--;
-    }
-    y += spacingY;
-    drawTetromino(context, {
-      ...tetromino,
-      x,
-      y,
-    });
-  }
+  const { name } = tetromino;
+  const x = name === 'O' ? -1 : 0;
+  const y = name === 'I' ? -2 : -1;
+  drawTetromino(context, {
+    ...tetromino,
+    x,
+    y,
+  });
 };
 
 export const drawHoldTetromino = (context, tetromino) => {
@@ -68,7 +48,7 @@ export const drawHoldTetromino = (context, tetromino) => {
   }
   const { name } = tetromino;
   const x = name === 'I' ? 0 : 1;
-  const y = x ? 0 : -1;
+  const y = x ? -1 : -2;
   drawTetromino(context, {
     ...tetromino,
     x,
