@@ -7,7 +7,7 @@ export const POINTS_DOUBLE = 300;
 export const POINTS_TRIPLE = 500;
 export const POINTS_TETRIS = 800;
 
-export const NEXT_QUEUE_SIZE = 6;
+export const NEXT_QUEUE_SIZE = 5;
 export const LOCK_DELAY = 500;
 export const GHOST_OPACITY = 50;
 
