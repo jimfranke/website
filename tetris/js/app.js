@@ -31,9 +31,9 @@ const render = createRenderer({
   mainContext,
   nextContext,
   updateStats: ({ score, lines, level }) => {
-    $statsScore.textContent = score;
-    $statsLines.textContent = lines;
-    $statsLevel.textContent = level;
+    // $statsScore.textContent = score;
+    // $statsLines.textContent = lines;
+    // $statsLevel.textContent = level;
   },
 });
 
