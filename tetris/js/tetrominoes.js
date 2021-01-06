@@ -1,156 +1,61 @@
+import * as rotations from './rotations.js';
+import * as wallKicks from './wallKicks.js';
+
 export const tetrominoes = [
   {
     name: 'I',
     color: '#0f9Bd7',
+    rotations: rotations.I,
+    wallKicks: wallKicks.I,
     x: 3,
     y: -2,
-    rotations: [
-      [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [1, 1, 1, 1],
-        [0, 0, 0, 0],
-      ],
-      [
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-      ],
-    ],
   },
   {
     name: 'J',
     color: '#2141c6',
-    x: 4,
+    rotations: rotations.J,
+    wallKicks: wallKicks.JLSTZ,
+    x: 3,
     y: -1,
-    rotations: [
-      [
-        [0, 0, 0],
-        [1, 1, 1],
-        [0, 0, 1],
-      ],
-      [
-        [0, 1, 0],
-        [0, 1, 0],
-        [1, 1, 0],
-      ],
-      [
-        [1, 0, 0],
-        [1, 1, 1],
-        [0, 0, 0],
-      ],
-      [
-        [0, 1, 1],
-        [0, 1, 0],
-        [0, 1, 0],
-      ],
-    ],
   },
   {
     name: 'L',
     color: '#e35b02',
-    x: 4,
+    rotations: rotations.L,
+    wallKicks: wallKicks.JLSTZ,
+    x: 3,
     y: -1,
-    rotations: [
-      [
-        [0, 0, 0],
-        [1, 1, 1],
-        [1, 0, 0],
-      ],
-      [
-        [1, 1, 0],
-        [0, 1, 0],
-        [0, 1, 0],
-      ],
-      [
-        [0, 0, 1],
-        [1, 1, 1],
-        [0, 0, 0],
-      ],
-      [
-        [0, 1, 0],
-        [0, 1, 0],
-        [0, 1, 1],
-      ],
-    ],
   },
   {
     name: 'O',
     color: '#e39f02',
+    rotations: rotations.O,
+    wallKicks: null,
     x: 3,
     y: -1,
-    rotations: [
-      [
-        [0, 0, 0, 0],
-        [0, 1, 1, 0],
-        [0, 1, 1, 0],
-        [0, 0, 0, 0],
-      ],
-    ],
   },
   {
     name: 'S',
     color: '#59b101',
-    x: 4,
+    rotations: rotations.S,
+    wallKicks: wallKicks.JLSTZ,
+    x: 3,
     y: -1,
-    rotations: [
-      [
-        [0, 0, 0],
-        [0, 1, 1],
-        [1, 1, 0],
-      ],
-      [
-        [0, 1, 0],
-        [0, 1, 1],
-        [0, 0, 1],
-      ],
-    ],
   },
   {
     name: 'T',
     color: '#af298a',
-    x: 4,
+    rotations: rotations.T,
+    wallKicks: wallKicks.JLSTZ,
+    x: 3,
     y: -1,
-    rotations: [
-      [
-        [0, 0, 0],
-        [1, 1, 1],
-        [0, 1, 0],
-      ],
-      [
-        [0, 1, 0],
-        [1, 1, 0],
-        [0, 1, 0],
-      ],
-      [
-        [0, 1, 0],
-        [1, 1, 1],
-        [0, 0, 0],
-      ],
-      [
-        [0, 1, 0],
-        [0, 1, 1],
-        [0, 1, 0],
-      ],
-    ],
   },
   {
     name: 'Z',
     color: '#d70f37',
-    x: 4,
+    rotations: rotations.Z,
+    wallKicks: wallKicks.JLSTZ,
+    x: 3,
     y: -1,
-    rotations: [
-      [
-        [0, 0, 0],
-        [1, 1, 0],
-        [0, 1, 1],
-      ],
-      [
-        [0, 0, 1],
-        [0, 1, 1],
-        [0, 1, 0],
-      ],
-    ],
   },
 ];
