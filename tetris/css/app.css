@@ -125,7 +125,7 @@ body {
     }
 }
 
-.controls > div {
+.controls__col {
     position: relative;
     width: 50%;
 }
@@ -136,25 +136,21 @@ body {
     height: 4rem;
 }
 
-.controls__button--up {
+.controls__button--hard-drop {
     left: 4rem;
 }
 
-.controls__button--left {
+.controls__button--move-left {
     top: 4rem;
 }
 
-.controls__button--right {
+.controls__button--move-right {
     top: 4rem;
     left: 8rem;
 }
 
-.controls__button--down {
+.controls__button--move-down {
     top: 8rem;
-    left: 4rem;
-}
-
-.controls__button--up {
     left: 4rem;
 }
 
