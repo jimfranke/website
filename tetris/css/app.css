@@ -132,48 +132,41 @@ body {
 
 .controls__button {
     position: absolute;
-    width: 3.8rem;
-    height: 3.8rem;
+    width: 4rem;
+    height: 4rem;
 }
 
 .controls__button--up {
-    left: 3.8rem;
-    border-end-end-radius: 0;
+    left: 4rem;
 }
 
 .controls__button--left {
-    top: 3.8rem;
+    top: 4rem;
 }
 
 .controls__button--right {
-    top: 3.8rem;
-    left: 7.6rem;
+    top: 4rem;
+    left: 8rem;
 }
 
 .controls__button--down {
-    top: 7.6rem;
-    left: 3.8rem;
+    top: 8rem;
+    left: 4rem;
 }
 
 .controls__button--up {
-    left: 3.8rem;
+    left: 4rem;
 }
 
 .controls__button--hold {
+    right: 6.5rem;
+}
+
+.controls__button--rotate-clockwise {
     right: 0;
 }
 
-.controls__button--hard-drop {
-    top: 5rem;
-    right: 5rem;
-}
-
-.controls__button--rotate-right {
-    top: 5rem;
-    right: 0;
-}
-
-.controls__button--rotate-left {
-    top: 10rem;
-    right: 5rem;
+.controls__button--rotate-counter-clockwise {
+    top: 6.5rem;
+    right: 3.25rem;
 }
