@@ -1,4 +1,9 @@
-import { BLOCK_SIZE, BOARD_COLS, BOARD_ROWS } from './constants.js';
+import {
+  BLOCK_SIZE,
+  BOARD_COLS,
+  BOARD_ROWS,
+  NEXT_QUEUE_SIZE,
+} from './constants.js';
 import { handleGameInput, handleMenuInput } from './input.js';
 import { createRenderer } from './render.js';
 import { store } from './store.js';
@@ -23,7 +28,7 @@ const nextContext = $nextCanvas.getContext('2d');
 $mainCanvas.width = BLOCK_SIZE * BOARD_COLS;
 $mainCanvas.height = BLOCK_SIZE * BOARD_ROWS;
 $nextCanvas.width = BLOCK_SIZE * 4;
-$nextCanvas.height = BLOCK_SIZE * 2;
+$nextCanvas.height = BLOCK_SIZE * (NEXT_QUEUE_SIZE * 3 - 1);
 $holdCanvas.width = BLOCK_SIZE * 4;
 $holdCanvas.height = BLOCK_SIZE * 2;
 

@@ -3,14 +3,15 @@ import {
   BOARD_ROWS,
   GHOST_OPACITY,
   LOCK_DELAY,
+  NEXT_QUEUE_SIZE,
   POINTS_DOUBLE,
   POINTS_SINGLE,
   POINTS_TETRIS,
   POINTS_TRIPLE,
-  TETROMINOES,
 } from './constants.js';
+import { tetrominoes } from './tetrominoes.js';
 
-const tetrominoCollision = (state, rotation, offsetX, offsetY) => {
+const isTetrominoCollision = (state, rotation, offsetX, offsetY) => {
   const { board, activeTetromino } = state;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
@@ -109,20 +110,21 @@ export const isTetrominoLockable = state => {
   return (
     lockDelay &&
     performance.now() - lockDelay > LOCK_DELAY &&
-    tetrominoCollision(state, rotation, 0, 1)
+    isTetrominoCollision(state, rotation, 0, 1)
   );
 };
 
 export const moveActiveTetrominoLeft = state => {
   let { activeTetromino } = state;
   const { rotation, x } = activeTetromino;
-  if (tetrominoCollision(state, rotation, -1, 0)) {
+  if (isTetrominoCollision(state, rotation, -1, 0)) {
     return null;
   }
   return {
     activeTetromino: {
       ...activeTetromino,
       x: x - 1,
+      lockDelay: null,
     },
   };
 };
@@ -130,13 +132,14 @@ export const moveActiveTetrominoLeft = state => {
 export const moveActiveTetrominoRight = state => {
   let { activeTetromino } = state;
   const { rotation, x } = activeTetromino;
-  if (tetrominoCollision(state, rotation, 1, 0)) {
+  if (isTetrominoCollision(state, rotation, 1, 0)) {
     return null;
   }
   return {
     activeTetromino: {
       ...activeTetromino,
       x: x + 1,
+      lockDelay: null,
     },
   };
 };
@@ -144,7 +147,7 @@ export const moveActiveTetrominoRight = state => {
 export const moveActiveTetrominoDown = (state, isHardDrop) => {
   let { activeTetromino } = state;
   let { rotation, y, lockDelay } = activeTetromino;
-  if (!tetrominoCollision(state, rotation, 0, 1)) {
+  if (!isTetrominoCollision(state, rotation, 0, 1)) {
     state = {
       ...state,
       activeTetromino: {
@@ -183,7 +186,7 @@ export const rotateActiveTetromino = (state, direction = 1) => {
       ? (rotationIndex + 1) % length
       : (rotationIndex > 0 ? rotationIndex : length) - 1;
   const rotation = rotations[newRotationIndex];
-  if (tetrominoCollision(state, rotation, 0, 0)) {
+  if (isTetrominoCollision(state, rotation, 0, 0)) {
     return null;
   }
   return {
@@ -230,7 +233,7 @@ export const createGhostTetromino = state => {
   const { activeTetromino } = state;
   const { color, rotation, y } = activeTetromino;
   let offsetY = 1;
-  while (!tetrominoCollision(state, rotation, 0, offsetY)) {
+  while (!isTetrominoCollision(state, rotation, 0, offsetY)) {
     offsetY++;
   }
   offsetY--;
@@ -247,10 +250,10 @@ export const shiftNextTetrominoQueue = nextTetrominoQueue => ({
 });
 
 export const createNextTextrominoQueue = nextTetrominoQueue => {
-  if (nextTetrominoQueue.length > 1) {
+  if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
     return nextTetrominoQueue;
   }
-  const randomTetrominoes = [...TETROMINOES].sort(() => Math.random() - 0.5);
+  const randomTetrominoes = [...tetrominoes].sort(() => Math.random() - 0.5);
   return [
     ...nextTetrominoQueue,
     ...randomTetrominoes.map(tetromino => {
