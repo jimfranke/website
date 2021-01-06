@@ -14,6 +14,8 @@ export const TETROMINOES = [
   {
     name: 'I',
     color: '#0f9Bd7',
+    x: 3,
+    y: -2,
     rotations: [
       [
         [0, 0, 0, 0],
@@ -32,6 +34,8 @@ export const TETROMINOES = [
   {
     name: 'J',
     color: '#2141c6',
+    x: 4,
+    y: -1,
     rotations: [
       [
         [0, 0, 0],
@@ -58,6 +62,8 @@ export const TETROMINOES = [
   {
     name: 'L',
     color: '#e35b02',
+    x: 4,
+    y: -1,
     rotations: [
       [
         [0, 0, 0],
@@ -84,6 +90,8 @@ export const TETROMINOES = [
   {
     name: 'O',
     color: '#e39f02',
+    x: 3,
+    y: -1,
     rotations: [
       [
         [0, 0, 0, 0],
@@ -96,6 +104,8 @@ export const TETROMINOES = [
   {
     name: 'S',
     color: '#59b101',
+    x: 4,
+    y: -1,
     rotations: [
       [
         [0, 0, 0],
@@ -112,6 +122,8 @@ export const TETROMINOES = [
   {
     name: 'T',
     color: '#af298a',
+    x: 4,
+    y: -1,
     rotations: [
       [
         [0, 0, 0],
@@ -138,6 +150,8 @@ export const TETROMINOES = [
   {
     name: 'Z',
     color: '#d70f37',
+    x: 4,
+    y: -1,
     rotations: [
       [
         [0, 0, 0],
