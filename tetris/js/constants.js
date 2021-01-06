@@ -2,10 +2,10 @@ export const BOARD_COLS = 10;
 export const BOARD_ROWS = 20;
 export const BLOCK_SIZE = 30;
 
-export const POINTS_SINGLE = 100;
-export const POINTS_DOUBLE = 300;
-export const POINTS_TRIPLE = 500;
-export const POINTS_TETRIS = 800;
+export const POINTS_SINGLE = 40;
+export const POINTS_DOUBLE = 100;
+export const POINTS_TRIPLE = 300;
+export const POINTS_TETRIS = 1200;
 
 export const LOCK_DELAY = 500;
 export const GHOST_OPACITY = 50;
@@ -170,8 +170,8 @@ export const DROP_SPEEDS = [
   100,
   80,
   60,
+  50,
   40,
+  30,
   20,
-  10,
-  0,
 ];

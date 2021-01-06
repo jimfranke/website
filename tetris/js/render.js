@@ -1,7 +1,8 @@
-import { DROP_SPEEDS, LOCK_DELAY } from './constants.js';
+import { DROP_SPEEDS } from './constants.js';
 import {
   createGhostTetromino,
   createNextTextrominoQueue,
+  isTetrominoLockable,
   lockActiveTetromino,
   moveActiveTetrominoDown,
   shiftNextTetrominoQueue,
@@ -47,21 +48,10 @@ export const createRenderer = ({
     }
     if (time - dropTime > dropSpeed) {
       state = setState(moveActiveTetrominoDown(state));
-      activeTetromino = state.activeTetromino;
       dropTime = time;
     }
-    let { lockDelay } = activeTetromino;
-    if (lockDelay) {
-      lockDelay = time - lockDelay;
-      state = setState({
-        activeTetromino: {
-          ...activeTetromino,
-          lockDelay,
-        },
-      });
-      if (lockDelay > LOCK_DELAY) {
-        state = setState(lockActiveTetromino(state));
-      }
+    if (isTetrominoLockable(state)) {
+      state = setState(lockActiveTetromino(state));
     }
     return state;
   };
