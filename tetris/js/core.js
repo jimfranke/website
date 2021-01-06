@@ -247,7 +247,7 @@ export const shiftNextTetrominoQueue = nextTetrominoQueue => ({
 });
 
 export const createNextTextrominoQueue = nextTetrominoQueue => {
-  if (nextTetrominoQueue.length > TETROMINOES.length) {
+  if (nextTetrominoQueue.length > 1) {
     return nextTetrominoQueue;
   }
   const randomTetrominoes = [...TETROMINOES].sort(() => Math.random() - 0.5);
