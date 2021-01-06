@@ -106,18 +106,16 @@ export const lockActiveTetromino = state => {
 export const isTetrominoLockable = state => {
   const { activeTetromino } = state;
   const { rotation, lockDelay } = activeTetromino;
-  if (lockDelay && tetrominoCollision(state, rotation, 0, 1)) {
-    return performance.now() - lockDelay > LOCK_DELAY;
-  }
-  return false;
+  return (
+    lockDelay &&
+    performance.now() - lockDelay > LOCK_DELAY &&
+    tetrominoCollision(state, rotation, 0, 1)
+  );
 };
 
 export const moveActiveTetrominoLeft = state => {
   let { activeTetromino } = state;
   const { rotation, x } = activeTetromino;
-  if (isTetrominoLockable(state)) {
-    return lockActiveTetromino(state);
-  }
   if (tetrominoCollision(state, rotation, -1, 0)) {
     return null;
   }
@@ -132,9 +130,6 @@ export const moveActiveTetrominoLeft = state => {
 export const moveActiveTetrominoRight = state => {
   let { activeTetromino } = state;
   const { rotation, x } = activeTetromino;
-  if (isTetrominoLockable(state)) {
-    return lockActiveTetromino(state);
-  }
   if (tetrominoCollision(state, rotation, 1, 0)) {
     return null;
   }
@@ -163,7 +158,7 @@ export const moveActiveTetrominoDown = (state, isHardDrop) => {
     }
     return state;
   }
-  if (isHardDrop || isTetrominoLockable(state)) {
+  if (isHardDrop) {
     return lockActiveTetromino(state);
   }
   lockDelay ??= performance.now();
@@ -182,9 +177,6 @@ export const rotateActiveTetromino = (state, direction = 1) => {
   const { length } = rotations;
   if (length < 2) {
     return null;
-  }
-  if (isTetrominoLockable(state)) {
-    return lockActiveTetromino(state);
   }
   const newRotationIndex =
     direction > 0
