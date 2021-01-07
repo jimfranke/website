@@ -8,8 +8,8 @@ import {
   POINTS_SINGLE,
   POINTS_TETRIS,
   POINTS_TRIPLE,
+  TETROMINOES,
 } from './constants.js';
-import { tetrominoes } from './tetrominoes.js';
 
 const isTetrominoCollision = (state, rotation, offsetX, offsetY) => {
   const { board, activeTetromino } = state;
@@ -260,7 +260,7 @@ export const createNextTextrominoQueue = nextTetrominoQueue => {
   if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
     return nextTetrominoQueue;
   }
-  const randomTetrominoes = [...tetrominoes].sort(() => Math.random() - 0.5);
+  const randomTetrominoes = [...TETROMINOES].sort(() => Math.random() - 0.5);
   return [
     ...nextTetrominoQueue,
     ...randomTetrominoes.map(tetromino => {
