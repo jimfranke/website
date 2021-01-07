@@ -4,7 +4,7 @@ import * as wallKicks from './wallKicks.js';
 export const tetrominoes = [
   {
     name: 'I',
-    color: '#0f9Bd7',
+    color: '#d70f37',
     rotations: rotations.I,
     wallKicks: wallKicks.I,
     x: 3,
@@ -36,7 +36,7 @@ export const tetrominoes = [
   },
   {
     name: 'S',
-    color: '#59b101',
+    color: '#af298a',
     rotations: rotations.S,
     wallKicks: wallKicks.JLSTZ,
     x: 3,
@@ -44,7 +44,7 @@ export const tetrominoes = [
   },
   {
     name: 'T',
-    color: '#af298a',
+    color: '#0f9Bd7',
     rotations: rotations.T,
     wallKicks: wallKicks.JLSTZ,
     x: 3,
@@ -52,7 +52,7 @@ export const tetrominoes = [
   },
   {
     name: 'Z',
-    color: '#d70f37',
+    color: '#59b101',
     rotations: rotations.Z,
     wallKicks: wallKicks.JLSTZ,
     x: 3,
