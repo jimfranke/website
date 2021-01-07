@@ -186,7 +186,6 @@ export const rotateActiveTetromino = (state, direction = 1) => {
       ? (rotationIndex + 1) % length
       : (rotationIndex > 0 ? rotationIndex : length) - 1;
   const rotation = rotations[newRotationIndex];
-  console.log(direction, newRotationIndex);
   let { tests } = wallKicks.find(
     wk => wk.rotation === newRotationIndex && wk.direction === direction,
   );
