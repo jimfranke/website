@@ -97,7 +97,8 @@ body {
 .view__col--main {
     position: relative;
     margin: 0 1rem;
-    border: 1px solid #fff;
+    background: #000;
+    border: .12rem solid #fff;
 }
 
 .view__col--side {
