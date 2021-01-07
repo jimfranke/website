@@ -1,4 +1,4 @@
-import { DROP_SPEEDS } from './constants.js';
+import { LEVEL_DROP_SPEEDS } from './constants.js';
 import {
   createGhostTetromino,
   createNextTextrominoQueue,
@@ -14,7 +14,7 @@ import {
   drawTetromino,
 } from './drawing.js';
 
-const fastestDropSpeed = DROP_SPEEDS[DROP_SPEEDS.length - 1];
+const [fastestDropSpeed] = LEVEL_DROP_SPEEDS.slice(-1);
 
 export const createRenderer = ({
   store,
@@ -38,7 +38,7 @@ export const createRenderer = ({
         inputQueue: inputQueue.slice(1),
       });
     }
-    const dropSpeed = DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
+    const dropSpeed = LEVEL_DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
         ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(
