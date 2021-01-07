@@ -38,7 +38,7 @@ export const createRenderer = ({
         inputQueue: inputQueue.slice(1),
       });
     }
-    const dropSpeed = DROP_SPEEDS[level] ?? fastestDropSpeed;
+    const dropSpeed = DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
         ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(
