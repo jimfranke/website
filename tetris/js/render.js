@@ -45,8 +45,8 @@ export const createRenderer = ({
           createNextTextrominoQueue(nextTetrominoQueue),
         )),
       );
-    }
-    if (time - dropTime > dropSpeed) {
+      dropTime = time;
+    } else if (time - dropTime > dropSpeed) {
       state = setState(moveActiveTetrominoDown(state));
       dropTime = time;
     }
