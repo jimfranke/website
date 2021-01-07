@@ -94,6 +94,7 @@ body {
 }
 
 .view__col--main {
+    position: relative;
     margin: 0 1rem;
     border: 1px solid #fff;
 }
@@ -112,6 +113,11 @@ body {
 
 .view__paused {
     position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-top: 3rem;
+    background: rgba(0, 0, 0, .5);
+    text-align: center;
 }
 
 .controls {
