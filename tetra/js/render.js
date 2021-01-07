@@ -14,7 +14,7 @@ import {
   drawTetromino,
 } from './drawing.js';
 
-const [fastestDropSpeed] = LEVEL_DROP_SPEEDS.slice(-1);
+const fastestDropSpeed = LEVEL_DROP_SPEEDS[LEVEL_DROP_SPEEDS.length - 1];
 
 export const createRenderer = ({
   store,

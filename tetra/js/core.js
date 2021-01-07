@@ -5,8 +5,8 @@ import {
   LOCK_DELAY,
   NEXT_QUEUE_SIZE,
   POINTS_DOUBLE,
+  POINTS_QUADRUPLE,
   POINTS_SINGLE,
-  POINTS_TETRIS,
   POINTS_TRIPLE,
   TETROMINOES,
 } from './constants.js';
@@ -57,13 +57,14 @@ const clearLines = state => {
       points = POINTS_TRIPLE;
       break;
     case 4:
-      points = POINTS_TETRIS;
+      points = POINTS_QUADRUPLE;
       break;
   }
   if (points) {
-    score += points * (level + 1);
+    score += points * level;
     lines += clears;
-    if (lines >= level * 10 + 10) {
+    const targetLines = level * 10 + (level > 1 ? 10 : 0);
+    if (lines >= targetLines) {
       level++;
     }
   }

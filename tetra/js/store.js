@@ -14,7 +14,7 @@ let globalState = {
   isGameOver: false,
   score: 0,
   lines: 0,
-  level: 0,
+  level: 1,
 };
 
 const getState = () => globalState;

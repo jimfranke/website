@@ -8,7 +8,7 @@ export const BLOCK_SIZE = 30;
 export const POINTS_SINGLE = 100;
 export const POINTS_DOUBLE = 300;
 export const POINTS_TRIPLE = 500;
-export const POINTS_TETRIS = 800;
+export const POINTS_QUADRUPLE = 800;
 
 export const LOCK_DELAY = 500;
 export const NEXT_QUEUE_SIZE = 5;
