@@ -35,7 +35,7 @@ const isTetrominoCollision = (state, rotation, offsetX, offsetY) => {
 };
 
 const clearLines = state => {
-  let { board, score, lines, level } = state;
+  let { board, level, score, lines } = state;
   let clears = 0;
   for (let y = BOARD_ROWS - 1; y >= 0; y--) {
     if (board[y].some(x => !x)) {

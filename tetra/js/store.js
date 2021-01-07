@@ -12,9 +12,9 @@ let globalState = {
   isPlaying: false,
   isPaused: false,
   isGameOver: false,
+  level: 1,
   score: 0,
   lines: 0,
-  level: 1,
 };
 
 const getState = () => globalState;

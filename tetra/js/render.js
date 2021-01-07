@@ -71,7 +71,7 @@ export const createRenderer = ({
     drawTetromino(mainContext, activeTetromino);
     drawNextTetrominoQueue(nextContext, nextTetrominoQueue);
     drawHoldTetromino(holdContext, holdTetromino);
-    updateStats({ score, lines, level });
+    updateStats({ level, score, lines });
   };
 
   const render = (time = performance.now()) => {

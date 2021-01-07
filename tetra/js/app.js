@@ -14,9 +14,9 @@ const $game = $app.querySelector('.game');
 const $paused = $game.querySelector('.view__paused');
 const $controls = $game.querySelector('.controls');
 
+const $statsLevel = $game.querySelector('[data-stats=level]');
 const $statsScore = $game.querySelector('[data-stats=score]');
 const $statsLines = $game.querySelector('[data-stats=lines]');
-const $statsLevel = $game.querySelector('[data-stats=level]');
 
 const $mainCanvas = $game.querySelector('.view__canvas-main');
 const mainContext = $mainCanvas.getContext('2d');
@@ -40,10 +40,10 @@ const render = createRenderer({
   mainContext,
   nextContext,
   holdContext,
-  updateStats: ({ score, lines, level }) => {
+  updateStats: ({ level, score, lines }) => {
+    $statsLevel.textContent = level;
     $statsScore.textContent = score;
     $statsLines.textContent = lines;
-    $statsLevel.textContent = level;
   },
 });
 
