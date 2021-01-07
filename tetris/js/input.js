@@ -8,7 +8,7 @@ import {
 
 const keyMap = {
   Escape: 'pause',
-  KeyZ: 'rotate-counter-clockwise',
+  KeyZ: 'rotate-counterclockwise',
   KeyX: 'rotate-clockwise',
   KeyC: 'hold',
   ArrowUp: 'hard-drop',
@@ -85,8 +85,8 @@ export const handleGameInput = ({ store, render, $paused, $controls }) => {
       return;
     }
     switch (action) {
-      case 'rotate-counter-clockwise':
-        enqueueInput(rotateActiveTetromino(state, -1));
+      case 'rotate-counterclockwise':
+        enqueueInput(rotateActiveTetromino(state, true));
         break;
       case 'rotate-clockwise':
         enqueueInput(rotateActiveTetromino(state));

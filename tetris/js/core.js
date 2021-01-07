@@ -174,24 +174,21 @@ export const moveActiveTetrominoDown = (state, isHardDrop) => {
   };
 };
 
-export const rotateActiveTetromino = (state, direction = 1) => {
+export const rotateActiveTetromino = (state, isCounterclockwise) => {
   let { activeTetromino } = state;
   const { rotations, rotationIndex, wallKicks } = activeTetromino;
   const { length } = rotations;
   if (length < 2) {
     return null;
   }
-  const newRotationIndex =
-    direction > 0
-      ? (rotationIndex + 1) % length
-      : (rotationIndex > 0 ? rotationIndex : length) - 1;
+  const newRotationIndex = isCounterclockwise
+    ? (rotationIndex > 0 ? rotationIndex : length) - 1
+    : (rotationIndex + 1) % length;
   const rotation = rotations[newRotationIndex];
-  let { tests } = wallKicks.find(
-    wk => wk.rotation === newRotationIndex && wk.direction === direction,
-  );
-  tests = [[0, 0], ...tests];
-  for (let i = 0, len = tests.length; i < len; i++) {
-    const [x, y] = tests[i];
+  const directionIndex = Number(!!isCounterclockwise);
+  const offsets = [[0, 0], ...wallKicks[directionIndex][newRotationIndex]];
+  for (let i = 0, len = offsets.length; i < len; i++) {
+    const [x, y] = offsets[i];
     if (isTetrominoCollision(state, rotation, x, y)) {
       continue;
     }
