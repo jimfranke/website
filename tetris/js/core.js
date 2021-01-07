@@ -269,6 +269,7 @@ export const createNextTextrominoQueue = nextTetrominoQueue => {
     ...randomTetrominoes.map(tetromino => {
       const { rotations } = tetromino;
       const defaults = {
+        ...tetromino,
         rotation: rotations[0],
         rotationIndex: 0,
       };
