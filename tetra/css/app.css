@@ -86,6 +86,19 @@ body {
     font-size: 1.1rem;
 }
 
+.stats__item {
+    width: 100%;
+    text-align: center;
+}
+
+.stats__item:first-child {
+    text-align: left;
+}
+
+.stats__item:last-child {
+    text-align: right;
+}
+
 .view {
     display: flex;
 }
