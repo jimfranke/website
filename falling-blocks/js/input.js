@@ -43,6 +43,7 @@ export const handleInput = ({
     resetState();
     $mainMenu.style.display = null;
     $game.style.display = 'none';
+    $pauseMenu.style.display = 'none';
   };
 
   const togglePause = state => {

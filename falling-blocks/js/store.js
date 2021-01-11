@@ -17,7 +17,8 @@ const initialState = {
   lines: 0,
 };
 
-let globalState = { ...initialState };
+const clone = obj => JSON.parse(JSON.stringify(obj));
+let globalState = clone(initialState);
 
 const getState = () => globalState;
 
@@ -26,7 +27,7 @@ const setState = state => {
   return globalState;
 };
 
-const resetState = () => setState(initialState);
+const resetState = () => setState(clone(initialState));
 
 const enqueueInput = input => {
   const { inputQueue } = getState();
