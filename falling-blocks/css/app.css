@@ -157,33 +157,39 @@ body {
     height: 4rem;
 }
 
-.controls__button--hard-drop {
+.controls__dpad--hard-drop {
     left: 4rem;
 }
 
-.controls__button--move-left {
+.controls__dpad--move-left {
     top: 4rem;
 }
 
-.controls__button--move-right {
+.controls__dpad--move-right {
     top: 4rem;
     left: 8rem;
 }
 
-.controls__button--move-down {
+.controls__dpad--move-down {
     top: 8rem;
     left: 4rem;
 }
 
-.controls__button--hold {
-    right: 6.5rem;
-}
-
-.controls__button--rotate-clockwise {
+.controls__buttons--hold {
     right: 0;
 }
 
-.controls__button--rotate-counterclockwise {
-    top: 6.5rem;
-    right: 3.25rem;
+.controls__buttons--hard-drop {
+    top: 5rem;
+    right: 5rem;
+}
+
+.controls__buttons--rotate-clockwise {
+    top: 5rem;
+    right: 0;
+}
+
+.controls__buttons--rotate-counterclockwise {
+    top: 10rem;
+    right: 5rem;
 }
