@@ -21,11 +21,11 @@ export const handleInput = ({
   store,
   render,
   getSelectedLevel,
-  $menu,
+  $mainMenu,
   $game,
-  $paused,
+  $pauseMenu,
 }) => {
-  const { getState, setState, enqueueInput } = store;
+  const { getState, setState, resetState, enqueueInput } = store;
   let moveQueue = [];
   let dasTimer;
 
@@ -34,18 +34,24 @@ export const handleInput = ({
       level: getSelectedLevel(),
       isPlaying: true,
     });
-    $menu.style.display = 'none';
+    $mainMenu.style.display = 'none';
     $game.style.display = null;
     render();
   };
 
+  const quitGame = () => {
+    resetState();
+    $mainMenu.style.display = null;
+    $game.style.display = 'none';
+  };
+
   const togglePause = state => {
     const isPaused = !state.isPaused;
-    state = setState({ isPaused });
+    setState({ isPaused });
     if (isPaused) {
-      $paused.style.display = null;
+      $pauseMenu.style.display = null;
     } else {
-      $paused.style.display = 'none';
+      $pauseMenu.style.display = 'none';
       render();
     }
   };
@@ -78,7 +84,7 @@ export const handleInput = ({
         togglePause(state);
         break;
       case 'quit':
-        window.location.reload();
+        quitGame();
         break;
     }
   };
@@ -127,11 +133,10 @@ export const handleInput = ({
       return;
     }
     const action = keyMap[code];
-    handleGameAction(keyMap[code]);
-    if (!action?.startsWith('move-')) {
-      return;
+    handleGameAction(action);
+    if (action?.startsWith('move-')) {
+      enqueueMoveAction(action);
     }
-    enqueueMoveAction(action);
   });
 
   document.addEventListener('keyup', () => {
@@ -144,10 +149,9 @@ export const handleInput = ({
       return;
     }
     handleGameAction(action);
-    if (!action.startsWith('move-')) {
-      return;
+    if (action.startsWith('move-')) {
+      enqueueMoveAction(action);
     }
-    enqueueMoveAction(action);
   });
 
   document.addEventListener('touchcancel', () => {

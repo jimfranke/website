@@ -1,6 +1,6 @@
 import { BOARD_COLS, BOARD_ROWS } from './constants.js';
 
-let globalState = {
+const initialState = {
   board: Array(BOARD_ROWS)
     .fill()
     .map(() => Array(BOARD_COLS).fill(null)),
@@ -17,12 +17,16 @@ let globalState = {
   lines: 0,
 };
 
+let globalState = { ...initialState };
+
 const getState = () => globalState;
 
 const setState = state => {
   globalState = { ...globalState, ...state };
   return globalState;
 };
+
+const resetState = () => setState(initialState);
 
 const enqueueInput = input => {
   const { inputQueue } = getState();
@@ -34,5 +38,6 @@ const enqueueInput = input => {
 export const store = {
   getState,
   setState,
+  resetState,
   enqueueInput,
 };

@@ -9,9 +9,9 @@ import { createRenderer } from './render.js';
 import { store } from './store.js';
 
 const $app = document.getElementById('app');
-const $menu = $app.querySelector('.menu');
+const $mainMenu = $app.querySelector('.main-menu');
 const $game = $app.querySelector('.game');
-const $paused = $game.querySelector('.view__paused');
+const $pauseMenu = $game.querySelector('.view__pause-menu');
 
 const $statsLevel = $game.querySelector('[data-stats=level]');
 const $statsScore = $game.querySelector('[data-stats=score]');
@@ -32,7 +32,7 @@ $holdCanvas.width = BLOCK_SIZE * 4;
 $holdCanvas.height = BLOCK_SIZE * 2;
 
 const getSelectedLevel = () =>
-  parseInt($menu.querySelector('.menu__input-level-select').value);
+  parseInt($mainMenu.querySelector('.menu__input-level-select').value);
 
 const render = createRenderer({
   store,
@@ -50,7 +50,7 @@ handleInput({
   store,
   render,
   getSelectedLevel,
-  $menu,
+  $mainMenu,
   $game,
-  $paused,
+  $pauseMenu,
 });

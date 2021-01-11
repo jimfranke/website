@@ -14,11 +14,11 @@
   </head>
   <body>
     <div id="app">
-      <div class="menu">
-        <h1 class="menu__title">Falling Blocks</h1>
+      <div class="menu main-menu">
+        <h1 class="main-menu__title">Falling Blocks</h1>
         <ul class="list list-input">
           <li class="list-input__item">
-            <button class="button menu__button" data-menu-action="start">
+            <button class="button--wide button" data-menu-action="start">
               Start
             </button>
           </li>
@@ -47,64 +47,64 @@
           </li>
         </ul>
         <div class="view">
-          <div class="view__col--side">
+          <div class="view__col view__col--side">
             <canvas class="canvas view__canvas-hold"></canvas>
+            <button
+              class="button view__pause-button"
+              data-menu-action="pause"
+            ></button>
           </div>
-          <div class="view__col--main">
-            <div class="view__paused" style="display: none">
+          <div class="view__col view__col--main">
+            <div class="view__pause-menu" style="display: none">
               <ul class="list list-input">
                 <li class="list-input__item">
-                  <button class="button menu__button" data-menu-action="pause">
+                  <button class="button button--wide" data-menu-action="pause">
                     Resume
                   </button>
                 </li>
                 <li class="list-input__item">
-                  <button class="button menu__button" data-menu-action="quit">
-                    Quit to main menu
+                  <button class="button button--wide" data-menu-action="quit">
+                    Quit
                   </button>
                 </li>
               </ul>
             </div>
             <canvas class="canvas view__canvas-main"></canvas>
           </div>
-          <div class="view__col--side">
+          <div class="view__col view__col--side">
             <canvas class="canvas view__canvas-next"></canvas>
           </div>
         </div>
-        <div class="controls">
-          <div class="controls__col controls__dpad">
+        <div class="touch-controls">
+          <div class="touch-controls__col touch-controls__dpad">
             <button
-              class="button controls__button controls__dpad--hard-drop"
+              class="button touch-controls__button touch-controls__dpad--hard-drop"
               data-game-action="hard-drop"
             ></button>
             <button
-              class="button controls__button controls__dpad--move-left"
+              class="button touch-controls__button touch-controls__dpad--move-left"
               data-game-action="move-left"
             ></button>
             <button
-              class="button controls__button controls__dpad--move-right"
+              class="button touch-controls__button touch-controls__dpad--move-right"
               data-game-action="move-right"
             ></button>
             <button
-              class="button controls__button controls__dpad--move-down"
+              class="button touch-controls__button touch-controls__dpad--move-down"
               data-game-action="move-down"
             ></button>
           </div>
-          <div class="controls__col controls__buttons">
+          <div class="touch-controls__col touch-controls__buttons">
             <button
-              class="button controls__button controls__buttons--hold"
+              class="button touch-controls__button touch-controls__buttons--hold"
               data-game-action="hold"
             ></button>
             <button
-              class="button controls__button controls__buttons--hard-drop"
-              data-game-action="hard-drop"
-            ></button>
-            <button
-              class="button controls__button controls__buttons--rotate-clockwise"
+              class="button touch-controls__button touch-controls__buttons--rotate-clockwise"
               data-game-action="rotate-clockwise"
             ></button>
             <button
-              class="button controls__button controls__buttons--rotate-counterclockwise"
+              class="button touch-controls__button touch-controls__buttons--rotate-counterclockwise"
               data-game-action="rotate-counterclockwise"
             ></button>
           </div>

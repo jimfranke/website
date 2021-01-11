@@ -1,5 +1,8 @@
 @charset "utf-8";
 
+/*
+ * Reset
+ */
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +10,9 @@
     box-sizing: border-box;
 }
 
+/*
+ * Global
+ */
 html {
     cursor: default;
     user-select: none;
@@ -22,10 +28,16 @@ body {
     text-align: center;
 }
 
+/*
+ * Canvas
+ */
 .canvas {
     width: 100%;
 }
 
+/*
+ * Lists
+ */
 .list {
     list-style: none;
 }
@@ -34,6 +46,9 @@ body {
     margin-bottom: 2rem;
 }
 
+/*
+ * Inputs
+ */
 .button {
     padding: 1rem;
     background: #000;
@@ -42,6 +57,10 @@ body {
     letter-spacing: .1rem;
     border: 1px solid #fff;
     border-radius: .25rem;
+}
+
+.button--wide {
+    width: 80%;
 }
 
 .input-select {
@@ -54,39 +73,40 @@ body {
     border-radius: .25rem;
 }
 
+/*
+ * Container
+ */
 #app {
     display: inline-block;
     margin: 1rem .5rem;
     text-align: left;
 }
 
-.menu {
+/*
+ * Main menu
+ */
+.main-menu {
     margin-top: 10rem;
     text-align: center;
 }
 
-.menu__title {
+.main-menu__title {
     margin-bottom: 1.5rem;
     font-size: 2.5rem;
     letter-spacing: .3rem;
 }
 
-.menu__button {
-    width: 14rem;
-}
-
-.menu__level-select {
-    margin-top: 2rem;
-}
-
-.menu__input-level-select {
+.main-menu__input-level-select {
     width: 6.5rem;
 }
 
+/*
+ * Stats
+ */
 .stats {
     display: flex;
     justify-content: space-between;
-    margin: 0 .5rem 1rem;
+    margin-bottom: 1rem;
     font-size: 1.1rem;
 }
 
@@ -103,6 +123,9 @@ body {
     text-align: right;
 }
 
+/*
+ * View
+ */
 .view {
     display: flex;
 }
@@ -130,70 +153,76 @@ body {
     height: 100%;
 }
 
-.view__paused {
+.view__pause-button {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    margin: 3rem auto;
+}
+
+.view__pause-menu {
     position: absolute;
     width: 100%;
     height: 100%;
-    padding-top: 3rem;
+    padding-top: 2rem;
     background: rgba(0, 0, 0, .5);
     text-align: center;
 }
 
-.controls {
+/*
+ * Touch controls
+ */
+.touch-controls {
     display: flex;
     margin: 1.2rem;
 }
 
 @media (min-width: 600px) {
-    .controls {
+    .touch-controls {
         display: none;
     }
 }
 
-.controls__col {
+.touch-controls__col {
     position: relative;
     width: 50%;
 }
 
-.controls__button {
+.touch-controls__button {
     position: absolute;
     width: 4rem;
     height: 4rem;
 }
 
-.controls__dpad--hard-drop {
+.touch-controls__dpad--hard-drop {
     left: 4rem;
 }
 
-.controls__dpad--move-left {
-    top: 4rem;
+.touch-controls__dpad--move-left {
+    top: 3.9rem;
+    left: .1rem;
 }
 
-.controls__dpad--move-right {
-    top: 4rem;
-    left: 8rem;
+.touch-controls__dpad--move-right {
+    top: 3.9rem;
+    left: 7.9rem;
 }
 
-.controls__dpad--move-down {
-    top: 8rem;
+.touch-controls__dpad--move-down {
+    top: 7.8rem;
     left: 4rem;
 }
 
-.controls__buttons--hold {
+.touch-controls__buttons--hold {
     right: 0;
 }
 
-.controls__buttons--hard-drop {
-    top: 5rem;
-    right: 5rem;
-}
-
-.controls__buttons--rotate-clockwise {
-    top: 5rem;
+.touch-controls__buttons--rotate-clockwise {
+    top: 6rem;
     right: 0;
 }
 
-.controls__buttons--rotate-counterclockwise {
-    top: 10rem;
-    right: 5rem;
+.touch-controls__buttons--rotate-counterclockwise {
+    top: 7.8rem;
+    right: 6rem;
 }
