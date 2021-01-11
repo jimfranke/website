@@ -32,7 +32,7 @@ $holdCanvas.width = BLOCK_SIZE * 4;
 $holdCanvas.height = BLOCK_SIZE * 2;
 
 const getSelectedLevel = () =>
-  parseInt($mainMenu.querySelector('.menu__input-level-select').value);
+  parseInt($mainMenu.querySelector('.main-menu__input-level-select').value);
 
 const render = createRenderer({
   store,
