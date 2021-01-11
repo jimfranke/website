@@ -4,7 +4,7 @@ import {
   BOARD_ROWS,
   NEXT_QUEUE_SIZE,
 } from './constants.js';
-import { handleGameInput, handleMenuInput } from './input.js';
+import { handleInput } from './input.js';
 import { createRenderer } from './render.js';
 import { store } from './store.js';
 
@@ -12,7 +12,6 @@ const $app = document.getElementById('app');
 const $menu = $app.querySelector('.menu');
 const $game = $app.querySelector('.game');
 const $paused = $game.querySelector('.view__paused');
-const $controls = $game.querySelector('.controls');
 
 const $statsLevel = $game.querySelector('[data-stats=level]');
 const $statsScore = $game.querySelector('[data-stats=score]');
@@ -47,17 +46,11 @@ const render = createRenderer({
   },
 });
 
-handleMenuInput({
+handleInput({
   store,
   render,
   getSelectedLevel,
   $menu,
   $game,
-});
-
-handleGameInput({
-  store,
-  render,
   $paused,
-  $controls,
 });

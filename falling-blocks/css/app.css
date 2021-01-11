@@ -30,6 +30,10 @@ body {
     list-style: none;
 }
 
+.list-input__item {
+    margin-bottom: 2rem;
+}
+
 .button {
     padding: 1rem;
     background: #000;
