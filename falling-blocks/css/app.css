@@ -160,6 +160,12 @@ body {
     margin: 3rem auto;
 }
 
+@media (min-width: 600px) {
+    .view__pause-button {
+        display: none;
+    }
+}
+
 .view__pause-menu {
     position: absolute;
     width: 100%;
