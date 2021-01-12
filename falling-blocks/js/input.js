@@ -63,7 +63,8 @@ export const handleInput = ({
     dasTimer = setTimeout(() => {
       moveQueue = [
         setInterval(() => {
-          enqueueInput(fn(getState()));
+          state = getState();
+          enqueueInput(fn(state));
         }, AUTO_REPEAT_RATE),
         ...moveQueue,
       ];
