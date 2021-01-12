@@ -1,6 +1,6 @@
 export const I = [
+  // Clockwise
   [
-    // Clockwise
     [
       [1, 0],
       [-1, 0],
