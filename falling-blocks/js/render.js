@@ -24,7 +24,6 @@ export const createRenderer = ({
   updateStats,
 }) => {
   const { getState, setState } = store;
-
   let dropTime;
   let rafId;
 
