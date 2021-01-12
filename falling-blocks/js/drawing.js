@@ -6,11 +6,10 @@ import {
 } from './constants.js';
 
 const drawBlock = (context, x, y, color) => {
-  if (!color) {
-    return;
+  if (color) {
+    context.fillStyle = color;
+    context.fillRect(BLOCK_SIZE * x, BLOCK_SIZE * y, BLOCK_SIZE, BLOCK_SIZE);
   }
-  context.fillStyle = color;
-  context.fillRect(BLOCK_SIZE * x, BLOCK_SIZE * y, BLOCK_SIZE, BLOCK_SIZE);
 };
 
 export const drawBoard = (context, board) => {
@@ -26,10 +25,9 @@ export const drawTetromino = (context, tetromino) => {
   const { color, rotation } = tetromino;
   for (let y = 0, len = rotation.length; y < len; y++) {
     for (let x = 0; x < len; x++) {
-      if (!rotation[y][x]) {
-        continue;
+      if (rotation[y][x]) {
+        drawBlock(context, x + tetromino.x, y + tetromino.y, color);
       }
-      drawBlock(context, x + tetromino.x, y + tetromino.y, color);
     }
   }
 };

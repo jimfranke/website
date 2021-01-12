@@ -186,7 +186,7 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
     ? (rotationIndex > 0 ? rotationIndex : length) - 1
     : (rotationIndex + 1) % length;
   const rotation = rotations[newRotationIndex];
-  const directionIndex = Number(!!isCounterclockwise);
+  const directionIndex = isCounterclockwise ? 1 : 0;
   const offsets = [[0, 0], ...wallKicks[directionIndex][newRotationIndex]];
   for (let i = 0, len = offsets.length; i < len; i++) {
     const [x, y] = offsets[i];

@@ -1,4 +1,5 @@
 import { BOARD_COLS, BOARD_ROWS } from './constants.js';
+import { clone } from './helpers.js';
 
 const initialState = {
   board: Array(BOARD_ROWS)
@@ -17,7 +18,6 @@ const initialState = {
   lines: 0,
 };
 
-const clone = obj => JSON.parse(JSON.stringify(obj));
 let globalState = clone(initialState);
 
 const getState = () => globalState;
