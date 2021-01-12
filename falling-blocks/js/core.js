@@ -157,12 +157,12 @@ export const moveActiveTetrominoDown = (state, dropType) => {
         lockDelay: null,
       },
     };
-    if (dropType) {
+    if (dropType === 'hard' || dropType === 'sonic') {
       return moveActiveTetrominoDown(state, dropType);
     }
     return state;
   }
-  if (dropType === 1) {
+  if (dropType === 'hard') {
     return lockActiveTetromino(state);
   }
   lockDelay ??= performance.now();

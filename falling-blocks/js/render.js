@@ -37,7 +37,7 @@ export const createRenderer = ({
         inputQueue: inputQueue.slice(1),
       });
     }
-    const dropSpeed = LEVEL_DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
+    let dropSpeed = LEVEL_DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
     if (!activeTetromino || activeTetromino.isLocked) {
       state = setState(
         ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(
@@ -46,7 +46,8 @@ export const createRenderer = ({
       );
       dropTime = time;
     } else if (time - dropTime > dropSpeed) {
-      state = setState(moveActiveTetrominoDown(state, dropSpeed ? 0 : 2));
+      dropSpeed = dropSpeed ? null : 'sonic';
+      state = setState(moveActiveTetrominoDown(state, dropSpeed));
       dropTime = time;
     }
     if (isTetrominoLockable(state)) {
