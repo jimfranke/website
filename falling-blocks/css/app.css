@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /*
- * Reset
+ * Resets
  */
 * {
     margin: 0;
@@ -11,7 +11,7 @@
 }
 
 /*
- * Global
+ * Page
  */
 html {
     cursor: default;
@@ -199,17 +199,16 @@ body {
 }
 
 .touch-controls__dpad--move-left {
-    top: 3.9rem;
-    left: .1rem;
+    top: 4rem;
 }
 
 .touch-controls__dpad--move-right {
-    top: 3.9rem;
-    left: 7.9rem;
+    top: 4rem;
+    left: 8rem;
 }
 
 .touch-controls__dpad--move-down {
-    top: 7.8rem;
+    top: 8rem;
     left: 4rem;
 }
 
@@ -223,6 +222,6 @@ body {
 }
 
 .touch-controls__buttons--rotate-counterclockwise {
-    top: 7.8rem;
+    top: 8rem;
     right: 6rem;
 }
