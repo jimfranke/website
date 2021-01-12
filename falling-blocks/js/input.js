@@ -1,3 +1,4 @@
+import { AUTO_REPEAT_RATE, DELAYED_AUTO_SHIFT } from './constants.js';
 import {
   holdActiveTetromino,
   moveActiveTetrominoDown,
@@ -57,15 +58,16 @@ export const handleInput = ({
     }
   };
 
-  const enqueueMoveAction = action => {
+  const enqueueMove = (fn, state) => {
+    enqueueInput(fn(state));
     dasTimer = setTimeout(() => {
       moveQueue = [
         setInterval(() => {
-          handleGameAction(action);
-        }, 50),
+          enqueueInput(fn(getState()));
+        }, AUTO_REPEAT_RATE),
         ...moveQueue,
       ];
-    }, 150);
+    }, DELAYED_AUTO_SHIFT);
   };
 
   const executeMoveQueue = () => {
@@ -75,9 +77,9 @@ export const handleInput = ({
     }
   };
 
-  const handleMenuAction = action => {
+  const handleMenuInput = input => {
     const state = getState();
-    switch (action) {
+    switch (input) {
       case 'start':
         startGame(state);
         break;
@@ -90,17 +92,17 @@ export const handleInput = ({
     }
   };
 
-  const handleGameAction = action => {
+  const handleGameInput = input => {
     const state = getState();
     const { isPlaying, isPaused, isGameOver } = state;
-    if (action === 'pause') {
+    if (input === 'pause') {
       togglePause(state);
       return;
     }
     if (!isPlaying || isGameOver || isPaused) {
       return;
     }
-    switch (action) {
+    switch (input) {
       case 'rotate-counterclockwise':
         enqueueInput(rotateActiveTetromino(state, true));
         break;
@@ -114,29 +116,24 @@ export const handleInput = ({
         enqueueInput(moveActiveTetrominoDown(state, true));
         break;
       case 'move-left':
-        enqueueInput(moveActiveTetrominoLeft(state));
+        enqueueMove(moveActiveTetrominoLeft, state);
         break;
       case 'move-right':
-        enqueueInput(moveActiveTetrominoRight(state));
+        enqueueMove(moveActiveTetrominoRight, state);
         break;
       case 'move-down':
-        enqueueInput(moveActiveTetrominoDown(state));
+        enqueueMove(moveActiveTetrominoDown, state);
         break;
     }
   };
 
   document.addEventListener('click', ({ target }) => {
-    handleMenuAction(target.getAttribute('data-menu-action'));
+    handleMenuInput(target.getAttribute('data-menu-input'));
   });
 
   document.addEventListener('keydown', ({ code, repeat }) => {
-    if (repeat) {
-      return;
-    }
-    const action = keyMap[code];
-    handleGameAction(action);
-    if (action?.startsWith('move-')) {
-      enqueueMoveAction(action);
+    if (!repeat) {
+      handleGameInput(keyMap[code]);
     }
   });
 
@@ -145,13 +142,9 @@ export const handleInput = ({
   });
 
   document.addEventListener('touchstart', e => {
-    const action = e.target.getAttribute('data-game-action');
-    if (!action) {
-      return;
-    }
-    handleGameAction(action);
-    if (action.startsWith('move-')) {
-      enqueueMoveAction(action);
+    const input = e.target.getAttribute('data-game-input');
+    if (input) {
+      handleGameInput(input);
     }
   });
 
