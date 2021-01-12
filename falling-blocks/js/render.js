@@ -46,7 +46,7 @@ export const createRenderer = ({
       );
       dropTime = time;
     } else if (time - dropTime > dropSpeed) {
-      state = setState(moveActiveTetrominoDown(state));
+      state = setState(moveActiveTetrominoDown(state, dropSpeed ? 0 : 2));
       dropTime = time;
     }
     if (isTetrominoLockable(state)) {

@@ -114,7 +114,7 @@ export const handleInput = ({
         enqueueInput(holdActiveTetromino(state));
         break;
       case 'hard-drop':
-        enqueueInput(moveActiveTetrominoDown(state, true));
+        enqueueInput(moveActiveTetrominoDown(state, 1));
         break;
       case 'move-left':
         enqueueMove(moveActiveTetrominoLeft, state);
