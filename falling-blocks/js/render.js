@@ -22,6 +22,7 @@ export const createRenderer = ({
   nextContext,
   holdContext,
   updateStats,
+  $gameOverMenu,
 }) => {
   const { getState, setState } = store;
   let dropTime;
@@ -80,6 +81,9 @@ export const createRenderer = ({
     const { isPaused, isGameOver } = state;
     if (isPaused || isGameOver) {
       rafId = cancelAnimationFrame(rafId);
+      if (isGameOver) {
+        $gameOverMenu.style.display = null;
+      }
       return;
     }
     rafId = requestAnimationFrame(render);

@@ -160,13 +160,7 @@ body {
     margin: 3rem auto;
 }
 
-@media (min-width: 600px) {
-    .view__pause-button {
-        display: none;
-    }
-}
-
-.view__pause-menu {
+.view__menu {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -181,12 +175,6 @@ body {
 .touch-controls {
     display: flex;
     margin: 1.2rem;
-}
-
-@media (min-width: 600px) {
-    .touch-controls {
-        display: none;
-    }
 }
 
 .touch-controls__col {
@@ -230,4 +218,13 @@ body {
 .touch-controls__buttons--rotate-counterclockwise {
     top: 8rem;
     right: 6rem;
+}
+
+/*
+ * Responsive
+ */
+ @media (min-width: 600px) {
+    .view__pause-button, .touch-controls {
+        display: none;
+    }
 }

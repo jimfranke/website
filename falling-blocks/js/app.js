@@ -12,6 +12,7 @@ const $app = document.getElementById('app');
 const $mainMenu = $app.querySelector('.main-menu');
 const $game = $app.querySelector('.game');
 const $pauseMenu = $game.querySelector('.view__pause-menu');
+const $gameOverMenu = $game.querySelector('.view__game-over-menu');
 
 const $statsLevel = $game.querySelector('[data-stats=level]');
 const $statsScore = $game.querySelector('[data-stats=score]');
@@ -44,6 +45,7 @@ const render = createRenderer({
     $statsScore.textContent = score;
     $statsLines.textContent = lines;
   },
+  $gameOverMenu,
 });
 
 handleInput({
@@ -53,4 +55,5 @@ handleInput({
   $mainMenu,
   $game,
   $pauseMenu,
+  $gameOverMenu,
 });

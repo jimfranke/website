@@ -25,6 +25,7 @@ export const handleInput = ({
   $mainMenu,
   $game,
   $pauseMenu,
+  $gameOverMenu,
 }) => {
   const { getState, setState, resetState, enqueueInput } = store;
   let moveQueue = [];
@@ -45,6 +46,7 @@ export const handleInput = ({
     $mainMenu.style.display = null;
     $game.style.display = 'none';
     $pauseMenu.style.display = 'none';
+    $gameOverMenu.style.display = 'none';
   };
 
   const togglePause = state => {
@@ -96,11 +98,13 @@ export const handleInput = ({
   const handleGameInput = input => {
     const state = getState();
     const { isPlaying, isPaused, isGameOver } = state;
-    if (input === 'pause') {
-      togglePause(state);
+    if (!isPlaying || isGameOver) {
       return;
     }
-    if (!isPlaying || isGameOver || isPaused) {
+    if (input === 'pause') {
+      return togglePause(state);
+    }
+    if (isPaused) {
       return;
     }
     switch (input) {
