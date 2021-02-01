@@ -51,6 +51,9 @@ export const handleInput = ({
 
   const togglePause = state => {
     const isPaused = !state.isPaused;
+    if (state.isGameOver) {
+      return;
+    }
     setState({ isPaused });
     if (isPaused) {
       $pauseMenu.style.display = null;
