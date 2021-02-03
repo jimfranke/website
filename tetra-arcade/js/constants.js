@@ -20,7 +20,7 @@ export const GHOST_OPACITY = 50;
 export const TETROMINOES = [
   {
     name: 'I',
-    color: '#0f9Bd7',
+    color: '#d70f37',
     rotations: rotations.I,
     wallKicks: wallKicks.I,
     x: 3,
@@ -52,7 +52,7 @@ export const TETROMINOES = [
   },
   {
     name: 'S',
-    color: '#59b101',
+    color: '#af298a',
     rotations: rotations.S,
     wallKicks: wallKicks.JLSTZ,
     x: 3,
@@ -60,7 +60,7 @@ export const TETROMINOES = [
   },
   {
     name: 'T',
-    color: '#af298a',
+    color: '#0f9Bd7',
     rotations: rotations.T,
     wallKicks: wallKicks.JLSTZ,
     x: 3,
@@ -68,7 +68,7 @@ export const TETROMINOES = [
   },
   {
     name: 'Z',
-    color: '#d70f37',
+    color: '#59b101',
     rotations: rotations.Z,
     wallKicks: wallKicks.JLSTZ,
     x: 3,
