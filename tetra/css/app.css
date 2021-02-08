@@ -86,6 +86,7 @@ body {
  * Main menu
  */
 .main-menu {
+    width: 20rem;
     margin-top: 10rem;
     text-align: center;
 }

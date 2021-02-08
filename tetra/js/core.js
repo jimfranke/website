@@ -8,6 +8,7 @@ import {
   POINTS_QUADRUPLE,
   POINTS_SINGLE,
   POINTS_TRIPLE,
+  SPAWN_DELAY,
   TETROMINOES,
 } from './constants.js';
 
@@ -147,8 +148,11 @@ export const moveActiveTetrominoRight = state => {
 
 export const moveActiveTetrominoDown = (state, dropType) => {
   let { activeTetromino } = state;
-  let { rotation, y, lockDelay } = activeTetromino;
-  if (!isTetrominoCollision(state, rotation, 0, 1)) {
+  let { rotation, y, spawnDelay, lockDelay } = activeTetromino;
+  if (
+    !isTetrominoCollision(state, rotation, 0, 1) &&
+    performance.now() - spawnDelay > SPAWN_DELAY
+  ) {
     state = {
       ...state,
       activeTetromino: {
@@ -253,7 +257,10 @@ export const createGhostTetromino = state => {
 };
 
 export const shiftNextTetrominoQueue = nextTetrominoQueue => ({
-  activeTetromino: nextTetrominoQueue[0],
+  activeTetromino: {
+    ...nextTetrominoQueue[0],
+    spawnDelay: performance.now(),
+  },
   nextTetrominoQueue: nextTetrominoQueue.slice(1),
 });
 
