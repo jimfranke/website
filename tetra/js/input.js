@@ -25,15 +25,13 @@ const handleMenuInput = () => {
   const { getState, setState, resetState } = store;
 
   const startGame = () => {
+    setState({
+      level: $mainMenu.querySelector('.main-menu__input-level-select').value,
+      isPlaying: true,
+    });
     $mainMenu.style.display = 'none';
     $game.style.display = null;
-    setTimeout(() => {
-      setState({
-        level: $mainMenu.querySelector('.main-menu__input-level-select').value,
-        isPlaying: true,
-      });
-      render();
-    }, 3000);
+    render();
   };
 
   const quitGame = () => {
@@ -132,38 +130,35 @@ const handleGameInput = () => {
   document.addEventListener('touchend', touchEnd);
 };
 
-export const processInputKeys = () => {
-  const { getState, setState } = store;
-  let state = getState();
-  const { inputKeys } = state;
+export const processInputKeys = state => {
+  let { inputKeys } = state;
 
   if (inputKeys.hardDrop) {
-    state = setState({
+    return {
       ...moveActiveTetrominoDown(state, 'hard'),
       inputKeys: {
         ...inputKeys,
         hardDrop: null,
       },
-    });
-    return;
+    };
   }
 
   if (inputKeys.hold) {
-    state = setState({
+    return {
       ...holdActiveTetromino(state),
       inputKeys: {
         ...inputKeys,
         hold: null,
       },
-    });
-    return;
+    };
   }
 
   if (inputKeys.moveDown) {
     const { moveDown } = inputKeys;
     const { time, delay } = moveDown;
     if (performance.now() - time > delay) {
-      state = setState({
+      state = { inputKeys } = {
+        ...state,
         ...moveActiveTetrominoDown(state),
         inputKeys: {
           ...inputKeys,
@@ -172,7 +167,7 @@ export const processInputKeys = () => {
             delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
           },
         },
-      });
+      };
     }
   }
 
@@ -180,7 +175,8 @@ export const processInputKeys = () => {
     const { moveLeft } = inputKeys;
     const { time, delay } = moveLeft;
     if (performance.now() - time > delay) {
-      state = setState({
+      state = { inputKeys } = {
+        ...state,
         ...moveActiveTetrominoLeft(state),
         inputKeys: {
           ...inputKeys,
@@ -189,13 +185,14 @@ export const processInputKeys = () => {
             delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
           },
         },
-      });
+      };
     }
   } else if (inputKeys.moveRight) {
     const { moveRight } = inputKeys;
     const { time, delay } = moveRight;
     if (performance.now() - time > delay) {
-      state = setState({
+      state = { inputKeys } = {
+        ...state,
         ...moveActiveTetrominoRight(state),
         inputKeys: {
           ...inputKeys,
@@ -204,27 +201,30 @@ export const processInputKeys = () => {
             delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
           },
         },
-      });
+      };
     }
   }
 
   if (inputKeys.rotateClockwise) {
-    state = setState({
+    state = { inputKeys } = {
+      ...state,
       ...rotateActiveTetromino(state),
       inputKeys: {
         ...inputKeys,
         rotateClockwise: null,
       },
-    });
+    };
   } else if (inputKeys.rotateCounterclockwise) {
-    state = setState({
+    state = { inputKeys } = {
+      ...state,
       ...rotateActiveTetromino(state, true),
       inputKeys: {
         ...inputKeys,
         rotateCounterclockwise: null,
       },
-    });
+    };
   }
+  return state;
 };
 
 export const handleInput = () => {

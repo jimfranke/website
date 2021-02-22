@@ -33,7 +33,7 @@ const update = (state, time) => {
   dropTime ??= time;
   let { nextTetrominoQueue, activeTetromino, level } = state;
 
-  processInputKeys();
+  state = setState(processInputKeys(state));
 
   let dropSpeed = LEVEL_DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
   if (!activeTetromino || activeTetromino.isLocked) {
