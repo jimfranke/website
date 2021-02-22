@@ -25,13 +25,15 @@ const handleMenuInput = () => {
   const { getState, setState, resetState } = store;
 
   const startGame = () => {
-    setState({
-      level: $mainMenu.querySelector('.main-menu__input-level-select').value,
-      isPlaying: true,
-    });
     $mainMenu.style.display = 'none';
     $game.style.display = null;
-    render();
+    setTimeout(() => {
+      setState({
+        level: $mainMenu.querySelector('.main-menu__input-level-select').value,
+        isPlaying: true,
+      });
+      render();
+    }, 3000);
   };
 
   const quitGame = () => {
@@ -143,6 +145,18 @@ export const processInputKeys = () => {
         hardDrop: null,
       },
     });
+    return;
+  }
+
+  if (inputKeys.hold) {
+    state = setState({
+      ...holdActiveTetromino(state),
+      inputKeys: {
+        ...inputKeys,
+        hold: null,
+      },
+    });
+    return;
   }
 
   if (inputKeys.moveDown) {
@@ -208,16 +222,6 @@ export const processInputKeys = () => {
       inputKeys: {
         ...inputKeys,
         rotateCounterclockwise: null,
-      },
-    });
-  }
-
-  if (inputKeys.hold) {
-    state = setState({
-      ...holdActiveTetromino(state),
-      inputKeys: {
-        ...inputKeys,
-        hold: null,
       },
     });
   }

@@ -77,8 +77,8 @@ const draw = state => {
 export const render = (time = performance.now()) => {
   const state = update(getState(), time);
   draw(state);
-  const { isPaused, isGameOver } = state;
-  if (isPaused || isGameOver) {
+  const { isPlaying, isPaused, isGameOver } = state;
+  if (!isPlaying || isPaused || isGameOver) {
     rafId = cancelAnimationFrame(rafId);
     if (isGameOver) {
       $gameOverMenu.style.display = null;
