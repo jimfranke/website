@@ -147,14 +147,15 @@ export const processInputKeys = () => {
 
   if (inputKeys.moveDown) {
     const { moveDown } = inputKeys;
-    if (performance.now() - moveDown.time > moveDown.delay) {
+    const { time, delay } = moveDown;
+    if (performance.now() - time > delay) {
       state = setState({
         ...moveActiveTetrominoDown(state),
         inputKeys: {
           ...inputKeys,
           moveDown: {
             time: performance.now(),
-            delay: moveDown.delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
+            delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
           },
         },
       });
@@ -163,28 +164,30 @@ export const processInputKeys = () => {
 
   if (inputKeys.moveLeft) {
     const { moveLeft } = inputKeys;
-    if (performance.now() - moveLeft.time > moveLeft.delay) {
+    const { time, delay } = moveLeft;
+    if (performance.now() - time > delay) {
       state = setState({
         ...moveActiveTetrominoLeft(state),
         inputKeys: {
           ...inputKeys,
           moveLeft: {
             time: performance.now(),
-            delay: moveLeft.delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
+            delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
           },
         },
       });
     }
   } else if (inputKeys.moveRight) {
     const { moveRight } = inputKeys;
-    if (performance.now() - moveRight.time > moveRight.delay) {
+    const { time, delay } = moveRight;
+    if (performance.now() - time > delay) {
       state = setState({
         ...moveActiveTetrominoRight(state),
         inputKeys: {
           ...inputKeys,
           moveRight: {
             time: performance.now(),
-            delay: moveRight.delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
+            delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
           },
         },
       });
