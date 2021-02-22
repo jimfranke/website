@@ -1,11 +1,11 @@
 import { BOARD_COLS, BOARD_ROWS } from './constants.js';
-import { clone } from './helpers.js';
+import { deepClone } from './helpers.js';
 
 const initialState = {
   board: Array(BOARD_ROWS)
     .fill()
     .map(() => Array(BOARD_COLS).fill(null)),
-  inputQueue: [],
+  inputKeys: {},
   nextTetrominoQueue: [],
   activeTetromino: null,
   holdTetromino: null,
@@ -18,27 +18,15 @@ const initialState = {
   lines: 0,
 };
 
-let globalState = clone(initialState);
+let globalState = deepClone(initialState);
 
 const getState = () => globalState;
+const setState = state => (globalState = { ...globalState, ...state });
 
-const setState = state => {
-  globalState = { ...globalState, ...state };
-  return globalState;
-};
-
-const resetState = () => setState(clone(initialState));
-
-const enqueueInput = input => {
-  const { inputQueue } = getState();
-  return setState({
-    inputQueue: [...inputQueue, input],
-  });
-};
+const resetState = () => setState(deepClone(initialState));
 
 export const store = {
   getState,
   setState,
   resetState,
-  enqueueInput,
 };

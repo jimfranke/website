@@ -1,39 +1,24 @@
-import { AUTO_REPEAT_RATE, DELAYED_AUTO_SHIFT } from './constants.js';
-import {
-  holdActiveTetromino,
-  moveActiveTetrominoDown,
-  moveActiveTetrominoLeft,
-  moveActiveTetrominoRight,
-  rotateActiveTetromino,
-} from './core.js';
+import { $game, $gameOverMenu, $mainMenu, $pauseMenu } from './dom.js';
+import { render } from './render.js';
+import { store } from './store.js';
 
 const keyMap = {
   Escape: 'pause',
-  KeyZ: 'rotate-counterclockwise',
-  KeyX: 'rotate-clockwise',
+  KeyZ: 'rotateCounterclockwise',
+  KeyX: 'rotateClockwise',
   KeyC: 'hold',
-  ArrowUp: 'hard-drop',
-  ArrowLeft: 'move-left',
-  ArrowRight: 'move-right',
-  ArrowDown: 'move-down',
+  ArrowUp: 'hardDrop',
+  ArrowLeft: 'moveLeft',
+  ArrowRight: 'moveRight',
+  ArrowDown: 'moveDown',
 };
 
-export const handleInput = ({
-  store,
-  render,
-  getSelectedLevel,
-  $mainMenu,
-  $game,
-  $pauseMenu,
-  $gameOverMenu,
-}) => {
-  const { getState, setState, resetState, enqueueInput } = store;
-  let moveQueue = [];
-  let dasTimer;
+const handleMenuInput = () => {
+  const { getState, setState, resetState } = store;
 
   const startGame = () => {
     setState({
-      level: getSelectedLevel(),
+      level: $mainMenu.querySelector('.main-menu__input-level-select').value,
       isPlaying: true,
     });
     $mainMenu.style.display = 'none';
@@ -63,29 +48,9 @@ export const handleInput = ({
     }
   };
 
-  const enqueueMove = (fn, state) => {
-    enqueueInput(fn(state));
-    dasTimer = setTimeout(() => {
-      moveQueue = [
-        setInterval(() => {
-          state = getState();
-          enqueueInput(fn(state));
-        }, AUTO_REPEAT_RATE),
-        ...moveQueue,
-      ];
-    }, DELAYED_AUTO_SHIFT);
-  };
-
-  const executeMoveQueue = () => {
-    clearTimeout(dasTimer);
-    while (moveQueue.length) {
-      clearInterval(moveQueue.pop());
-    }
-  };
-
-  const handleMenuInput = input => {
+  document.addEventListener('click', ({ target }) => {
     const state = getState();
-    switch (input) {
+    switch (target.getAttribute('data-menu-input')) {
       case 'start':
         startGame(state);
         break;
@@ -96,71 +61,68 @@ export const handleInput = ({
         quitGame();
         break;
     }
-  };
-
-  const handleGameInput = input => {
-    const state = getState();
-    const { isPlaying, isPaused, isGameOver } = state;
-    if (!isPlaying || isGameOver) {
-      return;
-    }
-    if (input === 'pause') {
-      return togglePause(state);
-    }
-    if (isPaused) {
-      return;
-    }
-    switch (input) {
-      case 'rotate-counterclockwise':
-        enqueueInput(rotateActiveTetromino(state, true));
-        break;
-      case 'rotate-clockwise':
-        enqueueInput(rotateActiveTetromino(state));
-        break;
-      case 'hold':
-        enqueueInput(holdActiveTetromino(state));
-        break;
-      case 'hard-drop':
-        enqueueInput(moveActiveTetrominoDown(state, 'hard'));
-        break;
-      case 'move-left':
-        enqueueMove(moveActiveTetrominoLeft, state);
-        break;
-      case 'move-right':
-        enqueueMove(moveActiveTetrominoRight, state);
-        break;
-      case 'move-down':
-        enqueueMove(moveActiveTetrominoDown, state);
-        break;
-    }
-  };
-
-  document.addEventListener('click', ({ target }) => {
-    handleMenuInput(target.getAttribute('data-menu-input'));
   });
+};
+
+const handleGameInput = () => {
+  const { getState, setState } = store;
+
+  const addInput = input => {
+    const { inputKeys } = getState();
+    setState({
+      inputKeys: {
+        ...inputKeys,
+        [input]: {
+          time: performance.now(),
+          delay: 0,
+        },
+      },
+    });
+  };
+
+  const removeInput = input => {
+    const { inputKeys } = getState();
+    setState({
+      inputKeys: {
+        ...inputKeys,
+        [input]: null,
+      },
+    });
+  };
 
   document.addEventListener('keydown', ({ code, repeat }) => {
-    if (!repeat) {
-      handleGameInput(keyMap[code]);
+    const input = keyMap[code];
+    if (input && !repeat) {
+      addInput(input);
     }
   });
 
-  document.addEventListener('keyup', () => {
-    executeMoveQueue();
-  });
-
-  document.addEventListener('touchstart', e => {
-    const input = e.target.getAttribute('data-game-input');
+  document.addEventListener('keyup', ({ code }) => {
+    const input = keyMap[code];
     if (input) {
-      handleGameInput(input);
+      removeInput(input);
     }
   });
 
-  document.addEventListener('touchcancel', () => {
-    executeMoveQueue();
+  document.addEventListener('touchstart', ({ target }) => {
+    const input = target.getAttribute('data-game-input');
+    if (input) {
+      addInput(input);
+    }
   });
 
-  document.addEventListener('touchend', () => {
-    executeMoveQueue();
-  });
+  const touchEnd = ({ target }) => {
+    const input = target.getAttribute('data-game-input');
+    if (input) {
+      removeInput(input);
+    }
+  };
+
+  document.addEventListener('touchcancel', touchEnd);
+  document.addEventListener('touchend', touchEnd);
+};
+
+export const handleInput = () => {
+  handleMenuInput();
+  handleGameInput();
 };

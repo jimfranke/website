@@ -11,11 +11,12 @@ import {
   SPAWN_DELAY,
   TETROMINOES,
 } from './constants.js';
+import { arrayRandom } from './helpers.js';
 
 const isTetrominoCollision = (state, rotation, offsetX, offsetY) => {
   const { board, activeTetromino } = state;
-  for (let y = 0, len = rotation.length; y < len; y++) {
-    for (let x = 0; x < len; x++) {
+  for (let y = 0, l = rotation.length; y < l; y++) {
+    for (let x = 0; x < l; x++) {
       if (!rotation[y][x]) {
         continue;
       }
@@ -69,20 +70,15 @@ const clearLines = state => {
       level++;
     }
   }
-  return {
-    board,
-    score,
-    lines,
-    level,
-  };
+  return { board, score, lines, level };
 };
 
 export const lockActiveTetromino = state => {
   let { activeTetromino, isGameOver } = state;
   const { color, rotation } = activeTetromino;
   const board = [...state.board];
-  for (let y = 0, len = rotation.length; y < len; y++) {
-    for (let x = 0; x < len; x++) {
+  for (let y = 0, l = rotation.length; y < l; y++) {
+    for (let x = 0; x < l; x++) {
       if (!rotation[y][x]) {
         continue;
       }
@@ -161,7 +157,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
         lockDelay: null,
       },
     };
-    if (dropType === 'hard' || dropType === 'sonic') {
+    if (dropType === 'hard' || dropType === 'gravity') {
       return moveActiveTetrominoDown(state, dropType);
     }
     return state;
@@ -192,7 +188,7 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
   const rotation = rotations[newRotationIndex];
   const directionIndex = isCounterclockwise ? 1 : 0;
   const offsets = [[0, 0], ...wallKicks[directionIndex][newRotationIndex]];
-  for (let i = 0, len = offsets.length; i < len; i++) {
+  for (let i = 0, l = offsets.length; i < l; i++) {
     const [x, y] = offsets[i];
     if (isTetrominoCollision(state, rotation, x, y)) {
       continue;
@@ -268,7 +264,7 @@ export const createNextTextrominoQueue = nextTetrominoQueue => {
   if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
     return nextTetrominoQueue;
   }
-  const randomTetrominoes = [...TETROMINOES].sort(() => Math.random() - 0.5);
+  const randomTetrominoes = arrayRandom(TETROMINOES);
   return [
     ...nextTetrominoQueue,
     ...randomTetrominoes.map(tetromino => {

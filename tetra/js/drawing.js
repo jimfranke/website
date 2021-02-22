@@ -4,20 +4,12 @@ import {
   BOARD_ROWS,
   NEXT_QUEUE_SIZE,
 } from './constants.js';
+import { holdContext, mainContext, nextContext } from './dom.js';
 
 const drawBlock = (context, x, y, color) => {
   if (color) {
     context.fillStyle = color;
     context.fillRect(BLOCK_SIZE * x, BLOCK_SIZE * y, BLOCK_SIZE, BLOCK_SIZE);
-  }
-};
-
-export const drawBoard = (context, board) => {
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-  for (let y = 0; y < BOARD_ROWS; y++) {
-    for (let x = 0; x < BOARD_COLS; x++) {
-      drawBlock(context, x, y, board[y][x]);
-    }
   }
 };
 
@@ -32,8 +24,19 @@ export const drawTetromino = (context, tetromino) => {
   }
 };
 
-export const drawNextTetrominoQueue = (context, nextTetrominoQueue) => {
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+export const drawBoard = board => {
+  const { width, height } = mainContext.canvas;
+  mainContext.clearRect(0, 0, width, height);
+  for (let y = 0; y < BOARD_ROWS; y++) {
+    for (let x = 0; x < BOARD_COLS; x++) {
+      drawBlock(mainContext, x, y, board[y][x]);
+    }
+  }
+};
+
+export const drawNextTetrominoQueue = nextTetrominoQueue => {
+  const { width, height } = nextContext.canvas;
+  nextContext.clearRect(0, 0, width, height);
   let spacingY = 0;
   for (let i = 0; i < NEXT_QUEUE_SIZE; i++) {
     const tetromino = nextTetrominoQueue[i];
@@ -48,7 +51,7 @@ export const drawNextTetrominoQueue = (context, nextTetrominoQueue) => {
       spacingY--;
     }
     y += spacingY;
-    drawTetromino(context, {
+    drawTetromino(nextContext, {
       ...tetromino,
       x,
       y,
@@ -56,15 +59,16 @@ export const drawNextTetrominoQueue = (context, nextTetrominoQueue) => {
   }
 };
 
-export const drawHoldTetromino = (context, tetromino) => {
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+export const drawHoldTetromino = tetromino => {
+  const { width, height } = holdContext.canvas;
+  holdContext.clearRect(0, 0, width, height);
   if (!tetromino) {
     return;
   }
   const { name } = tetromino;
   const x = name === 'I' ? 0 : 1;
   const y = x ? -1 : -2;
-  drawTetromino(context, {
+  drawTetromino(holdContext, {
     ...tetromino,
     x,
     y,
