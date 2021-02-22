@@ -1,18 +1,10 @@
-import {
-  AUTO_REPEAT_RATE,
-  DELAYED_AUTO_SHIFT,
-  LEVEL_DROP_SPEEDS,
-} from './constants.js';
+import { LEVEL_DROP_SPEEDS } from './constants.js';
 import {
   createGhostTetromino,
   createNextTextrominoQueue,
-  holdActiveTetromino,
   isTetrominoLockable,
   lockActiveTetromino,
   moveActiveTetrominoDown,
-  moveActiveTetrominoLeft,
-  moveActiveTetrominoRight,
-  rotateActiveTetromino,
   shiftNextTetrominoQueue,
 } from './core.js';
 import {
@@ -28,6 +20,7 @@ import {
   drawNextTetrominoQueue,
   drawTetromino,
 } from './drawing.js';
+import { processInputKeys } from './input.js';
 import { store } from './store.js';
 
 const fastestDropSpeed = LEVEL_DROP_SPEEDS[LEVEL_DROP_SPEEDS.length - 1];
@@ -38,91 +31,9 @@ let rafId;
 
 const update = (state, time) => {
   dropTime ??= time;
-  let { inputKeys, nextTetrominoQueue, activeTetromino, level } = state;
+  let { nextTetrominoQueue, activeTetromino, level } = state;
 
-  if (inputKeys.hardDrop) {
-    state = setState({
-      ...moveActiveTetrominoDown(state, 'hard'),
-      inputKeys: {
-        ...inputKeys,
-        hardDrop: null,
-      },
-    });
-  }
-
-  if (inputKeys.moveDown) {
-    const { moveDown } = inputKeys;
-    if (performance.now() - moveDown.time > moveDown.delay) {
-      state = setState({
-        ...moveActiveTetrominoDown(state),
-        inputKeys: {
-          ...inputKeys,
-          moveDown: {
-            time: performance.now(),
-            delay: moveDown.delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
-          },
-        },
-      });
-    }
-  }
-
-  if (inputKeys.moveLeft) {
-    const { moveLeft } = inputKeys;
-    if (performance.now() - moveLeft.time > moveLeft.delay) {
-      state = setState({
-        ...moveActiveTetrominoLeft(state),
-        inputKeys: {
-          ...inputKeys,
-          moveLeft: {
-            time: performance.now(),
-            delay: moveLeft.delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
-          },
-        },
-      });
-    }
-  } else if (inputKeys.moveRight) {
-    const { moveRight } = inputKeys;
-    if (performance.now() - moveRight.time > moveRight.delay) {
-      state = setState({
-        ...moveActiveTetrominoRight(state),
-        inputKeys: {
-          ...inputKeys,
-          moveRight: {
-            time: performance.now(),
-            delay: moveRight.delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
-          },
-        },
-      });
-    }
-  }
-
-  if (inputKeys.rotateClockwise) {
-    state = setState({
-      ...rotateActiveTetromino(state),
-      inputKeys: {
-        ...inputKeys,
-        rotateClockwise: null,
-      },
-    });
-  } else if (inputKeys.rotateCounterclockwise) {
-    state = setState({
-      ...rotateActiveTetromino(state, true),
-      inputKeys: {
-        ...inputKeys,
-        rotateCounterclockwise: null,
-      },
-    });
-  }
-
-  if (inputKeys.hold) {
-    state = setState({
-      ...holdActiveTetromino(state),
-      inputKeys: {
-        ...inputKeys,
-        hold: null,
-      },
-    });
-  }
+  processInputKeys();
 
   let dropSpeed = LEVEL_DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
   if (!activeTetromino || activeTetromino.isLocked) {
