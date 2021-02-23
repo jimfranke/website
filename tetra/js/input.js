@@ -3,7 +3,6 @@ import { store } from './logic/store.js';
 import { render } from './render.js';
 
 const keyMap = {
-  Escape: 'pause',
   KeyZ: 'rotateCounterclockwise',
   KeyX: 'rotateClockwise',
   KeyC: 'hold',
@@ -12,50 +11,49 @@ const keyMap = {
   ArrowRight: 'moveRight',
   ArrowDown: 'moveDown',
 };
+const { getState, setState, resetState } = store;
+
+const startGame = () => {
+  setState({
+    level: $mainMenu.querySelector('.main-menu__input-level-select').value,
+    isPlaying: true,
+  });
+  render();
+  $mainMenu.style.display = 'none';
+  $game.style.display = null;
+};
+
+const quitGame = () => {
+  $mainMenu.style.display = null;
+  $game.style.display = 'none';
+  $pauseMenu.style.display = 'none';
+  $gameOverMenu.style.display = 'none';
+  resetState();
+};
+
+const togglePause = () => {
+  const state = getState();
+  const isPaused = !state.isPaused;
+  if (state.isGameOver) {
+    return;
+  }
+  setState({ isPaused });
+  if (isPaused) {
+    $pauseMenu.style.display = null;
+  } else {
+    render();
+    $pauseMenu.style.display = 'none';
+  }
+};
 
 const handleMenuInput = () => {
-  const { getState, setState, resetState } = store;
-
-  const startGame = () => {
-    setState({
-      level: $mainMenu.querySelector('.main-menu__input-level-select').value,
-      isPlaying: true,
-    });
-    $mainMenu.style.display = 'none';
-    $game.style.display = null;
-    render();
-  };
-
-  const quitGame = () => {
-    resetState();
-    $mainMenu.style.display = null;
-    $game.style.display = 'none';
-    $pauseMenu.style.display = 'none';
-    $gameOverMenu.style.display = 'none';
-  };
-
-  const togglePause = state => {
-    const isPaused = !state.isPaused;
-    if (state.isGameOver) {
-      return;
-    }
-    setState({ isPaused });
-    if (isPaused) {
-      $pauseMenu.style.display = null;
-    } else {
-      $pauseMenu.style.display = 'none';
-      render();
-    }
-  };
-
   document.addEventListener('click', ({ target }) => {
-    const state = getState();
     switch (target.getAttribute('data-menu-input')) {
       case 'start':
-        startGame(state);
+        startGame();
         break;
       case 'pause':
-        togglePause(state);
+        togglePause();
         break;
       case 'quit':
         quitGame();
@@ -91,6 +89,10 @@ const handleGameInput = () => {
   };
 
   document.addEventListener('keydown', ({ code, repeat }) => {
+    if (code === 'Escape') {
+      togglePause();
+      return;
+    }
     const input = keyMap[code];
     if (input && !repeat) {
       addInputToState(input);

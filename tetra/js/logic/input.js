@@ -37,51 +37,42 @@ const singleInput = (state, key, fn) => ({
 
 export const processInputKeys = state => {
   let { inputKeys } = state;
-  const {
-    hardDrop,
-    hold,
-    moveDown,
-    moveLeft,
-    moveRight,
-    rotateClockwise,
-    rotateCounterclockwise,
-  } = inputKeys;
 
-  if (hardDrop) {
+  if (inputKeys.hardDrop) {
     return singleInput(state, 'hardDrop', state =>
       moveActiveTetrominoDown(state, 'hard'),
     );
   }
-  if (hold) {
+  if (inputKeys.hold) {
     return singleInput(state, 'hold', state => holdActiveTetromino(state));
   }
-  if (moveDown) {
+  if (inputKeys.moveDown) {
     state = { inputKeys } = moveInput(
       state,
       'moveDown',
       moveActiveTetrominoDown,
     );
   }
-  if (moveLeft) {
+  if (inputKeys.moveLeft) {
     state = { inputKeys } = moveInput(
       state,
       'moveLeft',
       moveActiveTetrominoLeft,
     );
-  } else if (moveRight) {
+  } else if (inputKeys.moveRight) {
     state = { inputKeys } = moveInput(
       state,
       'moveRight',
       moveActiveTetrominoRight,
     );
   }
-  if (rotateClockwise) {
+  if (inputKeys.rotateClockwise) {
     state = { inputKeys } = singleInput(
       state,
       'rotateClockwise',
       rotateActiveTetromino,
     );
-  } else if (rotateCounterclockwise) {
+  } else if (inputKeys.rotateCounterclockwise) {
     state = { inputKeys } = singleInput(
       state,
       'rotateCounterclockwise',
