@@ -1,8 +1,5 @@
 @charset "utf-8";
 
-/*
- * Resets
- */
 * {
     margin: 0;
     padding: 0;
@@ -10,9 +7,6 @@
     box-sizing: border-box;
 }
 
-/*
- * Page
- */
 html {
     cursor: default;
     user-select: none;
@@ -28,16 +22,10 @@ body {
     text-align: center;
 }
 
-/*
- * Canvas
- */
 .canvas {
     width: 100%;
 }
 
-/*
- * Lists
- */
 .list {
     list-style: none;
 }
@@ -46,9 +34,6 @@ body {
     margin-bottom: 2rem;
 }
 
-/*
- * Inputs
- */
 .button {
     padding: 1rem;
     background: #000;
@@ -60,7 +45,7 @@ body {
 }
 
 .button--wide {
-    width: 80%;
+    width: 15rem;
 }
 
 .input-select {
@@ -73,20 +58,14 @@ body {
     border-radius: .25rem;
 }
 
-/*
- * Container
- */
 #app {
     display: inline-block;
     margin: 1rem .5rem;
     text-align: left;
 }
 
-/*
- * Main menu
- */
 .main-menu {
-    width: 20rem;
+    width: 30rem;
     margin-top: 10rem;
     text-align: center;
 }
@@ -98,12 +77,9 @@ body {
 }
 
 .main-menu__input-level-select {
-    width: 6.5rem;
+    width: 7.5rem;
 }
 
-/*
- * Stats
- */
 .stats {
     display: flex;
     justify-content: space-between;
@@ -124,9 +100,6 @@ body {
     text-align: right;
 }
 
-/*
- * View
- */
 .view {
     display: flex;
 }
@@ -170,9 +143,6 @@ body {
     text-align: center;
 }
 
-/*
- * Touch controls
- */
 .touch-controls {
     display: flex;
     margin: 1.2rem;
@@ -221,10 +191,7 @@ body {
     right: 6rem;
 }
 
-/*
- * Responsive
- */
- @media (min-width: 600px) {
+@media (min-width: 600px) {
     .view__pause-button, .touch-controls {
         display: none;
     }

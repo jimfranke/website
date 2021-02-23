@@ -130,99 +130,86 @@ const handleGameInput = () => {
   document.addEventListener('touchend', touchEnd);
 };
 
+const moveInput = (state, key, fn) => {
+  const { inputKeys } = state;
+  const { time, delay } = inputKeys[key];
+  if (performance.now() - time <= delay) {
+    return state;
+  }
+  delay = delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT;
+  return {
+    ...state,
+    ...fn(state),
+    inputKeys: {
+      ...inputKeys,
+      [key]: {
+        time: performance.now(),
+        delay,
+      },
+    },
+  };
+};
+
+const singleInput = (state, key, fn) => ({
+  ...fn(state),
+  inputKeys: {
+    ...state.inputKeys,
+    [key]: null,
+  },
+});
+
 export const processInputKeys = state => {
   let { inputKeys } = state;
+  const {
+    hardDrop,
+    hold,
+    moveDown,
+    moveLeft,
+    moveRight,
+    rotateClockwise,
+    rotateCounterclockwise,
+  } = inputKeys;
 
-  if (inputKeys.hardDrop) {
-    return {
-      ...moveActiveTetrominoDown(state, 'hard'),
-      inputKeys: {
-        ...inputKeys,
-        hardDrop: null,
-      },
-    };
+  if (hardDrop) {
+    return singleInput(state, 'hardDrop', state =>
+      moveActiveTetrominoDown(state, 'hard'),
+    );
   }
-
-  if (inputKeys.hold) {
-    return {
-      ...holdActiveTetromino(state),
-      inputKeys: {
-        ...inputKeys,
-        hold: null,
-      },
-    };
+  if (hold) {
+    return singleInput(state, 'hold', state => holdActiveTetromino(state));
   }
-
-  if (inputKeys.moveDown) {
-    const { moveDown } = inputKeys;
-    const { time, delay } = moveDown;
-    if (performance.now() - time > delay) {
-      state = { inputKeys } = {
-        ...state,
-        ...moveActiveTetrominoDown(state),
-        inputKeys: {
-          ...inputKeys,
-          moveDown: {
-            time: performance.now(),
-            delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
-          },
-        },
-      };
-    }
+  if (moveDown) {
+    state = { inputKeys } = moveInput(
+      state,
+      'moveDown',
+      moveActiveTetrominoDown,
+    );
   }
-
-  if (inputKeys.moveLeft) {
-    const { moveLeft } = inputKeys;
-    const { time, delay } = moveLeft;
-    if (performance.now() - time > delay) {
-      state = { inputKeys } = {
-        ...state,
-        ...moveActiveTetrominoLeft(state),
-        inputKeys: {
-          ...inputKeys,
-          moveLeft: {
-            time: performance.now(),
-            delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
-          },
-        },
-      };
-    }
-  } else if (inputKeys.moveRight) {
-    const { moveRight } = inputKeys;
-    const { time, delay } = moveRight;
-    if (performance.now() - time > delay) {
-      state = { inputKeys } = {
-        ...state,
-        ...moveActiveTetrominoRight(state),
-        inputKeys: {
-          ...inputKeys,
-          moveRight: {
-            time: performance.now(),
-            delay: delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT,
-          },
-        },
-      };
-    }
+  if (moveLeft) {
+    state = { inputKeys } = moveInput(
+      state,
+      'moveLeft',
+      moveActiveTetrominoLeft,
+    );
+  } else if (moveRight) {
+    state = { inputKeys } = moveInput(
+      state,
+      'moveRight',
+      moveActiveTetrominoRight,
+    );
   }
-
-  if (inputKeys.rotateClockwise) {
-    state = { inputKeys } = {
-      ...state,
-      ...rotateActiveTetromino(state),
-      inputKeys: {
-        ...inputKeys,
-        rotateClockwise: null,
-      },
-    };
-  } else if (inputKeys.rotateCounterclockwise) {
-    state = { inputKeys } = {
-      ...state,
-      ...rotateActiveTetromino(state, true),
-      inputKeys: {
-        ...inputKeys,
-        rotateCounterclockwise: null,
-      },
-    };
+  if (rotateClockwise) {
+    state = { inputKeys } = singleInput(
+      state,
+      'rotateClockwise',
+      rotateActiveTetromino,
+    );
+  } else if (rotateCounterclockwise) {
+    state = { inputKeys } = singleInput(
+      state,
+      'rotateCounterclockwise',
+      state => rotateActiveTetromino(state, true),
+    );
   }
   return state;
 };
