@@ -157,7 +157,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
         lockDelay: null,
       },
     };
-    if (dropType === 'hard' || dropType === 'gravity') {
+    if (dropType === 'hard' || dropType === 'firm') {
       return moveActiveTetrominoDown(state, dropType);
     }
     return state;

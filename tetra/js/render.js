@@ -44,7 +44,7 @@ const update = (state, time) => {
     );
     dropTime = time;
   } else if (time - dropTime > dropSpeed) {
-    dropSpeed = dropSpeed ? null : 'gravity';
+    dropSpeed = dropSpeed ? null : 'firm';
     state = setState(moveActiveTetrominoDown(state, dropSpeed));
     dropTime = time;
   }
