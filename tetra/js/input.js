@@ -1,14 +1,6 @@
-import { AUTO_REPEAT_RATE, DELAYED_AUTO_SHIFT } from './constants.js';
-import {
-  holdActiveTetromino,
-  moveActiveTetrominoDown,
-  moveActiveTetrominoLeft,
-  moveActiveTetrominoRight,
-  rotateActiveTetromino,
-} from './core.js';
 import { $game, $gameOverMenu, $mainMenu, $pauseMenu } from './dom.js';
+import { store } from './logic/store.js';
 import { render } from './render.js';
-import { store } from './store.js';
 
 const keyMap = {
   Escape: 'pause',
@@ -75,7 +67,7 @@ const handleMenuInput = () => {
 const handleGameInput = () => {
   const { getState, setState } = store;
 
-  const addInput = input => {
+  const addInputToState = input => {
     const { inputKeys } = getState();
     setState({
       inputKeys: {
@@ -88,7 +80,7 @@ const handleGameInput = () => {
     });
   };
 
-  const removeInput = input => {
+  const removeInputFromState = input => {
     const { inputKeys } = getState();
     setState({
       inputKeys: {
@@ -101,117 +93,33 @@ const handleGameInput = () => {
   document.addEventListener('keydown', ({ code, repeat }) => {
     const input = keyMap[code];
     if (input && !repeat) {
-      addInput(input);
+      addInputToState(input);
     }
   });
 
   document.addEventListener('keyup', ({ code }) => {
     const input = keyMap[code];
     if (input) {
-      removeInput(input);
+      removeInputFromState(input);
     }
   });
 
   document.addEventListener('touchstart', ({ target }) => {
     const input = target.getAttribute('data-game-input');
     if (input) {
-      addInput(input);
+      addInputToState(input);
     }
   });
 
   const touchEnd = ({ target }) => {
     const input = target.getAttribute('data-game-input');
     if (input) {
-      removeInput(input);
+      removeInputFromState(input);
     }
   };
 
   document.addEventListener('touchcancel', touchEnd);
   document.addEventListener('touchend', touchEnd);
-};
-
-const moveInput = (state, key, fn) => {
-  const { inputKeys } = state;
-  const { time, delay } = inputKeys[key];
-  if (performance.now() - time <= delay) {
-    return state;
-  }
-  delay = delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT;
-  return {
-    ...state,
-    ...fn(state),
-    inputKeys: {
-      ...inputKeys,
-      [key]: {
-        time: performance.now(),
-        delay,
-      },
-    },
-  };
-};
-
-const singleInput = (state, key, fn) => ({
-  ...fn(state),
-  inputKeys: {
-    ...state.inputKeys,
-    [key]: null,
-  },
-});
-
-export const processInputKeys = state => {
-  let { inputKeys } = state;
-  const {
-    hardDrop,
-    hold,
-    moveDown,
-    moveLeft,
-    moveRight,
-    rotateClockwise,
-    rotateCounterclockwise,
-  } = inputKeys;
-
-  if (hardDrop) {
-    return singleInput(state, 'hardDrop', state =>
-      moveActiveTetrominoDown(state, 'hard'),
-    );
-  }
-  if (hold) {
-    return singleInput(state, 'hold', state => holdActiveTetromino(state));
-  }
-  if (moveDown) {
-    state = { inputKeys } = moveInput(
-      state,
-      'moveDown',
-      moveActiveTetrominoDown,
-    );
-  }
-  if (moveLeft) {
-    state = { inputKeys } = moveInput(
-      state,
-      'moveLeft',
-      moveActiveTetrominoLeft,
-    );
-  } else if (moveRight) {
-    state = { inputKeys } = moveInput(
-      state,
-      'moveRight',
-      moveActiveTetrominoRight,
-    );
-  }
-  if (rotateClockwise) {
-    state = { inputKeys } = singleInput(
-      state,
-      'rotateClockwise',
-      rotateActiveTetromino,
-    );
-  } else if (rotateCounterclockwise) {
-    state = { inputKeys } = singleInput(
-      state,
-      'rotateCounterclockwise',
-      state => rotateActiveTetromino(state, true),
-    );
-  }
-  return state;
 };
 
 export const handleInput = () => {

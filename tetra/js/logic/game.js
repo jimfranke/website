@@ -1,0 +1,41 @@
+import { LEVEL_DROP_SPEEDS } from '../constants.js';
+import {
+  createNextTextrominoQueue,
+  isTetrominoLockable,
+  lockActiveTetromino,
+  moveActiveTetrominoDown,
+  shiftNextTetrominoQueue,
+} from './core.js';
+import { processInputKeys } from './input.js';
+import { store } from './store.js';
+
+const fastestDropSpeed = LEVEL_DROP_SPEEDS[LEVEL_DROP_SPEEDS.length - 1];
+const { getState, setState } = store;
+
+let dropTime;
+
+export const getGameState = time => {
+  dropTime ??= time;
+  let state = getState();
+  let { nextTetrominoQueue, activeTetromino, level } = state;
+
+  state = setState(processInputKeys(state));
+
+  let dropSpeed = LEVEL_DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
+  if (!activeTetromino || activeTetromino.isLocked) {
+    state = setState(
+      ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(
+        createNextTextrominoQueue(nextTetrominoQueue),
+      )),
+    );
+    dropTime = time;
+  } else if (time - dropTime > dropSpeed) {
+    dropSpeed = dropSpeed ? null : 'firm';
+    state = setState(moveActiveTetrominoDown(state, dropSpeed));
+    dropTime = time;
+  }
+  if (isTetrominoLockable(state)) {
+    state = setState(lockActiveTetromino(state));
+  }
+  return state;
+};

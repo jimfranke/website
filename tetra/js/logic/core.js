@@ -9,9 +9,9 @@ import {
   POINTS_SINGLE,
   POINTS_TRIPLE,
   SPAWN_DELAY,
-  TETROMINOES,
-} from './constants.js';
-import { arrayRandom } from './helpers.js';
+} from '../constants.js';
+import { arrayRandom } from '../helpers.js';
+import { TETROMINOES } from '../tetromino/tetrominoes.js';
 
 const isTetrominoCollision = (state, rotation, offsetX, offsetY) => {
   const { board, activeTetromino } = state;

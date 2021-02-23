@@ -1,6 +1,3 @@
-import * as rotations from './rotations.js';
-import * as wallKicks from './wallKicks.js';
-
 export const BOARD_COLS = 10;
 export const BOARD_ROWS = 20;
 export const BLOCK_SIZE = 30;
@@ -17,65 +14,6 @@ export const SPAWN_DELAY = 200;
 export const LOCK_DELAY = 500;
 export const NEXT_QUEUE_SIZE = 6;
 export const GHOST_OPACITY = 50;
-
-export const TETROMINOES = [
-  {
-    name: 'I',
-    color: '#d70f37',
-    rotations: rotations.I,
-    wallKicks: wallKicks.I,
-    x: 3,
-    y: -3,
-  },
-  {
-    name: 'J',
-    color: '#2141c6',
-    rotations: rotations.J,
-    wallKicks: wallKicks.JLSTZ,
-    x: 3,
-    y: -3,
-  },
-  {
-    name: 'L',
-    color: '#e35b02',
-    rotations: rotations.L,
-    wallKicks: wallKicks.JLSTZ,
-    x: 3,
-    y: -3,
-  },
-  {
-    name: 'O',
-    color: '#e39f02',
-    rotations: rotations.O,
-    wallKicks: null,
-    x: 3,
-    y: -3,
-  },
-  {
-    name: 'S',
-    color: '#af298a',
-    rotations: rotations.S,
-    wallKicks: wallKicks.JLSTZ,
-    x: 3,
-    y: -3,
-  },
-  {
-    name: 'T',
-    color: '#0f9Bd7',
-    rotations: rotations.T,
-    wallKicks: wallKicks.JLSTZ,
-    x: 3,
-    y: -3,
-  },
-  {
-    name: 'Z',
-    color: '#59b101',
-    rotations: rotations.Z,
-    wallKicks: wallKicks.JLSTZ,
-    x: 3,
-    y: -3,
-  },
-];
 
 export const LEVEL_DROP_SPEEDS = [
   880,

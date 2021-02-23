@@ -1,5 +1,5 @@
-import { BOARD_COLS, BOARD_ROWS } from './constants.js';
-import { deepClone } from './helpers.js';
+import { BOARD_COLS, BOARD_ROWS } from '../constants.js';
+import { deepClone } from '../helpers.js';
 
 const initialState = {
   board: Array(BOARD_ROWS)
