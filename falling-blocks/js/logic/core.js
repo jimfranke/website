@@ -10,7 +10,7 @@ import {
   POINTS_TRIPLE,
   SPAWN_DELAY,
 } from '../constants.js';
-import { arrayRandom } from '../helpers.js';
+import { arrayShuffle } from '../helpers.js';
 import { TETROMINOES } from '../tetromino/tetrominoes.js';
 
 const isTetrominoCollision = (state, rotation, offsetX, offsetY) => {
@@ -262,10 +262,11 @@ export const createNextTextrominoQueue = nextTetrominoQueue => {
   if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
     return nextTetrominoQueue;
   }
-  const randomTetrominoes = arrayRandom(TETROMINOES, TETROMINOES);
+  const tetrominoes = [...TETROMINOES, ...TETROMINOES];
+  const tetrominoBag = arrayShuffle(tetrominoes);
   return [
     ...nextTetrominoQueue,
-    ...randomTetrominoes.map(tetromino => {
+    ...tetrominoBag.map(tetromino => {
       const { rotations } = tetromino;
       const defaults = {
         ...tetromino,
