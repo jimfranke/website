@@ -262,7 +262,7 @@ export const createNextTextrominoQueue = nextTetrominoQueue => {
   if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
     return nextTetrominoQueue;
   }
-  const randomTetrominoes = arrayRandom(TETROMINOES);
+  const randomTetrominoes = arrayRandom(TETROMINOES, TETROMINOES);
   return [
     ...nextTetrominoQueue,
     ...randomTetrominoes.map(tetromino => {

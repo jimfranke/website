@@ -2,14 +2,16 @@ import { $game, $gameOverMenu, $mainMenu, $pauseMenu } from './dom.js';
 import { store } from './logic/store.js';
 import { render } from './render.js';
 
+const pauseKeys = ['Escape', 'Enter', 'Backspace'];
+
 const keyMap = {
   KeyZ: 'rotateCounterclockwise',
   KeyX: 'rotateClockwise',
   KeyC: 'hold',
   ArrowUp: 'hardDrop',
   ArrowLeft: 'moveLeft',
-  ArrowRight: 'moveRight',
   ArrowDown: 'moveDown',
+  ArrowRight: 'moveRight',
 };
 const { getState, setState, resetState } = store;
 
@@ -89,7 +91,7 @@ const handleGameInput = () => {
   };
 
   document.addEventListener('keydown', ({ code, repeat }) => {
-    if (code === 'Escape') {
+    if (pauseKeys.includes(code)) {
       togglePause();
       return;
     }
