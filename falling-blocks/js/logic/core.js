@@ -122,7 +122,6 @@ export const moveActiveTetrominoLeft = state => {
     activeTetromino: {
       ...activeTetromino,
       x: x - 1,
-      lockDelay: null,
     },
   };
 };
@@ -137,7 +136,6 @@ export const moveActiveTetrominoRight = state => {
     activeTetromino: {
       ...activeTetromino,
       x: x + 1,
-      lockDelay: null,
     },
   };
 };
@@ -157,7 +155,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
         lockDelay: null,
       },
     };
-    if (dropType === 'hard' || dropType === 'firm') {
+    if (dropType) {
       return moveActiveTetrominoDown(state, dropType);
     }
     return state;

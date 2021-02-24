@@ -28,10 +28,11 @@ export const getGameState = time => {
         createNextTextrominoQueue(nextTetrominoQueue),
       )),
     );
-    dropTime = time;
-  } else if (time - dropTime > dropSpeed) {
-    dropSpeed = dropSpeed ? null : 'firm';
-    state = setState(moveActiveTetrominoDown(state, dropSpeed));
+    dropTime = 0;
+  }
+  if (time - dropTime > dropSpeed) {
+    const dropType = dropSpeed ? null : 'instant';
+    state = setState(moveActiveTetrominoDown(state, dropType));
     dropTime = time;
   }
   if (isTetrominoLockable(state)) {
