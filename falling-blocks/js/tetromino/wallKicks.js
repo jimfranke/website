@@ -1,5 +1,4 @@
 export const I = [
-  // Clockwise
   [
     [
       [1, 0],
@@ -28,7 +27,6 @@ export const I = [
       [0, -1],
     ],
   ],
-  // Counterclockwise
   [
     [
       [-1, 0],
@@ -60,7 +58,6 @@ export const I = [
 ];
 
 export const JLSTZ = [
-  // Clockwise
   [
     [
       [1, 0],
@@ -87,7 +84,6 @@ export const JLSTZ = [
       [-1, 1],
     ],
   ],
-  // Counterclockwise
   [
     [
       [-1, 0],
