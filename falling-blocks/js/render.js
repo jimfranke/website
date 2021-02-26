@@ -1,10 +1,4 @@
-import {
-  $gameOverMenu,
-  $statsLevel,
-  $statsLines,
-  $statsScore,
-  mainContext,
-} from './dom.js';
+import { mainContext, showGameOverMenu, updateStatsText } from './dom.js';
 import {
   drawBoard,
   drawHoldTetromino,
@@ -31,9 +25,7 @@ const draw = state => {
   drawTetromino(mainContext, activeTetromino);
   drawNextTetrominoQueue(nextTetrominoQueue);
   drawHoldTetromino(holdTetromino);
-  $statsLevel.textContent = level;
-  $statsScore.textContent = score;
-  $statsLines.textContent = lines;
+  updateStatsText({ score, lines, level });
 };
 
 export const render = (time = performance.now()) => {
@@ -43,7 +35,7 @@ export const render = (time = performance.now()) => {
   if (!isPlaying || isPaused || isGameOver) {
     rafId = cancelAnimationFrame(rafId);
     if (isGameOver) {
-      $gameOverMenu.style.display = null;
+      showGameOverMenu();
     }
     return;
   }

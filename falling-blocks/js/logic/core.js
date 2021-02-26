@@ -65,8 +65,8 @@ const clearLines = state => {
   if (points) {
     score += points * level;
     lines += clears;
-    const targetLines = level * 10 + (level > 1 ? 10 : 0);
-    if (lines >= targetLines) {
+    const requiredLines = level * 10 + (level > 1 ? 10 : 0);
+    if (lines >= requiredLines) {
       level++;
     }
   }
@@ -155,12 +155,12 @@ export const moveActiveTetrominoDown = (state, dropType) => {
         lockDelay: null,
       },
     };
-    if (dropType) {
+    if (dropType === 'sonic') {
       return moveActiveTetrominoDown(state, dropType);
     }
     return state;
   }
-  if (dropType === 'hard') {
+  if (dropType === 'soft') {
     return lockActiveTetromino(state);
   }
   lockDelay ??= performance.now();

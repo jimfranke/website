@@ -1,10 +1,15 @@
-import { $game, $gameOverMenu, $mainMenu, $pauseMenu } from './dom.js';
+import {
+  getSelectedLevel,
+  hideGame,
+  hidePauseMenu,
+  showGame,
+  showPauseMenu,
+} from './dom.js';
 import { store } from './logic/store.js';
 import { render } from './render.js';
 
-const pauseKeys = ['Escape', 'Enter', 'Backspace'];
-
-const keyMap = {
+const inputKeyMap = {
+  Escape: 'pause',
   KeyZ: 'rotateCounterclockwise',
   KeyX: 'rotateClockwise',
   KeyC: 'hold',
@@ -13,23 +18,20 @@ const keyMap = {
   ArrowDown: 'moveDown',
   ArrowRight: 'moveRight',
 };
+
 const { getState, setState, resetState } = store;
 
 const startGame = () => {
   setState({
-    level: $mainMenu.querySelector('.main-menu__input-level-select').value,
+    level: getSelectedLevel(),
     isPlaying: true,
   });
   render();
-  $mainMenu.style.display = 'none';
-  $game.style.display = null;
+  showGame();
 };
 
 const quitGame = () => {
-  $mainMenu.style.display = null;
-  $game.style.display = 'none';
-  $pauseMenu.style.display = 'none';
-  $gameOverMenu.style.display = 'none';
+  hideGame();
   resetState();
 };
 
@@ -41,10 +43,10 @@ const togglePause = () => {
   }
   setState({ isPaused });
   if (isPaused) {
-    $pauseMenu.style.display = null;
+    showPauseMenu();
   } else {
     render();
-    $pauseMenu.style.display = 'none';
+    hidePauseMenu();
   }
 };
 
@@ -52,14 +54,11 @@ const handleMenuInput = () => {
   document.addEventListener('click', ({ target }) => {
     switch (target.getAttribute('data-menu-input')) {
       case 'start':
-        startGame();
-        break;
+        return startGame();
       case 'pause':
-        togglePause();
-        break;
+        return togglePause();
       case 'quit':
-        quitGame();
-        break;
+        return quitGame();
     }
   });
 };
@@ -91,18 +90,19 @@ const handleGameInput = () => {
   };
 
   document.addEventListener('keydown', ({ code, repeat }) => {
-    if (pauseKeys.includes(code)) {
+    const input = inputKeyMap[code];
+    if (!input || repeat) {
+      return;
+    }
+    if (input === 'pause') {
       togglePause();
       return;
     }
-    const input = keyMap[code];
-    if (input && !repeat) {
-      addInputToState(input);
-    }
+    addInputToState(input);
   });
 
   document.addEventListener('keyup', ({ code }) => {
-    const input = keyMap[code];
+    const input = inputKeyMap[code];
     if (input) {
       removeInputFromState(input);
     }

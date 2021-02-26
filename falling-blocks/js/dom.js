@@ -16,3 +16,36 @@ export const holdContext = $holdCanvas.getContext('2d');
 
 export const $nextCanvas = $game.querySelector('.view__canvas-next');
 export const nextContext = $nextCanvas.getContext('2d');
+
+export const getSelectedLevel = () =>
+  $mainMenu.querySelector('.main-menu__input-level-select').value;
+
+export const updateStatsText = ({ score, lines, level }) => {
+  $statsLevel.textContent = level;
+  $statsScore.textContent = score;
+  $statsLines.textContent = lines;
+};
+
+export const showGame = () => {
+  $mainMenu.style.display = 'none';
+  $game.style.display = null;
+};
+
+export const hideGame = () => {
+  $mainMenu.style.display = null;
+  $game.style.display = 'none';
+  $pauseMenu.style.display = 'none';
+  $gameOverMenu.style.display = 'none';
+};
+
+export const showPauseMenu = () => {
+  $pauseMenu.style.display = null;
+};
+
+export const hidePauseMenu = () => {
+  $pauseMenu.style.display = 'none';
+};
+
+export const showGameOverMenu = () => {
+  $gameOverMenu.style.display = null;
+};

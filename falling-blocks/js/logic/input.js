@@ -40,17 +40,15 @@ export const processInputKeys = state => {
 
   if (inputKeys.hardDrop) {
     return singleInput(state, 'hardDrop', state =>
-      moveActiveTetrominoDown(state, 'hard'),
+      moveActiveTetrominoDown(state, 'sonic'),
     );
   }
   if (inputKeys.hold) {
     return singleInput(state, 'hold', state => holdActiveTetromino(state));
   }
   if (inputKeys.moveDown) {
-    state = { inputKeys } = moveInput(
-      state,
-      'moveDown',
-      moveActiveTetrominoDown,
+    state = { inputKeys } = moveInput(state, 'moveDown', state =>
+      moveActiveTetrominoDown(state, 'soft'),
     );
   }
   if (inputKeys.moveLeft) {
