@@ -10,7 +10,6 @@ const initialState = {
   activeTetromino: null,
   holdTetromino: null,
   isHoldUsed: false,
-  isPlaying: false,
   isPaused: false,
   isGameOver: false,
   level: 1,

@@ -31,8 +31,8 @@ const draw = state => {
 export const render = (time = performance.now()) => {
   const state = getGameState(time);
   draw(state);
-  const { isPlaying, isPaused, isGameOver } = state;
-  if (!isPlaying || isPaused || isGameOver) {
+  const { isPaused, isGameOver } = state;
+  if (isPaused || isGameOver) {
     rafId = cancelAnimationFrame(rafId);
     if (isGameOver) {
       showGameOverMenu();

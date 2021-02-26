@@ -24,7 +24,6 @@ const { getState, setState, resetState } = store;
 const startGame = () => {
   setState({
     level: getSelectedLevel(),
-    isPlaying: true,
   });
   render();
   showGame();
