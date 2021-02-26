@@ -143,7 +143,7 @@ export const moveActiveTetrominoRight = state => {
 export const moveActiveTetrominoDown = (state, dropType) => {
   let { activeTetromino } = state;
   let { rotation, y, spawnDelay, lockDelay } = activeTetromino;
-  if (performance.now() - spawnDelay < SPAWN_DELAY) {
+  if (performance.now() - spawnDelay <= SPAWN_DELAY) {
     return state;
   }
   if (!isTetrominoCollision(state, rotation, 0, 1)) {
