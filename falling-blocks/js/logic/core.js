@@ -13,6 +13,30 @@ import {
 import { arrayShuffle } from '../helpers.js';
 import { TETROMINOES } from '../tetromino/tetrominoes.js';
 
+const createNextTextrominoQueue = nextTetrominoQueue => {
+  if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
+    return nextTetrominoQueue;
+  }
+  const tetrominoes = [...TETROMINOES, ...TETROMINOES];
+  const tetrominoBag = arrayShuffle(tetrominoes);
+  return [
+    ...nextTetrominoQueue,
+    ...tetrominoBag.map(tetromino => {
+      const { rotations } = tetromino;
+      const defaults = {
+        ...tetromino,
+        rotation: rotations[0],
+        rotationIndex: 0,
+      };
+      return {
+        ...tetromino,
+        ...defaults,
+        defaults,
+      };
+    }),
+  ];
+};
+
 const isTetrominoCollision = (state, rotation, offsetX, offsetY) => {
   const { board, activeTetromino } = state;
   for (let y = 0, l = rotation.length; y < l; y++) {
@@ -216,9 +240,7 @@ export const holdActiveTetromino = state => {
   }
   if (!holdTetromino) {
     holdTetromino = activeTetromino;
-    ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(
-      nextTetrominoQueue,
-    ));
+    ({ nextTetrominoQueue, activeTetromino } = shiftNextTetrominoQueue(state));
   } else {
     const prevActiveTetromino = activeTetromino;
     activeTetromino = holdTetromino;
@@ -250,34 +272,27 @@ export const createGhostTetromino = state => {
   };
 };
 
-export const shiftNextTetrominoQueue = nextTetrominoQueue => ({
-  activeTetromino: {
-    ...nextTetrominoQueue[0],
-    spawnDelay: performance.now(),
-  },
-  nextTetrominoQueue: nextTetrominoQueue.slice(1),
-});
-
-export const createNextTextrominoQueue = nextTetrominoQueue => {
-  if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
-    return nextTetrominoQueue;
+export const shiftNextTetrominoQueue = state => {
+  let { nextTetrominoQueue, activeTetromino } = state;
+  const nextTetromino = createNextTextrominoQueue(nextTetrominoQueue)[0];
+  state = { activeTetromino } = {
+    ...state,
+    activeTetromino: {
+      ...nextTetromino,
+      spawnDelay: performance.now(),
+    },
+    nextTetrominoQueue: nextTetrominoQueue.slice(1),
+  };
+  const { rotation, y } = activeTetromino;
+  let offsetY = 0;
+  while (isTetrominoCollision(state, rotation, 0, offsetY)) {
+    offsetY--;
   }
-  const tetrominoes = [...TETROMINOES, ...TETROMINOES];
-  const tetrominoBag = arrayShuffle(tetrominoes);
-  return [
-    ...nextTetrominoQueue,
-    ...tetrominoBag.map(tetromino => {
-      const { rotations } = tetromino;
-      const defaults = {
-        ...tetromino,
-        rotation: rotations[0],
-        rotationIndex: 0,
-      };
-      return {
-        ...tetromino,
-        ...defaults,
-        defaults,
-      };
-    }),
-  ];
+  return {
+    ...state,
+    activeTetromino: {
+      ...activeTetromino,
+      y: y + offsetY,
+    },
+  };
 };
