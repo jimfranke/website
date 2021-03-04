@@ -122,20 +122,21 @@ export const lockActiveTetromino = state => {
     inputQueue: [],
     activeTetromino: {
       ...activeTetromino,
-      lockDelay: null,
       isLocked: true,
     },
+    delay: null,
     isHoldUsed: false,
     isGameOver,
   };
 };
 
 export const isTetrominoLockable = state => {
-  const { activeTetromino } = state;
-  const { rotation, lockDelay } = activeTetromino;
+  const { activeTetromino, delay } = state;
+  const { rotation, isFalling } = activeTetromino;
   return (
-    lockDelay &&
-    performance.now() - lockDelay > LOCK_DELAY &&
+    isFalling &&
+    delay &&
+    performance.now() - delay > LOCK_DELAY &&
     isTetrominoCollision(state, rotation, 0, 1)
   );
 };
@@ -169,9 +170,9 @@ export const moveActiveTetrominoRight = state => {
 };
 
 export const moveActiveTetrominoDown = (state, dropType) => {
-  let { activeTetromino } = state;
-  let { rotation, y, spawnDelay, lockDelay } = activeTetromino;
-  if (performance.now() - spawnDelay <= SPAWN_DELAY) {
+  let { activeTetromino, delay } = state;
+  let { rotation, y, isFalling } = activeTetromino;
+  if (!isFalling && performance.now() - delay <= SPAWN_DELAY) {
     return state;
   }
   if (!isTetrominoCollision(state, rotation, 0, 1)) {
@@ -180,8 +181,8 @@ export const moveActiveTetrominoDown = (state, dropType) => {
       activeTetromino: {
         ...activeTetromino,
         y: y + 1,
-        lockDelay: null,
       },
+      delay: null,
     };
     if (dropType === 'sonic') {
       return moveActiveTetrominoDown(state, dropType);
@@ -191,13 +192,16 @@ export const moveActiveTetrominoDown = (state, dropType) => {
   if (dropType === 'soft') {
     return lockActiveTetromino(state);
   }
-  lockDelay ??= performance.now();
+  if (!isFalling) {
+    delay = performance.now();
+  }
   return {
     ...state,
     activeTetromino: {
       ...activeTetromino,
-      lockDelay,
+      isFalling: true,
     },
+    delay,
   };
 };
 
@@ -283,9 +287,9 @@ export const shiftNextTetrominoQueue = state => {
     ...state,
     activeTetromino: {
       ...nextTetrominoQueue[0],
-      spawnDelay: performance.now(),
     },
     nextTetrominoQueue: nextTetrominoQueue.slice(1),
+    delay: performance.now(),
   };
   const { rotation, y } = activeTetromino;
   let offsetY = 0;

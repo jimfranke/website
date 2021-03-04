@@ -28,8 +28,8 @@ const draw = state => {
   updateStatsText({ score, lines, level });
 };
 
-export const render = (time = performance.now()) => {
-  const state = getGameState(time);
+export const render = time => {
+  const state = getGameState(time ?? performance.now());
   draw(state);
   const { isPaused, isGameOver } = state;
   if (isPaused || isGameOver) {
