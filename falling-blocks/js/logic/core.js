@@ -124,8 +124,8 @@ export const lockActiveTetromino = state => {
       ...activeTetromino,
       isLocked: true,
     },
-    delay: null,
     isHoldUsed: false,
+    delay: 0,
     isGameOver,
   };
 };
@@ -182,7 +182,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
         ...activeTetromino,
         y: y + 1,
       },
-      delay: null,
+      delay: 0,
     };
     if (dropType === 'sonic') {
       return moveActiveTetrominoDown(state, dropType);
