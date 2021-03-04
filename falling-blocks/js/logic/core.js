@@ -2,6 +2,7 @@ import {
   BOARD_COLS,
   BOARD_ROWS,
   GHOST_OPACITY,
+  LEVEL_DROP_SPEEDS,
   LOCK_DELAY,
   NEXT_QUEUE_SIZE,
   POINTS_DOUBLE,
@@ -95,6 +96,10 @@ const clearLines = state => {
   }
   return { board, score, lines, level };
 };
+
+export const getLevelDropSpeed = level =>
+  LEVEL_DROP_SPEEDS[level - 1] ??
+  LEVEL_DROP_SPEEDS[LEVEL_DROP_SPEEDS.length - 1];
 
 export const lockActiveTetromino = state => {
   let { activeTetromino, isGameOver } = state;

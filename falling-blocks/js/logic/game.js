@@ -1,5 +1,5 @@
-import { LEVEL_DROP_SPEEDS } from '../constants.js';
 import {
+  getLevelDropSpeed,
   isTetrominoLockable,
   lockActiveTetromino,
   moveActiveTetrominoDown,
@@ -8,7 +8,6 @@ import {
 import { processInputKeys } from './input.js';
 import { store } from './store.js';
 
-const fastestDropSpeed = LEVEL_DROP_SPEEDS[LEVEL_DROP_SPEEDS.length - 1];
 const { getState, setState } = store;
 
 let dropTime;
@@ -20,7 +19,7 @@ export const getGameState = time => {
 
   state = setState(processInputKeys(state));
 
-  let dropSpeed = LEVEL_DROP_SPEEDS[level - 1] ?? fastestDropSpeed;
+  const dropSpeed = getLevelDropSpeed(level);
   if (!activeTetromino || activeTetromino.isLocked) {
     state = setState(({ activeTetromino } = shiftNextTetrominoQueue(state)));
     dropTime = 0;
