@@ -192,7 +192,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
   if (dropType === 'soft') {
     return lockActiveTetromino(state);
   }
-  if (!isFalling) {
+  if (!isFalling || !delay) {
     delay = performance.now();
   }
   return {
