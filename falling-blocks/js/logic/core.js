@@ -18,7 +18,7 @@ const createNextTextrominoQueue = nextTetrominoQueue => {
   if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
     return nextTetrominoQueue;
   }
-  const tetrominoBag = arrayShuffle([...TETROMINOES, ...TETROMINOES]);
+  const tetrominoBag = arrayShuffle(TETROMINOES);
   return [
     ...nextTetrominoQueue,
     ...tetrominoBag.map(tetromino => {
