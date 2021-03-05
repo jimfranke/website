@@ -21,7 +21,10 @@ const initialState = {
 let globalState = deepClone(initialState);
 
 const getState = () => globalState;
-const setState = state => (globalState = { ...globalState, ...state });
+const setState = state => {
+  globalState = { ...globalState, ...state };
+  return globalState;
+};
 
 const resetState = () => setState(deepClone(initialState));
 

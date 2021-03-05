@@ -52,23 +52,17 @@ export const processInputKeys = state => {
     );
   }
   if (inputKeys.moveLeft) {
-    state = { inputKeys } = moveInput(
-      state,
-      'moveLeft',
-      moveActiveTetrominoLeft,
+    state = { inputKeys } = moveInput(state, 'moveLeft', state =>
+      moveActiveTetrominoLeft(state),
     );
   } else if (inputKeys.moveRight) {
-    state = { inputKeys } = moveInput(
-      state,
-      'moveRight',
-      moveActiveTetrominoRight,
+    state = { inputKeys } = moveInput(state, 'moveRight', state =>
+      moveActiveTetrominoRight(state),
     );
   }
   if (inputKeys.rotateClockwise) {
-    state = { inputKeys } = singleInput(
-      state,
-      'rotateClockwise',
-      rotateActiveTetromino,
+    state = { inputKeys } = singleInput(state, 'rotateClockwise', state =>
+      rotateActiveTetromino(state),
     );
   } else if (inputKeys.rotateCounterclockwise) {
     state = { inputKeys } = singleInput(
