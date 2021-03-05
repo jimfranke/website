@@ -207,7 +207,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
 
 export const rotateActiveTetromino = (state, isCounterclockwise) => {
   let { activeTetromino } = state;
-  const { rotations, rotationIndex, wallKicks } = activeTetromino;
+  let { rotations, rotationIndex, wallKicks, didFloorKick } = activeTetromino;
   const { length } = rotations;
   if (length < 2) {
     return null;
@@ -220,8 +220,15 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
   const offsets = [[0, 0], ...wallKicks[directionIndex][newRotationIndex]];
   for (let i = 0, l = offsets.length; i < l; i++) {
     const [x, y] = offsets[i];
-    if (isTetrominoCollision(state, rotation, x, y)) {
+    const isFloorKick = y < 0;
+    if (
+      isTetrominoCollision(state, rotation, x, y) ||
+      (isFloorKick && didFloorKick)
+    ) {
       continue;
+    }
+    if (isFloorKick) {
+      didFloorKick = true;
     }
     return {
       activeTetromino: {
@@ -230,6 +237,7 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
         rotationIndex: newRotationIndex,
         x: activeTetromino.x + x,
         y: activeTetromino.y + y,
+        didFloorKick,
       },
     };
   }
@@ -285,9 +293,7 @@ export const shiftNextTetrominoQueue = state => {
   nextTetrominoQueue = createNextTextrominoQueue(nextTetrominoQueue);
   state = { activeTetromino } = {
     ...state,
-    activeTetromino: {
-      ...nextTetrominoQueue[0],
-    },
+    activeTetromino: { ...nextTetrominoQueue[0] },
     nextTetrominoQueue: nextTetrominoQueue.slice(1),
     delay: performance.now(),
   };

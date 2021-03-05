@@ -46,7 +46,7 @@ export const TETROMINOES = [
     name: 'T',
     color: '#0f9Bd7',
     rotations: rotations.T,
-    wallKicks: wallKicks.JLSTZ,
+    wallKicks: wallKicks.T,
     x: 3,
     y: -1,
   },
