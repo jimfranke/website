@@ -25,8 +25,7 @@ export const getGameState = time => {
     dropTime = 0;
   }
   if (time - dropTime > dropSpeed) {
-    const dropType = dropSpeed ? null : 'sonic';
-    state = setState(moveActiveTetrominoDown(state, dropType));
+    state = setState(moveActiveTetrominoDown(state, !dropSpeed));
     dropTime = time;
   }
   if (isTetrominoLockable(state)) {

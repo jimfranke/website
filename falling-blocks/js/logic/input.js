@@ -38,9 +38,9 @@ const singleInput = (state, key, fn) => ({
 export const processInputKeys = state => {
   let { inputKeys } = state;
 
-  if (inputKeys.sonicDrop) {
-    return singleInput(state, 'sonicDrop', state =>
-      moveActiveTetrominoDown(state, 'sonic'),
+  if (inputKeys.hardDrop) {
+    return singleInput(state, 'hardDrop', state =>
+      moveActiveTetrominoDown(state, 'hard'),
     );
   }
   if (inputKeys.hold) {
@@ -48,7 +48,7 @@ export const processInputKeys = state => {
   }
   if (inputKeys.moveDown) {
     state = { inputKeys } = moveInput(state, 'moveDown', state =>
-      moveActiveTetrominoDown(state, 'soft'),
+      moveActiveTetrominoDown(state),
     );
   }
   if (inputKeys.moveLeft) {

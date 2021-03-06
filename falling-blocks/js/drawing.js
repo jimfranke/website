@@ -46,7 +46,7 @@ export const drawNextTetrominoQueue = nextTetrominoQueue => {
     const prevTetromino = nextTetrominoQueue[i - 1];
     const { name } = tetromino;
     const x = name === 'O' ? -1 : 0;
-    let y = i * 3 - (name === 'I' ? 2 : 1);
+    let y = i * 3 - (name === 'I' ? 1 : 0);
     if (prevTetromino?.name === 'I') {
       spacingY--;
     }
@@ -67,7 +67,7 @@ export const drawHoldTetromino = tetromino => {
   }
   const { name } = tetromino;
   const x = name === 'I' ? 0 : 1;
-  const y = x ? -1 : -2;
+  const y = x ? 0 : -1;
   drawTetromino(holdContext, {
     ...tetromino,
     x,

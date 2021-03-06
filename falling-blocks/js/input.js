@@ -13,7 +13,7 @@ const inputKeyMap = {
   KeyZ: 'rotateCounterclockwise',
   KeyX: 'rotateClockwise',
   KeyC: 'hold',
-  ArrowUp: 'sonicDrop',
+  ArrowUp: 'hardDrop',
   ArrowLeft: 'moveLeft',
   ArrowDown: 'moveDown',
   ArrowRight: 'moveRight',

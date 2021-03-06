@@ -1,6 +1,7 @@
 import {
   BOARD_COLS,
   BOARD_ROWS,
+  ENTRY_DELAY,
   GHOST_OPACITY,
   LEVEL_DROP_SPEEDS,
   LOCK_DELAY,
@@ -9,7 +10,6 @@ import {
   POINTS_QUADRUPLE,
   POINTS_SINGLE,
   POINTS_TRIPLE,
-  SPAWN_DELAY,
 } from '../constants.js';
 import { arrayShuffle } from '../helpers.js';
 import { TETROMINOES } from '../tetromino/tetrominoes.js';
@@ -132,9 +132,8 @@ export const lockActiveTetromino = state => {
 
 export const isTetrominoLockable = state => {
   const { activeTetromino, delay } = state;
-  const { rotation, isFalling } = activeTetromino;
+  const { rotation } = activeTetromino;
   return (
-    isFalling &&
     delay &&
     performance.now() - delay > LOCK_DELAY &&
     isTetrominoCollision(state, rotation, 0, 1)
@@ -172,7 +171,7 @@ export const moveActiveTetrominoRight = state => {
 export const moveActiveTetrominoDown = (state, dropType) => {
   let { activeTetromino, delay } = state;
   let { rotation, y, isFalling } = activeTetromino;
-  if (!isFalling && performance.now() - delay <= SPAWN_DELAY) {
+  if (!isFalling && performance.now() - delay <= ENTRY_DELAY) {
     return state;
   }
   if (!isTetrominoCollision(state, rotation, 0, 1)) {
@@ -184,12 +183,12 @@ export const moveActiveTetrominoDown = (state, dropType) => {
       },
       delay: 0,
     };
-    if (dropType === 'sonic') {
+    if (dropType) {
       return moveActiveTetrominoDown(state, dropType);
     }
     return state;
   }
-  if (dropType === 'soft') {
+  if (dropType === 'hard') {
     return lockActiveTetromino(state);
   }
   if (!isFalling || !delay) {
@@ -207,7 +206,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
 
 export const rotateActiveTetromino = (state, isCounterclockwise) => {
   let { activeTetromino } = state;
-  let { rotations, rotationIndex, wallKicks, didFloorKick } = activeTetromino;
+  let { rotations, rotationIndex, kicks, didFloorKick } = activeTetromino;
   const { length } = rotations;
   if (length < 2) {
     return null;
@@ -217,7 +216,7 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
     : (rotationIndex + 1) % length;
   const rotation = rotations[newRotationIndex];
   const directionIndex = isCounterclockwise ? 1 : 0;
-  const offsets = [[0, 0], ...wallKicks[directionIndex][newRotationIndex]];
+  const offsets = [[0, 0], ...kicks[directionIndex][newRotationIndex]];
   for (let i = 0, l = offsets.length; i < l; i++) {
     const [x, y] = offsets[i];
     const isFloorKick = y < 0;
