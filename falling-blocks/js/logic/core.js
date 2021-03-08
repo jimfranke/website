@@ -1,10 +1,10 @@
 import {
   BOARD_COLS,
   BOARD_ROWS,
-  ENTRY_DELAY,
   GHOST_OPACITY,
   LEVEL_DROP_SPEEDS,
   LOCK_DELAY,
+  MAX_MOVE_RESETS,
   NEXT_QUEUE_SIZE,
   POINTS_DOUBLE,
   POINTS_QUADRUPLE,
@@ -18,10 +18,9 @@ const createNextTextrominoQueue = nextTetrominoQueue => {
   if (nextTetrominoQueue.length > NEXT_QUEUE_SIZE) {
     return nextTetrominoQueue;
   }
-  const tetrominoBag = arrayShuffle(TETROMINOES);
   return [
     ...nextTetrominoQueue,
-    ...tetrominoBag.map(tetromino => {
+    ...arrayShuffle(TETROMINOES).map(tetromino => {
       const { rotations } = tetromino;
       const defaults = {
         ...tetromino,
@@ -117,31 +116,32 @@ export const lockActiveTetromino = state => {
       board[activeTetromino.y + y][activeTetromino.x + x] = color;
     }
   }
+  state = clearLines(state);
   return {
-    ...clearLines(state),
+    ...state,
     inputQueue: [],
     activeTetromino: {
       ...activeTetromino,
       isLocked: true,
     },
     isHoldUsed: false,
-    delay: 0,
     isGameOver,
   };
 };
 
 export const isTetrominoLockable = state => {
-  const { activeTetromino, delay } = state;
+  const { activeTetromino, delayTime, moveResets } = state;
   const { rotation } = activeTetromino;
+  const isLockDelayExpired =
+    delayTime && performance.now() - delayTime > LOCK_DELAY;
   return (
-    delay &&
-    performance.now() - delay > LOCK_DELAY &&
-    isTetrominoCollision(state, rotation, 0, 1)
+    isTetrominoCollision(state, rotation, 0, 1) &&
+    (isLockDelayExpired || moveResets > MAX_MOVE_RESETS)
   );
 };
 
 export const moveActiveTetrominoLeft = state => {
-  let { activeTetromino } = state;
+  let { activeTetromino, moveResets } = state;
   const { rotation, x } = activeTetromino;
   if (isTetrominoCollision(state, rotation, -1, 0)) {
     return null;
@@ -151,11 +151,13 @@ export const moveActiveTetrominoLeft = state => {
       ...activeTetromino,
       x: x - 1,
     },
+    delayTime: performance.now(),
+    moveResets: moveResets + 1,
   };
 };
 
 export const moveActiveTetrominoRight = state => {
-  let { activeTetromino } = state;
+  let { activeTetromino, moveResets } = state;
   const { rotation, x } = activeTetromino;
   if (isTetrominoCollision(state, rotation, 1, 0)) {
     return null;
@@ -165,15 +167,14 @@ export const moveActiveTetrominoRight = state => {
       ...activeTetromino,
       x: x + 1,
     },
+    delayTime: performance.now(),
+    moveResets: moveResets + 1,
   };
 };
 
 export const moveActiveTetrominoDown = (state, dropType) => {
-  let { activeTetromino, delay } = state;
-  let { rotation, y, isFalling } = activeTetromino;
-  if (!isFalling && performance.now() - delay <= ENTRY_DELAY) {
-    return state;
-  }
+  let { activeTetromino, delayTime } = state;
+  let { rotation, y } = activeTetromino;
   if (!isTetrominoCollision(state, rotation, 0, 1)) {
     state = {
       ...state,
@@ -181,7 +182,8 @@ export const moveActiveTetrominoDown = (state, dropType) => {
         ...activeTetromino,
         y: y + 1,
       },
-      delay: 0,
+      delayTime: 0,
+      moveResets: 0,
     };
     if (dropType) {
       return moveActiveTetrominoDown(state, dropType);
@@ -191,22 +193,19 @@ export const moveActiveTetrominoDown = (state, dropType) => {
   if (dropType === 'hard') {
     return lockActiveTetromino(state);
   }
-  if (!isFalling || !delay) {
-    delay = performance.now();
+  if (!delayTime) {
+    delayTime = performance.now();
   }
   return {
     ...state,
-    activeTetromino: {
-      ...activeTetromino,
-      isFalling: true,
-    },
-    delay,
+    activeTetromino,
+    delayTime,
   };
 };
 
 export const rotateActiveTetromino = (state, isCounterclockwise) => {
-  let { activeTetromino } = state;
-  let { rotations, rotationIndex, kicks, didFloorKick } = activeTetromino;
+  let { activeTetromino, moveResets } = state;
+  let { rotations, rotationIndex, kicks } = activeTetromino;
   const { length } = rotations;
   if (length < 2) {
     return null;
@@ -219,15 +218,8 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
   const offsets = [[0, 0], ...kicks[directionIndex][newRotationIndex]];
   for (let i = 0, l = offsets.length; i < l; i++) {
     const [x, y] = offsets[i];
-    const isFloorKick = y < 0;
-    if (
-      isTetrominoCollision(state, rotation, x, y) ||
-      (isFloorKick && didFloorKick)
-    ) {
+    if (isTetrominoCollision(state, rotation, x, y)) {
       continue;
-    }
-    if (isFloorKick) {
-      didFloorKick = true;
     }
     return {
       activeTetromino: {
@@ -236,8 +228,9 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
         rotationIndex: newRotationIndex,
         x: activeTetromino.x + x,
         y: activeTetromino.y + y,
-        didFloorKick,
       },
+      delay: performance.now(),
+      moveResets: moveResets + 1,
     };
   }
   return null;
@@ -294,7 +287,8 @@ export const shiftNextTetrominoQueue = state => {
     ...state,
     activeTetromino: { ...nextTetrominoQueue[0] },
     nextTetrominoQueue: nextTetrominoQueue.slice(1),
-    delay: performance.now(),
+    delayTime: 0,
+    moveResets: 0,
   };
   const { rotation, y } = activeTetromino;
   let offsetY = 0;

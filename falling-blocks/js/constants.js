@@ -10,8 +10,9 @@ export const POINTS_DOUBLE = 100;
 export const POINTS_TRIPLE = 300;
 export const POINTS_QUADRUPLE = 1200;
 
-export const ENTRY_DELAY = 100;
 export const LOCK_DELAY = 500;
+export const MAX_MOVE_RESETS = 15;
+
 export const NEXT_QUEUE_SIZE = 5;
 export const GHOST_OPACITY = 60;
 
