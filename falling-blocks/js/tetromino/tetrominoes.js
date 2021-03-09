@@ -8,7 +8,7 @@ export const TETROMINOES = [
     rotations: rotations.I,
     kicks: kicks.I,
     x: 3,
-    y: -2,
+    y: -1,
   },
   {
     name: 'J',
@@ -16,7 +16,7 @@ export const TETROMINOES = [
     rotations: rotations.J,
     kicks: kicks.JLSTZ,
     x: 3,
-    y: -2,
+    y: -1,
   },
   {
     name: 'L',
@@ -24,7 +24,7 @@ export const TETROMINOES = [
     rotations: rotations.L,
     kicks: kicks.JLSTZ,
     x: 3,
-    y: -2,
+    y: -1,
   },
   {
     name: 'O',
@@ -32,7 +32,7 @@ export const TETROMINOES = [
     rotations: rotations.O,
     kicks: null,
     x: 3,
-    y: -2,
+    y: -1,
   },
   {
     name: 'S',
@@ -40,7 +40,7 @@ export const TETROMINOES = [
     rotations: rotations.S,
     kicks: kicks.JLSTZ,
     x: 3,
-    y: -2,
+    y: -1,
   },
   {
     name: 'T',
@@ -48,7 +48,7 @@ export const TETROMINOES = [
     rotations: rotations.T,
     kicks: kicks.JLSTZ,
     x: 3,
-    y: -2,
+    y: -1,
   },
   {
     name: 'Z',
@@ -56,6 +56,6 @@ export const TETROMINOES = [
     rotations: rotations.Z,
     kicks: kicks.JLSTZ,
     x: 3,
-    y: -2,
+    y: -1,
   },
 ];

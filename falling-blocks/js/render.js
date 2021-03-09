@@ -21,8 +21,8 @@ const draw = state => {
     level,
   } = state;
   drawBoard(board);
-  drawTetromino(mainContext, createGhostTetromino(state));
   drawTetromino(mainContext, activeTetromino);
+  drawTetromino(mainContext, createGhostTetromino(state));
   drawNextTetrominoQueue(nextTetrominoQueue);
   drawHoldTetromino(holdTetromino);
   updateStatsText({ score, lines, level });

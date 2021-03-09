@@ -18,7 +18,7 @@ export const $nextCanvas = $game.querySelector('.view__canvas-next');
 export const nextContext = $nextCanvas.getContext('2d');
 
 export const getSelectedLevel = () =>
-  $mainMenu.querySelector('.main-menu__input-level-select').value;
+  parseInt($mainMenu.querySelector('.main-menu__input-level-select').value);
 
 export const updateStatsText = ({ score, lines, level }) => {
   $statsLevel.textContent = level;
