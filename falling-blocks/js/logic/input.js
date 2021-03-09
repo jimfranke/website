@@ -37,7 +37,6 @@ const addSingleInput = (state, key, fn) => ({
 
 export const processInputKeys = state => {
   let { inputKeys } = state;
-
   if (inputKeys.hardDrop) {
     return addSingleInput(state, 'hardDrop', state =>
       moveActiveTetrominoDown(state, 'hard'),
