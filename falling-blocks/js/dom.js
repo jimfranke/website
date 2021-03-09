@@ -25,7 +25,7 @@ export const getIsFixedLevel = () =>
 
 export const updateStatsTexts = ({ score, lines, level }) => {
   $statsLevel.textContent = level;
-  $statsScore.textContent = score;
+  $statsScore.textContent = score.toLocaleString('nl-NL');
   $statsLines.textContent = lines;
 };
 

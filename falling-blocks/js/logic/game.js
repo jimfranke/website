@@ -19,7 +19,8 @@ export const getGameState = time => {
     state = setState(({ activeTetromino } = shiftNextTetrominoQueue(state)));
     dropTime = time;
   } else if (time - dropTime > dropSpeed) {
-    state = setState(moveActiveTetrominoDown(state, !dropSpeed));
+    const dropType = dropSpeed ? 'gravity' : 'maxGravity';
+    state = setState(moveActiveTetrominoDown(state, dropType));
     dropTime = time;
   }
   return setState(checkActiveTetrominoLock(state));

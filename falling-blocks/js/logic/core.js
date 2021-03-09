@@ -7,8 +7,10 @@ import {
   MOVE_RESET_LIMIT,
   NEXT_QUEUE_SIZE,
   POINTS_DOUBLE,
+  POINTS_HARD_DROP,
   POINTS_QUADRUPLE,
   POINTS_SINGLE,
+  POINTS_SOFT_DROP,
   POINTS_TRIPLE,
 } from '../constants.js';
 import { arrayShuffle } from '../helpers.js';
@@ -179,7 +181,7 @@ export const moveActiveTetrominoRight = state => {
 };
 
 export const moveActiveTetrominoDown = (state, dropType) => {
-  let { activeTetromino, delayTime, moveCount } = state;
+  let { activeTetromino, delayTime, moveCount, score } = state;
   let { rotation, y, maxY } = activeTetromino;
   if (!isTetrominoCollision(state, rotation, 0, 1)) {
     if (y > maxY) {
@@ -196,7 +198,11 @@ export const moveActiveTetrominoDown = (state, dropType) => {
       delayTime: 0,
       moveCount,
     };
-    if (dropType) {
+    if (dropType === 'soft' || dropType === 'hard') {
+      score += dropType === 'hard' ? POINTS_HARD_DROP : POINTS_SOFT_DROP;
+      state = { ...state, score };
+    }
+    if (dropType === 'hard' || dropType === 'maxGravity') {
       return moveActiveTetrominoDown(state, dropType);
     }
     return state;

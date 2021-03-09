@@ -47,7 +47,7 @@ export const processInputKeys = state => {
   }
   if (inputKeys.softDrop) {
     state = { inputKeys } = addMoveInput(state, 'softDrop', state =>
-      moveActiveTetrominoDown(state),
+      moveActiveTetrominoDown(state, 'soft'),
     );
   }
   if (inputKeys.moveLeft) {
