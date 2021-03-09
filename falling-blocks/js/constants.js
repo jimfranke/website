@@ -13,7 +13,7 @@ export const POINTS_QUADRUPLE = 1200;
 export const LOCK_DELAY = 500;
 export const MAX_MOVE_RESETS = 15;
 
-export const NEXT_QUEUE_SIZE = 5;
+export const NEXT_QUEUE_SIZE = 6;
 export const GHOST_OPACITY = 60;
 
 export const LEVEL_DROP_SPEEDS = [
