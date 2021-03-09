@@ -276,11 +276,10 @@ export const createGhostTetromino = state => {
   while (!isTetrominoCollision(state, rotation, 0, offsetY)) {
     offsetY++;
   }
-  offsetY--;
   return {
     ...activeTetromino,
     color: color + GHOST_OPACITY,
-    y: y + offsetY,
+    y: y + (offsetY - 1),
   };
 };
 
