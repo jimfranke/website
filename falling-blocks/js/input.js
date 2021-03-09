@@ -1,4 +1,5 @@
 import {
+  getIsFixedLevel,
   getSelectedLevel,
   hideGame,
   hidePauseMenu,
@@ -24,6 +25,7 @@ const { getState, setState, resetState } = store;
 const startGame = () => {
   setState({
     level: getSelectedLevel(),
+    isFixedLevel: getIsFixedLevel(),
   });
   render();
   showGame();

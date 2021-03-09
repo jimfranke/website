@@ -62,7 +62,7 @@ const isTetrominoCollision = (state, rotation, offsetX, offsetY) => {
 };
 
 const clearLines = state => {
-  let { board, level, score, lines } = state;
+  let { board, isFixedLevel, level, score, lines } = state;
   let clears = 0;
   for (let y = BOARD_ROWS - 1; y >= 0; y--) {
     if (board[y].some(x => !x)) {
@@ -90,9 +90,11 @@ const clearLines = state => {
   if (points) {
     score += points * level;
     lines += clears;
-    const requiredLines = level * 10 + (level > 1 ? 10 : 0);
-    if (lines >= requiredLines) {
-      level++;
+    if (!isFixedLevel) {
+      const requiredLines = level * 10 + (level > 1 ? 10 : 0);
+      if (lines >= requiredLines) {
+        level++;
+      }
     }
   }
   return { board, score, lines, level };
