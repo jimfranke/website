@@ -1,7 +1,6 @@
 import {
   getLevelDropSpeed,
   isTetrominoLockable,
-  lockActiveTetromino,
   moveActiveTetrominoDown,
   shiftNextTetrominoQueue,
 } from './core.js';
@@ -28,8 +27,5 @@ export const getGameState = time => {
     state = setState(moveActiveTetrominoDown(state, !dropSpeed));
     dropTime = time;
   }
-  if (isTetrominoLockable(state)) {
-    state = setState(lockActiveTetromino(state));
-  }
-  return state;
+  return setState(isTetrominoLockable(state));
 };
