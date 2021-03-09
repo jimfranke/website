@@ -2,16 +2,16 @@ export const BOARD_COLS = 10;
 export const BOARD_ROWS = 20;
 export const BLOCK_SIZE = 30;
 
-export const DELAYED_AUTO_SHIFT = 160;
-export const AUTO_REPEAT_RATE = 25;
+export const DELAYED_AUTO_SHIFT = 165;
+export const AUTO_REPEAT_RATE = 15;
 
 export const POINTS_SINGLE = 40;
 export const POINTS_DOUBLE = 100;
 export const POINTS_TRIPLE = 300;
 export const POINTS_QUADRUPLE = 1200;
 
-export const LOCK_DELAY = 50000;
-export const MAX_MOVE_RESETS = 1500;
+export const LOCK_DELAY = 500;
+export const MAX_MOVE_RESETS = 15;
 
 export const NEXT_QUEUE_SIZE = 5;
 export const GHOST_OPACITY = 60;

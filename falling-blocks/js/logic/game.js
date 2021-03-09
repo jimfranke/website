@@ -1,6 +1,6 @@
 import {
+  checkActiveTetrominoLock,
   getLevelDropSpeed,
-  isTetrominoLockable,
   moveActiveTetrominoDown,
   shiftNextTetrominoQueue,
 } from './core.js';
@@ -22,10 +22,9 @@ export const getGameState = time => {
   if (!activeTetromino || activeTetromino.isLocked) {
     state = setState(({ activeTetromino } = shiftNextTetrominoQueue(state)));
     dropTime = 0;
-  }
-  if (time - dropTime > dropSpeed) {
+  } else if (time - dropTime > dropSpeed) {
     state = setState(moveActiveTetrominoDown(state, !dropSpeed));
     dropTime = time;
   }
-  return setState(isTetrominoLockable(state));
+  return setState(checkActiveTetrominoLock(state));
 };

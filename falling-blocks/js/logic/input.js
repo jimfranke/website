@@ -7,7 +7,7 @@ import {
   rotateActiveTetromino,
 } from './core.js';
 
-const moveInput = (state, key, fn) => {
+const addMoveInput = (state, key, fn) => {
   const { inputKeys } = state;
   let { time, delay } = inputKeys[key];
   if (performance.now() - time <= delay) {
@@ -27,7 +27,7 @@ const moveInput = (state, key, fn) => {
   };
 };
 
-const singleInput = (state, key, fn) => ({
+const addSingleInput = (state, key, fn) => ({
   ...fn(state),
   inputKeys: {
     ...state.inputKeys,
@@ -39,33 +39,33 @@ export const processInputKeys = state => {
   let { inputKeys } = state;
 
   if (inputKeys.hardDrop) {
-    return singleInput(state, 'hardDrop', state =>
+    return addSingleInput(state, 'hardDrop', state =>
       moveActiveTetrominoDown(state, 'hard'),
     );
   }
   if (inputKeys.hold) {
-    return singleInput(state, 'hold', state => holdActiveTetromino(state));
+    return addSingleInput(state, 'hold', state => holdActiveTetromino(state));
   }
   if (inputKeys.moveDown) {
-    state = { inputKeys } = moveInput(state, 'moveDown', state =>
+    state = { inputKeys } = addMoveInput(state, 'moveDown', state =>
       moveActiveTetrominoDown(state),
     );
   }
   if (inputKeys.moveLeft) {
-    state = { inputKeys } = moveInput(state, 'moveLeft', state =>
+    state = { inputKeys } = addMoveInput(state, 'moveLeft', state =>
       moveActiveTetrominoLeft(state),
     );
   } else if (inputKeys.moveRight) {
-    state = { inputKeys } = moveInput(state, 'moveRight', state =>
+    state = { inputKeys } = addMoveInput(state, 'moveRight', state =>
       moveActiveTetrominoRight(state),
     );
   }
   if (inputKeys.rotateClockwise) {
-    state = { inputKeys } = singleInput(state, 'rotateClockwise', state =>
+    state = { inputKeys } = addSingleInput(state, 'rotateClockwise', state =>
       rotateActiveTetromino(state),
     );
   } else if (inputKeys.rotateCounterclockwise) {
-    state = { inputKeys } = singleInput(
+    state = { inputKeys } = addSingleInput(
       state,
       'rotateCounterclockwise',
       state => rotateActiveTetromino(state, true),

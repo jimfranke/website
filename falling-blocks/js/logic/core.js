@@ -129,7 +129,7 @@ export const lockActiveTetromino = state => {
   };
 };
 
-export const isTetrominoLockable = state => {
+export const checkActiveTetrominoLock = state => {
   const { activeTetromino, delayTime, moveCount } = state;
   const { rotation } = activeTetromino;
   if (
@@ -208,9 +208,8 @@ export const moveActiveTetrominoDown = (state, dropType) => {
 export const rotateActiveTetromino = (state, isCounterclockwise) => {
   let { activeTetromino, moveCount } = state;
   let { rotations, rotationIndex, kicks } = activeTetromino;
-  const { length } = rotations;
   const newRotationIndex =
-    (rotationIndex + (isCounterclockwise ? 3 : 1)) % length;
+    (rotationIndex + (isCounterclockwise ? 3 : 1)) % rotations.length;
   const rotation = rotations[newRotationIndex];
   const directionIndex = isCounterclockwise ? 1 : 0;
   const offsets = [[0, 0], ...(kicks?.[directionIndex]?.[rotationIndex] ?? [])];

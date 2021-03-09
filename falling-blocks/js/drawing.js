@@ -15,8 +15,8 @@ const drawBlock = (context, x, y, color) => {
 
 export const drawTetromino = (context, tetromino) => {
   const { color, rotation } = tetromino;
-  for (let y = 0, len = rotation.length; y < len; y++) {
-    for (let x = 0; x < len; x++) {
+  for (let y = 0, l = rotation.length; y < l; y++) {
+    for (let x = 0; x < l; x++) {
       if (rotation[y][x]) {
         drawBlock(context, x + tetromino.x, y + tetromino.y, color);
       }
