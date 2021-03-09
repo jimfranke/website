@@ -1,7 +1,6 @@
 // SRS with symmetric I kicks
 
 export const I = [
-  // Clockwise
   [
     // 0 >> 1
     [
@@ -32,7 +31,6 @@ export const I = [
       [-2, -1],
     ],
   ],
-  // Counterclockwise
   [
     // 0 >> 3
     [
@@ -66,7 +64,6 @@ export const I = [
 ];
 
 export const JLSTZ = [
-  // Clockwise
   [
     // 0 >> 1
     [
@@ -97,7 +94,6 @@ export const JLSTZ = [
       [-1, -2],
     ],
   ],
-  // Counterclockwise
   [
     // 0 >> 3
     [
