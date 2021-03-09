@@ -20,7 +20,7 @@ export const nextContext = $nextCanvas.getContext('2d');
 export const getSelectedLevel = () =>
   parseInt($mainMenu.querySelector('.main-menu__input-level-select').value);
 
-export const updateStatsText = ({ score, lines, level }) => {
+export const updateStatsTexts = ({ score, lines, level }) => {
   $statsLevel.textContent = level;
   $statsScore.textContent = score;
   $statsLines.textContent = lines;

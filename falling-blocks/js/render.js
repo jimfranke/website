@@ -1,4 +1,4 @@
-import { mainContext, showGameOverMenu, updateStatsText } from './dom.js';
+import { mainContext, showGameOverMenu, updateStatsTexts } from './dom.js';
 import {
   drawBoard,
   drawHoldTetromino,
@@ -25,7 +25,7 @@ const draw = state => {
   drawTetromino(mainContext, createGhostTetromino(state));
   drawNextTetrominoQueue(nextTetrominoQueue);
   drawHoldTetromino(holdTetromino);
-  updateStatsText({ score, lines, level });
+  updateStatsTexts({ score, lines, level });
 };
 
 export const render = time => {
