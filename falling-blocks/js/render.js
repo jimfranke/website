@@ -8,7 +8,7 @@ import {
 import { createGhostTetromino } from './logic/core.js';
 import { getGameState } from './logic/game.js';
 
-let rafId;
+let rafId = 0;
 
 const draw = state => {
   const {
