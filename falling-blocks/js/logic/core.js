@@ -286,11 +286,15 @@ export const createGhostTetromino = state => {
 };
 
 export const shiftNextTetrominoQueue = state => {
-  let { nextTetrominoQueue } = state;
+  let { nextTetrominoQueue, level } = state;
   nextTetrominoQueue = createNextTextrominoQueue(nextTetrominoQueue);
+  const activeTetromino = nextTetrominoQueue[0];
+  if (!getLevelDropSpeed(level)) {
+    activeTetromino.y--;
+  }
   return {
     ...state,
-    activeTetromino: { ...nextTetrominoQueue[0] },
+    activeTetromino,
     nextTetrominoQueue: nextTetrominoQueue.slice(1),
     delayTime: 0,
     moveCount: 0,
