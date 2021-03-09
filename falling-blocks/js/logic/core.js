@@ -4,7 +4,7 @@ import {
   GHOST_OPACITY,
   LEVEL_DROP_SPEEDS,
   LOCK_DELAY,
-  MAX_MOVE_RESETS,
+  MOVE_RESET_LIMIT,
   NEXT_QUEUE_SIZE,
   POINTS_DOUBLE,
   POINTS_QUADRUPLE,
@@ -137,7 +137,7 @@ export const checkActiveTetrominoLock = state => {
   if (
     isTetrominoCollision(state, rotation, 0, 1) &&
     ((delayTime && performance.now() - delayTime > LOCK_DELAY) ||
-      moveCount > MAX_MOVE_RESETS)
+      moveCount > MOVE_RESET_LIMIT)
   ) {
     return lockActiveTetromino(state);
   }
