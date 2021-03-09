@@ -163,20 +163,20 @@ body {
     height: 4rem;
 }
 
-.touch-controls__dpad--hard-drop {
+.touch-controls__dpad--up {
     left: 4rem;
 }
 
-.touch-controls__dpad--move-left {
+.touch-controls__dpad--left {
     top: 4rem;
 }
 
-.touch-controls__dpad--move-right {
+.touch-controls__dpad--right {
     top: 4rem;
     left: 8rem;
 }
 
-.touch-controls__dpad--move-down {
+.touch-controls__dpad--down {
     top: 8rem;
     left: 4rem;
 }

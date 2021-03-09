@@ -15,7 +15,7 @@ const inputKeyMap = {
   KeyC: 'hold',
   ArrowUp: 'hardDrop',
   ArrowLeft: 'moveLeft',
-  ArrowDown: 'moveDown',
+  ArrowDown: 'softDrop',
   ArrowRight: 'moveRight',
 };
 
