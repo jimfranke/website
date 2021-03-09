@@ -284,7 +284,7 @@ export const createGhostTetromino = state => {
 };
 
 export const shiftNextTetrominoQueue = state => {
-  let { nextTetrominoQueue, activeTetromino } = state;
+  let { nextTetrominoQueue } = state;
   nextTetrominoQueue = createNextTextrominoQueue(nextTetrominoQueue);
   return {
     ...state,
