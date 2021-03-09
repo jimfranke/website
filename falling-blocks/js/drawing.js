@@ -40,9 +40,6 @@ export const drawNextTetrominoQueue = nextTetrominoQueue => {
   let spacingY = 0;
   for (let i = 0; i < NEXT_QUEUE_SIZE; i++) {
     const tetromino = nextTetrominoQueue[i];
-    if (!tetromino) {
-      continue;
-    }
     const prevTetromino = nextTetrominoQueue[i - 1];
     const { name } = tetromino;
     const x = name === 'O' ? -1 : 0;
