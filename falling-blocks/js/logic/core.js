@@ -175,17 +175,22 @@ export const moveActiveTetrominoRight = state => {
 };
 
 export const moveActiveTetrominoDown = (state, dropType) => {
-  let { activeTetromino, delayTime } = state;
-  let { rotation, y } = activeTetromino;
+  let { activeTetromino, delayTime, moveCount } = state;
+  let { rotation, y, maxY } = activeTetromino;
   if (!isTetrominoCollision(state, rotation, 0, 1)) {
+    if (y > maxY) {
+      maxY = y;
+      moveCount = 0;
+    }
     state = {
       ...state,
       activeTetromino: {
         ...activeTetromino,
         y: y + 1,
+        maxY,
       },
       delayTime: 0,
-      moveCount: 0,
+      moveCount,
     };
     if (dropType) {
       return moveActiveTetrominoDown(state, dropType);
@@ -287,16 +292,18 @@ export const shiftNextTetrominoQueue = state => {
     delayTime: 0,
     moveCount: 0,
   };
-  const { rotation, y } = activeTetromino;
+  let { rotation, y } = activeTetromino;
   let offsetY = 0;
   if (isTetrominoCollision(state, rotation, 0, offsetY)) {
     offsetY--;
   }
+  y += offsetY;
   return {
     ...state,
     activeTetromino: {
       ...activeTetromino,
-      y: y + offsetY,
+      maxY: y,
+      y,
     },
   };
 };

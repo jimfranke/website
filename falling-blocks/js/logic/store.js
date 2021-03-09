@@ -13,7 +13,7 @@ const initialState = {
   isPaused: false,
   isGameOver: false,
   delayTime: 0,
-  moveResets: 0,
+  moveCount: 0,
   level: 1,
   score: 0,
   lines: 0,
