@@ -5,10 +5,10 @@ export const BLOCK_SIZE = 30;
 export const DELAYED_AUTO_SHIFT = 165;
 export const AUTO_REPEAT_RATE = 15;
 
-export const POINTS_SINGLE = 40;
-export const POINTS_DOUBLE = 100;
-export const POINTS_TRIPLE = 300;
-export const POINTS_QUADRUPLE = 1200;
+export const POINTS_SINGLE = 100;
+export const POINTS_DOUBLE = 300;
+export const POINTS_TRIPLE = 500;
+export const POINTS_QUADRUPLE = 800;
 
 export const LOCK_DELAY = 500;
 export const MAX_MOVE_RESETS = 15;
