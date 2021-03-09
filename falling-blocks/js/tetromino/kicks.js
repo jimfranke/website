@@ -1,3 +1,5 @@
+// SRS with symmetric I kicks
+
 export const I = [
   // Clockwise
   [
