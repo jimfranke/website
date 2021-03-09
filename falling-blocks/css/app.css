@@ -80,6 +80,12 @@ body {
     letter-spacing: .3rem;
 }
 
+.main-menu__subtitle {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    letter-spacing: .3rem;
+}
+
 .main-menu__input-level-select {
     width: 7.5rem;
 }
