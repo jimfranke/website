@@ -4,6 +4,7 @@ export const BLOCK_SIZE = 30;
 
 export const DELAYED_AUTO_SHIFT = 170;
 export const AUTO_REPEAT_RATE = 15;
+export const SOFT_DROP_RATE = 30;
 
 export const POINTS_HARD_DROP = 2;
 export const POINTS_SOFT_DROP = 1;

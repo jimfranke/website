@@ -1,4 +1,8 @@
-import { AUTO_REPEAT_RATE, DELAYED_AUTO_SHIFT } from '../constants.js';
+import {
+  AUTO_REPEAT_RATE,
+  DELAYED_AUTO_SHIFT,
+  SOFT_DROP_RATE,
+} from '../constants.js';
 import {
   holdActiveTetromino,
   moveActiveTetrominoDown,
@@ -13,7 +17,11 @@ const addMoveInput = (state, key, fn) => {
   if (performance.now() - time <= delay) {
     return state;
   }
-  delay = delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT;
+  if (key === 'softDrop') {
+    delay = SOFT_DROP_RATE;
+  } else {
+    delay = delay ? AUTO_REPEAT_RATE : DELAYED_AUTO_SHIFT;
+  }
   return {
     ...state,
     ...fn(state),
