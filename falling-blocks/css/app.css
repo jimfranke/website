@@ -27,6 +27,7 @@ body {
 
 button, select, label {
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .canvas {
