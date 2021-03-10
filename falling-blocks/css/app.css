@@ -177,6 +177,7 @@ button, select, label {
 
 .touch-controls__dpad--left {
     top: 4rem;
+    left: 0;
 }
 
 .touch-controls__dpad--right {
