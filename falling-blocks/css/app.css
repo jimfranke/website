@@ -22,7 +22,7 @@ body {
     text-align: center;
 }
 
-[data-menu-input] {
+button, select, label {
     cursor: pointer;
 }
 

@@ -5,6 +5,7 @@ import {
   LEVEL_DROP_SPEEDS,
   LOCK_DELAY,
   MOVE_RESET_LIMIT,
+  NEXT_LEVEL_LINES,
   NEXT_QUEUE_SIZE,
   POINTS_DOUBLE,
   POINTS_HARD_DROP,
@@ -93,7 +94,8 @@ const clearLines = state => {
     score += points * level;
     lines += clears;
     if (!isFixedLevel) {
-      const requiredLines = level * 10 + (level > 1 ? 10 : 0);
+      const requiredLines =
+        level * NEXT_LEVEL_LINES + (level > 1 ? NEXT_LEVEL_LINES : 0);
       if (lines >= requiredLines) {
         level++;
       }

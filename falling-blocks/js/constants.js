@@ -18,6 +18,7 @@ export const MOVE_RESET_LIMIT = 15;
 export const NEXT_QUEUE_SIZE = 6;
 export const GHOST_OPACITY = 60;
 
+export const NEXT_LEVEL_LINES = 10;
 export const LEVEL_DROP_SPEEDS = [
   880,
   820,
