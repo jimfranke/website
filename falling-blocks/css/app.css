@@ -209,7 +209,7 @@ button, select, label {
 }
 
 @media (min-width: 600px) {
-    .view__pause-button, .touch-controls {
+    .touch-controls {
         display: none;
     }
 }
