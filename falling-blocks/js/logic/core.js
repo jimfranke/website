@@ -195,6 +195,10 @@ export const moveActiveTetrominoDown = (state, dropType) => {
   if (performance.now() - entryDelayTime <= ENTRY_DELAY) {
     return state;
   }
+  const isHardDrop = dropType === 'hard';
+  const isSoftDrop = dropType === 'soft';
+  const isGravityDrop = dropType === 'gravity';
+  const isMaxGravityDrop = dropType === 'maxGravity';
   if (!isTetrominoCollision(state, rotation, 0, 1)) {
     if (y > maxY) {
       maxY = y;
@@ -210,21 +214,24 @@ export const moveActiveTetrominoDown = (state, dropType) => {
       lockDelayTime: 0,
       moveCount,
     };
-    if (dropType === 'soft' || dropType === 'hard') {
-      score += dropType === 'hard' ? POINTS_HARD_DROP : POINTS_SOFT_DROP;
+    if (isSoftDrop || isHardDrop) {
+      score += isHardDrop ? POINTS_HARD_DROP : POINTS_SOFT_DROP;
       state = { ...state, score };
-    } else if (dropType === 'gravity' || dropType === 'maxGravity') {
+      if (isHardDrop) {
+        return moveActiveTetrominoDown(state, dropType);
+      }
+    } else if (isGravityDrop || isMaxGravityDrop) {
       state = {
         ...state,
         dropTime: performance.now(),
       };
-    }
-    if (dropType === 'hard' || dropType === 'maxGravity') {
-      return moveActiveTetrominoDown(state, dropType);
+      if (isMaxGravityDrop) {
+        return moveActiveTetrominoDown(state, dropType);
+      }
     }
     return state;
   }
-  if (dropType === 'hard') {
+  if (isHardDrop) {
     return lockActiveTetromino(state);
   }
   if (!lockDelayTime) {
