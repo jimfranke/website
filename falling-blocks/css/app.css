@@ -208,13 +208,6 @@ button, select, label {
     right: 6rem;
 }
 
-.version {
-    position: absolute;
-    bottom: .5rem;
-    right: .5rem;
-    color: #555;
-}
-
 @media (min-width: 600px) {
     .view__pause-button, .touch-controls {
         display: none;
