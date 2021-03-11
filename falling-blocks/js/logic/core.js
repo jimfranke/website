@@ -251,7 +251,8 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
     (rotationIndex + (isCounterclockwise ? 3 : 1)) % rotations.length;
   const rotation = rotations[newRotationIndex];
   const directionIndex = isCounterclockwise ? 1 : 0;
-  const offsets = [[0, 0], ...(kicks?.[directionIndex]?.[rotationIndex] ?? [])];
+  kicks = kicks?.[directionIndex]?.[rotationIndex] ?? [];
+  const offsets = [[0, 0], ...kicks];
   for (let i = 0, l = offsets.length; i < l; i++) {
     const [x, y] = offsets[i];
     if (isTetrominoCollision(state, rotation, x, y)) {
