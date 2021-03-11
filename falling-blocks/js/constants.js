@@ -17,7 +17,7 @@ export const ENTRY_DELAY = 100; // ARE
 export const LOCK_DELAY = 500;
 export const MOVE_RESET_LIMIT = 15;
 
-export const NEXT_QUEUE_SIZE = 5;
+export const NEXT_QUEUE_SIZE = 6;
 export const GHOST_OPACITY = 60;
 
 export const NEXT_LEVEL_LINES = 10;

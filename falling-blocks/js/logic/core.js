@@ -213,6 +213,11 @@ export const moveActiveTetrominoDown = (state, dropType) => {
     if (dropType === 'soft' || dropType === 'hard') {
       score += dropType === 'hard' ? POINTS_HARD_DROP : POINTS_SOFT_DROP;
       state = { ...state, score };
+    } else if (dropType === 'gravity' || dropType === 'maxGravity') {
+      state = {
+        ...state,
+        dropTime: performance.now(),
+      };
     }
     if (dropType === 'hard' || dropType === 'maxGravity') {
       return moveActiveTetrominoDown(state, dropType);
@@ -285,6 +290,7 @@ export const holdActiveTetromino = state => {
       ...holdTetromino,
       ...holdTetromino.defaults,
     },
+    dropTime: performance.now(),
     isHoldUsed: true,
   };
 };
@@ -314,6 +320,7 @@ export const shiftNextTetrominoQueue = state => {
     ...state,
     activeTetromino,
     nextTetrominoQueue: nextTetrominoQueue.slice(1),
+    dropTime: performance.now(),
     entryDelayTime: performance.now(),
     lockDelayTime: 0,
     moveCount: 0,
