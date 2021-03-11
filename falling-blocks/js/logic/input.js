@@ -3,6 +3,7 @@ import {
   DELAYED_AUTO_SHIFT,
   SOFT_DROP_RATE,
 } from '../constants.js';
+import { timeNow } from '../helpers.js';
 import {
   holdActiveTetromino,
   moveActiveTetrominoDown,
@@ -14,7 +15,7 @@ import {
 const addMoveInput = (state, key, fn) => {
   const { inputKeys } = state;
   let { time, delay } = inputKeys[key];
-  if (performance.now() - time <= delay) {
+  if (timeNow() - time <= delay) {
     return state;
   }
   if (key === 'softDrop') {
@@ -28,7 +29,7 @@ const addMoveInput = (state, key, fn) => {
     inputKeys: {
       ...inputKeys,
       [key]: {
-        time: performance.now(),
+        time: timeNow(),
         delay,
       },
     },

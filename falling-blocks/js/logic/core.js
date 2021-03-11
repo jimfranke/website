@@ -15,7 +15,7 @@ import {
   POINTS_LINE_TRIPLE,
   POINTS_SOFT_DROP,
 } from '../constants.js';
-import { arrayShuffle } from '../helpers.js';
+import { arrayShuffle, timeNow } from '../helpers.js';
 import { TETROMINOES } from '../tetromino/tetrominoes.js';
 
 const createNextTextrominoQueue = nextTetrominoQueue => {
@@ -143,7 +143,7 @@ export const checkActiveTetrominoLock = state => {
   const { rotation } = activeTetromino;
   if (
     isTetrominoCollision(state, rotation, 0, 1) &&
-    ((lockDelayTime && performance.now() - lockDelayTime > LOCK_DELAY) ||
+    ((lockDelayTime && timeNow() - lockDelayTime > LOCK_DELAY) ||
       moveCount > MOVE_RESET_LIMIT)
   ) {
     return lockActiveTetromino(state);
@@ -162,7 +162,7 @@ export const moveActiveTetrominoLeft = state => {
       ...activeTetromino,
       x: x - 1,
     },
-    lockDelayTime: performance.now(),
+    lockDelayTime: timeNow(),
     moveCount: moveCount + 1,
   };
 };
@@ -178,7 +178,7 @@ export const moveActiveTetrominoRight = state => {
       ...activeTetromino,
       x: x + 1,
     },
-    lockDelayTime: performance.now(),
+    lockDelayTime: timeNow(),
     moveCount: moveCount + 1,
   };
 };
@@ -192,7 +192,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
     score,
   } = state;
   let { rotation, y, maxY } = activeTetromino;
-  if (performance.now() - entryDelayTime <= ENTRY_DELAY) {
+  if (timeNow() - entryDelayTime <= ENTRY_DELAY) {
     return state;
   }
   const isHardDrop = dropType === 'hard';
@@ -223,7 +223,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
     } else if (isGravityDrop || isMaxGravityDrop) {
       state = {
         ...state,
-        dropTime: performance.now(),
+        dropTime: timeNow(),
       };
       if (isMaxGravityDrop) {
         return moveActiveTetrominoDown(state, dropType);
@@ -235,7 +235,7 @@ export const moveActiveTetrominoDown = (state, dropType) => {
     return lockActiveTetromino(state);
   }
   if (!lockDelayTime) {
-    lockDelayTime = performance.now();
+    lockDelayTime = timeNow();
   }
   return {
     ...state,
@@ -265,7 +265,7 @@ export const rotateActiveTetromino = (state, isCounterclockwise) => {
         x: activeTetromino.x + x,
         y: activeTetromino.y + y,
       },
-      lockDelayTime: performance.now(),
+      lockDelayTime: timeNow(),
       moveCount: moveCount + 1,
     };
   }
@@ -297,7 +297,7 @@ export const holdActiveTetromino = state => {
       ...holdTetromino,
       ...holdTetromino.defaults,
     },
-    dropTime: performance.now(),
+    dropTime: timeNow(),
     isHoldUsed: true,
   };
 };
@@ -327,8 +327,8 @@ export const shiftNextTetrominoQueue = state => {
     ...state,
     activeTetromino,
     nextTetrominoQueue: nextTetrominoQueue.slice(1),
-    dropTime: performance.now(),
-    entryDelayTime: performance.now(),
+    dropTime: timeNow(),
+    entryDelayTime: timeNow(),
     lockDelayTime: 0,
     moveCount: 0,
   };

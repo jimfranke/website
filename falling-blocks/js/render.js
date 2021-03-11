@@ -5,6 +5,7 @@ import {
   drawNextTetrominoQueue,
   drawTetromino,
 } from './drawing.js';
+import { timeNow } from './helpers.js';
 import { createGhostTetromino } from './logic/core.js';
 import { getGameState } from './logic/game.js';
 
@@ -29,7 +30,7 @@ const draw = state => {
 };
 
 export const render = time => {
-  const state = getGameState(time ?? performance.now());
+  const state = getGameState(time ?? timeNow());
   draw(state);
   const { isPaused, isGameOver } = state;
   if (isPaused || isGameOver) {
