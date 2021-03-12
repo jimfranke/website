@@ -76,21 +76,12 @@ const clearLines = state => {
     board.unshift(Array(BOARD_COLS).fill(null));
     clears++;
   }
-  let points = 0;
-  switch (clears) {
-    case 1:
-      points = POINTS_LINE_SINGLE;
-      break;
-    case 2:
-      points = POINTS_LINE_DOUBLE;
-      break;
-    case 3:
-      points = POINTS_LINE_TRIPLE;
-      break;
-    case 4:
-      points = POINTS_LINE_QUADRUPLE;
-      break;
-  }
+  let points = [
+    POINTS_LINE_SINGLE,
+    POINTS_LINE_DOUBLE,
+    POINTS_LINE_TRIPLE,
+    POINTS_LINE_QUADRUPLE,
+  ][clears - 1];
   if (points) {
     score += points * level;
     lines += clears;
@@ -197,8 +188,8 @@ export const moveActiveTetrominoDown = (state, dropType) => {
   }
   const isHardDrop = dropType === 'hard';
   const isSoftDrop = dropType === 'soft';
-  const isGravityDrop = dropType === 'gravity';
   const isMaxGravityDrop = dropType === 'maxGravity';
+  const isInputDrop = isHardDrop || isSoftDrop;
   if (!isTetrominoCollision(state, rotation, 0, 1)) {
     if (y > maxY) {
       maxY = y;
@@ -214,13 +205,13 @@ export const moveActiveTetrominoDown = (state, dropType) => {
       lockDelayTime: 0,
       moveCount,
     };
-    if (isSoftDrop || isHardDrop) {
+    if (isInputDrop) {
       score += isHardDrop ? POINTS_HARD_DROP : POINTS_SOFT_DROP;
       state = { ...state, score };
       if (isHardDrop) {
         return moveActiveTetrominoDown(state, dropType);
       }
-    } else if (isGravityDrop || isMaxGravityDrop) {
+    } else {
       state = {
         ...state,
         dropTime: timeNow(),
