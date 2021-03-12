@@ -6,14 +6,10 @@ export const DELAYED_AUTO_SHIFT = 170; // DAS
 export const AUTO_REPEAT_RATE = 15; // ARR
 export const SOFT_DROP_RATE = 20;
 
-export const POINTS_LINE_SINGLE = 40;
-export const POINTS_LINE_DOUBLE = 100;
-export const POINTS_LINE_TRIPLE = 300;
-export const POINTS_LINE_QUADRUPLE = 1200;
+export const POINTS_LINE_CLEAR = [40, 100, 300, 1200];
 export const POINTS_HARD_DROP = 2;
 export const POINTS_SOFT_DROP = 1;
 
-export const ENTRY_DELAY = 100; // ARE
 export const LOCK_DELAY = 500;
 export const MOVE_RESET_LIMIT = 15;
 

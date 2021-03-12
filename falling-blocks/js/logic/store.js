@@ -10,7 +10,6 @@ const initialState = {
   activeTetromino: null,
   holdTetromino: null,
   dropTime: 0,
-  entryDelayTime: 0,
   lockDelayTime: 0,
   moveCount: 0,
   isHoldUsed: false,

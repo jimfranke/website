@@ -1,7 +1,6 @@
 import {
   BOARD_COLS,
   BOARD_ROWS,
-  ENTRY_DELAY,
   GHOST_OPACITY,
   LEVEL_DROP_SPEEDS,
   LOCK_DELAY,
@@ -9,10 +8,7 @@ import {
   NEXT_LEVEL_LINES,
   NEXT_QUEUE_SIZE,
   POINTS_HARD_DROP,
-  POINTS_LINE_DOUBLE,
-  POINTS_LINE_QUADRUPLE,
-  POINTS_LINE_SINGLE,
-  POINTS_LINE_TRIPLE,
+  POINTS_LINE_CLEAR,
   POINTS_SOFT_DROP,
 } from '../constants.js';
 import { arrayShuffle, timeNow } from '../helpers.js';
@@ -76,12 +72,7 @@ const clearLines = state => {
     board.unshift(Array(BOARD_COLS).fill(null));
     clears++;
   }
-  let points = [
-    POINTS_LINE_SINGLE,
-    POINTS_LINE_DOUBLE,
-    POINTS_LINE_TRIPLE,
-    POINTS_LINE_QUADRUPLE,
-  ][clears - 1];
+  const points = POINTS_LINE_CLEAR[clears - 1];
   if (points) {
     score += points * level;
     lines += clears;
@@ -175,17 +166,8 @@ export const moveActiveTetrominoRight = state => {
 };
 
 export const moveActiveTetrominoDown = (state, dropType) => {
-  let {
-    activeTetromino,
-    entryDelayTime,
-    lockDelayTime,
-    moveCount,
-    score,
-  } = state;
+  let { activeTetromino, lockDelayTime, moveCount, score } = state;
   let { rotation, y, maxY } = activeTetromino;
-  if (timeNow() - entryDelayTime <= ENTRY_DELAY) {
-    return state;
-  }
   const isHardDrop = dropType === 'hard';
   const isSoftDrop = dropType === 'soft';
   const isMaxGravityDrop = dropType === 'maxGravity';
@@ -320,7 +302,6 @@ export const shiftNextTetrominoQueue = state => {
     activeTetromino,
     nextTetrominoQueue: nextTetrominoQueue.slice(1),
     dropTime: timeNow(),
-    entryDelayTime: timeNow(),
     lockDelayTime: 0,
     moveCount: 0,
   };
