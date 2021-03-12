@@ -92,8 +92,9 @@ body {
     letter-spacing: .3rem;
 }
 
-.main-menu__input-level-select {
-    width: 7.5rem;
+.main-menu__input-mode-select,
+    .main-menu__input-level-select  {
+    width: 8rem;
 }
 
 .stats {
