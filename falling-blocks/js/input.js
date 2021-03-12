@@ -12,9 +12,11 @@ import { render } from './render.js';
 
 const inputKeyMap = {
   Escape: 'pause',
+  Backspace: 'pause',
   KeyZ: 'rotateCounterclockwise',
   KeyX: 'rotateClockwise',
   KeyC: 'hold',
+  Space: 'hardDrop',
   ArrowUp: 'hardDrop',
   ArrowLeft: 'moveLeft',
   ArrowDown: 'softDrop',
