@@ -14,6 +14,7 @@ const initialState = {
   moveCount: 0,
   isHoldUsed: false,
   isFixedLevel: false,
+  isPlaying: false,
   isPaused: false,
   isGameOver: false,
   level: 1,

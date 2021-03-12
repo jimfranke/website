@@ -25,8 +25,9 @@ const { getState, setState, resetState } = store;
 
 const startGame = () => {
   setState({
-    level: getSelectedLevel(),
+    isPlaying: true,
     isFixedLevel: getIsFixedLevel(),
+    level: getSelectedLevel(),
   });
   render();
   showGame();
@@ -92,18 +93,24 @@ const handleGameInput = () => {
   };
 
   document.addEventListener('keydown', ({ code, repeat }) => {
+    const { isPlaying } = getState();
     const input = inputKeyMap[code];
-    if (!input || repeat) {
+    if (!isPlaying || !input || repeat) {
       return;
     }
-    if (input === 'pause') {
-      togglePause();
-      return;
+    switch (input) {
+      case 'pause':
+        return togglePause();
+      default:
+        return addInputToState(input);
     }
-    addInputToState(input);
   });
 
   document.addEventListener('keyup', ({ code }) => {
+    const { isPlaying } = getState();
+    if (!isPlaying) {
+      return;
+    }
     const input = inputKeyMap[code];
     if (input) {
       removeInputFromState(input);
