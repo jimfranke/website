@@ -210,7 +210,8 @@ body {
 }
 
 @media (min-width: 600px) {
-    .touch-controls {
+    .view__pause-button,
+        .touch-controls {
         display: none;
     }
 }

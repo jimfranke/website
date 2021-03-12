@@ -21,7 +21,7 @@ export const getSelectedLevel = () =>
   parseInt($mainMenu.querySelector('.main-menu__input-level-select').value);
 
 export const getIsFixedLevel = () =>
-  $mainMenu.querySelector('.main-menu__input-mode-select').value === 'zen';
+  $mainMenu.querySelector('.main-menu__input-mode-select').value === 'practice';
 
 export const updateStatsTexts = ({ score, lines, level }) => {
   $statsLevel.textContent = level;
