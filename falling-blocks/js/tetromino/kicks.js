@@ -1,4 +1,4 @@
-// SRS+ (SRS with symmetric I kicks)
+// SRS+ (SRS with symmetric "I" kicks)
 
 export const I = [
   [
