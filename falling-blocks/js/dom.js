@@ -18,10 +18,11 @@ export const $nextCanvas = $game.querySelector('.view__canvas-next');
 export const nextContext = $nextCanvas.getContext('2d');
 
 export const getSelectedLevel = () =>
-  parseInt($mainMenu.querySelector('.main-menu__input-level-select').value);
+  parseInt($mainMenu.querySelector('.main__menu-input-select--level').value);
 
 export const getIsFixedLevel = () =>
-  $mainMenu.querySelector('.main-menu__input-mode-select').value === 'practice';
+  $mainMenu.querySelector('.main__menu-input-select--mode').value ===
+  'practice';
 
 export const updateStatsTexts = ({ score, lines, level }) => {
   $statsLevel.textContent = level;

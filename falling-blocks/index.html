@@ -14,7 +14,7 @@
     <link rel="modulepreload" href="js/tetromino/kicks.js" />
     <link rel="modulepreload" href="js/tetromino/rotations.js" />
     <link rel="modulepreload" href="js/tetromino/tetrominoes.js" />
-    <link rel="modulepreload" href="js//app.js" />
+    <link rel="modulepreload" href="js/app.js" />
     <link rel="modulepreload" href="js/constants.js" />
     <link rel="modulepreload" href="js/dom.js" />
     <link rel="modulepreload" href="js/drawing.js" />
@@ -28,42 +28,46 @@
   <body>
     <div id="app">
       <div class="menu main-menu">
-        <h1 class="main-menu__title">Falling Blocks</h1>
-        <h2 class="main-menu__subtitle">Menu</h2>
+        <h1 class="main-menu__title">FALLING BLOCKS</h1>
+        <h2 class="main-menu__subtitle">MAIN MENU</h2>
         <ul class="list list-input">
           <li class="list-input__item">
             <button class="button--wide button" data-menu-input="start">
-              Start
+              START
             </button>
           </li>
           <li class="list-input__item">
-            <select class="input-select main-menu__input-mode-select">
-              <option>Marathon</option>
-              <option value="practice">Practice</option>
+            <select
+              class="input-select main__menu-input-select main__menu-input-select--mode"
+            >
+              <option>MARATHON</option>
+              <option value="practice">PRACTICE</option>
             </select>
           </li>
           <li class="list-input__item">
-            <select class="input-select main-menu__input-level-select">
-              <option value="1">Level 1</option>
-              <option value="2">Level 2</option>
-              <option value="3">Level 3</option>
-              <option value="4">Level 4</option>
-              <option value="5">Level 5</option>
-              <option value="6">Level 6</option>
-              <option value="7">Level 7</option>
-              <option value="8">Level 8</option>
-              <option value="9">Level 9</option>
-              <option value="10">Level 10</option>
-              <option value="11">Level 11</option>
-              <option value="12">Level 12</option>
-              <option value="13">Level 13</option>
-              <option value="14">Level 14</option>
-              <option value="15">Level 15</option>
-              <option value="16">Level 16</option>
-              <option value="17">Level 17</option>
-              <option value="18">Level 18</option>
-              <option value="19">Level 19</option>
-              <option value="20">Level 20</option>
+            <select
+              class="input-select main__menu-input-select main__menu-input-select--level"
+            >
+              <option value="1">LEVEL 1</option>
+              <option value="2">LEVEL 2</option>
+              <option value="3">LEVEL 3</option>
+              <option value="4">LEVEL 4</option>
+              <option value="5">LEVEL 5</option>
+              <option value="6">LEVEL 6</option>
+              <option value="7">LEVEL 7</option>
+              <option value="8">LEVEL 8</option>
+              <option value="9">LEVEL 9</option>
+              <option value="10">LEVEL 10</option>
+              <option value="11">LEVEL 11</option>
+              <option value="12">LEVEL 12</option>
+              <option value="13">LEVEL 13</option>
+              <option value="14">LEVEL 14</option>
+              <option value="15">LEVEL 15</option>
+              <option value="16">LEVEL 16</option>
+              <option value="17">LEVEL 17</option>
+              <option value="18">LEVEL 18</option>
+              <option value="19">LEVEL 19</option>
+              <option value="20">LEVEL 20</option>
             </select>
           </li>
         </ul>
@@ -71,13 +75,11 @@
       <div class="game" style="display: none">
         <ul class="list stats">
           <li class="stats__item">
-            Score: <strong data-stats="score">0</strong>
+            SCORE: <strong data-stats="score">0</strong>
           </li>
           <li class="stats__item">
-            Lines: <strong data-stats="lines">0</strong>
-          </li>
-          <li class="stats__item">
-            Level: <strong data-stats="level">0</strong>
+            LINES: <strong data-stats="lines">0</strong> LEVEL:
+            <strong data-stats="level">0</strong>
           </li>
         </ul>
         <div class="view">
@@ -92,17 +94,17 @@
             <div class="view__menu view__pause-menu" style="display: none">
               <ul class="list list-input">
                 <li class="list-input__item">
-                  <button class="button" data-menu-input="pause">Resume</button>
+                  <button class="button" data-menu-input="pause">RESUME</button>
                 </li>
                 <li class="list-input__item">
-                  <button class="button" data-menu-input="quit">Quit</button>
+                  <button class="button" data-menu-input="quit">QUIT</button>
                 </li>
               </ul>
             </div>
             <div class="view__menu view__game-over-menu" style="display: none">
               <ul class="list list-input">
                 <li class="list-input__item">
-                  <button class="button" data-menu-input="quit">Quit</button>
+                  <button class="button" data-menu-input="quit">QUIT</button>
                 </li>
               </ul>
             </div>
