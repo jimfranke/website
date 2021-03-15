@@ -43,7 +43,7 @@ body {
     background: #000;
     font: bold 1rem Verdana, sans-serif;
     color: #fff;
-    letter-spacing: .08rem;
+    letter-spacing: .06rem;
     border: .15rem solid #fff;
     border-radius: .5rem;
 }
@@ -53,7 +53,7 @@ body {
     background: #000;
     font: 1rem Verdana, sans-serif;
     color: #fff;
-    letter-spacing: .08rem;
+    letter-spacing: .06rem;
     border: .15rem solid #fff;
     border-radius: .5rem;
 }
@@ -95,7 +95,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
-    letter-spacing: .08rem;
+    letter-spacing: .06rem;
 }
 
 .stats__item {
