@@ -1,16 +1,13 @@
-import {
-  BLOCK_SIZE,
-  BOARD_COLS,
-  BOARD_ROWS,
-  NEXT_QUEUE_SIZE,
-} from './constants.js';
-import { holdContext, mainContext, nextContext } from './dom.js';
+import { BOARD_COLS, BOARD_ROWS, NEXT_QUEUE_SIZE } from './constants.js';
+import { getBlockSize, holdContext, mainContext, nextContext } from './dom.js';
 
 const drawBlock = (context, x, y, color) => {
-  if (color) {
-    context.fillStyle = color;
-    context.fillRect(BLOCK_SIZE * x, BLOCK_SIZE * y, BLOCK_SIZE, BLOCK_SIZE);
+  if (!color) {
+    return;
   }
+  const blockSize = getBlockSize();
+  context.fillStyle = color;
+  context.fillRect(blockSize * x, blockSize * y, blockSize, blockSize);
 };
 
 export const drawTetromino = (context, tetromino) => {

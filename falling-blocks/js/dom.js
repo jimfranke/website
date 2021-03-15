@@ -1,3 +1,7 @@
+import { BOARD_COLS, BOARD_ROWS, NEXT_QUEUE_SIZE } from './constants.js';
+
+let blockSize = 0;
+
 export const $app = document.getElementById('app');
 export const $mainMenu = $app.querySelector('.main-menu');
 export const $game = $app.querySelector('.game');
@@ -16,6 +20,26 @@ export const holdContext = $holdCanvas.getContext('2d');
 
 export const $nextCanvas = $game.querySelector('.view__canvas-next');
 export const nextContext = $nextCanvas.getContext('2d');
+
+export const handleResize = () => {
+  const resize = () => {
+    const aspectRatio = BOARD_COLS / BOARD_ROWS;
+    const base = Math.min(window.innerWidth / aspectRatio, window.innerHeight);
+
+    blockSize = Math.floor(base / 1.2 / BOARD_ROWS);
+
+    $mainCanvas.width = blockSize * BOARD_COLS;
+    $mainCanvas.height = blockSize * BOARD_ROWS;
+    $nextCanvas.width = blockSize * 4;
+    $nextCanvas.height = blockSize * (NEXT_QUEUE_SIZE * 3 - 1);
+    $holdCanvas.width = blockSize * 4;
+    $holdCanvas.height = blockSize * 2;
+  };
+  window.addEventListener('resize', resize);
+  resize();
+};
+
+export const getBlockSize = () => blockSize;
 
 export const getSelectedLevel = () =>
   parseInt($mainMenu.querySelector('.main__menu-input-select--level').value);

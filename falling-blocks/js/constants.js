@@ -1,6 +1,5 @@
 export const BOARD_COLS = 10;
 export const BOARD_ROWS = 20;
-export const BLOCK_SIZE = 30;
 
 export const DELAYED_AUTO_SHIFT = 170; // DAS
 export const AUTO_REPEAT_RATE = 15; // ARR
