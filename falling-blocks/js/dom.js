@@ -26,7 +26,7 @@ export const handleResize = () => {
     const aspectRatio = BOARD_COLS / BOARD_ROWS;
     const base = Math.min(window.innerWidth / aspectRatio, window.innerHeight);
 
-    blockSize = Math.floor(base / 1.2 / BOARD_ROWS);
+    blockSize = Math.floor(base / 1.5 / BOARD_ROWS);
 
     $mainCanvas.width = blockSize * BOARD_COLS;
     $mainCanvas.height = blockSize * BOARD_ROWS;

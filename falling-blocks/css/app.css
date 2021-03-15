@@ -20,7 +20,7 @@ html {
 
 body {
     background: #000;
-    font: 1rem Verdana, sans-serif;
+    font: 1.2rem Verdana, sans-serif;
     color: #fff;
     line-height: 1;
 }
@@ -41,7 +41,7 @@ body {
     width: 100%;
     padding: 1.3rem;
     background: #000;
-    font: bold 1rem Verdana, sans-serif;
+    font: 1.2rem Verdana, sans-serif;
     color: #fff;
     letter-spacing: .06rem;
     border: .15rem solid #fff;
@@ -51,7 +51,7 @@ body {
 .input-select {
     padding: .5rem;
     background: #000;
-    font: 1rem Verdana, sans-serif;
+    font: 1.2rem Verdana, sans-serif;
     color: #fff;
     letter-spacing: .06rem;
     border: .15rem solid #fff;
@@ -66,23 +66,22 @@ body {
 #app {
     width: fit-content;
     margin: 0 auto;
-    padding: 1rem; 
+    padding: 1.5rem; 
     text-align: center;
 }
 
 .main-menu {
-    margin: 0 auto;
     margin-top: 10rem;
 }
 
 .main-menu__title {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     font-size: 2.5rem;
     letter-spacing: .2rem;
 }
 
 .main-menu__subtitle {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.2rem;
     font-size: 1.3rem;
     letter-spacing: .2rem;
 }
@@ -94,7 +93,7 @@ body {
 .stats {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     letter-spacing: .06rem;
 }
 
@@ -121,13 +120,13 @@ body {
 
 .view__col--main {
     position: relative;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
     background: #000;
     border: .4rem solid #fff;
 }
 
 .view__col--side {
-    width: 5.5rem;
+    width: 6rem;
 }
 
 .view__col--side:first-child {
