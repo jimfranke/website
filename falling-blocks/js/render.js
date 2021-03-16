@@ -9,8 +9,6 @@ import { timeNow } from './helpers.js';
 import { createGhostTetromino } from './logic/core.js';
 import { getGameState } from './logic/game.js';
 
-let rafId = 0;
-
 const draw = state => {
   const {
     board,
@@ -31,14 +29,12 @@ const draw = state => {
 
 export const render = time => {
   const state = getGameState(time ?? timeNow());
-  draw(state);
-  const { isPaused, isGameOver } = state;
-  if (isPaused || isGameOver) {
-    rafId = cancelAnimationFrame(rafId);
-    if (isGameOver) {
-      showGameOverMenu();
-    }
-    return;
+  const { isPlaying, isGameOver } = state;
+  if (isGameOver) {
+    showGameOverMenu();
   }
-  rafId = requestAnimationFrame(render);
+  if (isPlaying) {
+    draw(state);
+  }
+  requestAnimationFrame(render);
 };

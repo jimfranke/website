@@ -8,7 +8,6 @@ import {
 } from './dom.js';
 import { timeNow } from './helpers.js';
 import { store } from './logic/store.js';
-import { render } from './render.js';
 
 const inputKeyMap = {
   Escape: 'pause',
@@ -31,7 +30,6 @@ const startGame = () => {
     isFixedLevel: getIsFixedLevel(),
     level: getSelectedLevel(),
   });
-  render();
   showGame();
 };
 
@@ -50,7 +48,6 @@ const togglePause = () => {
   if (isPaused) {
     showPauseMenu();
   } else {
-    render();
     hidePauseMenu();
   }
 };
