@@ -77,34 +77,3 @@ export const hidePauseMenu = () => {
 export const showGameOverMenu = () => {
   $gameOverMenu.style.display = null;
 };
-
-export const toggleBackgroundVideo = () => {
-  const $bgVideo = document.querySelector('.background-video');
-  if ($bgVideo.innerHTML) {
-    $bgVideo.innerHTML = '';
-    return;
-  }
-  $bgVideo.innerHTML = `
-    <div style="
-      width: 100%;
-      height: 100vh;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    "></div>
-    <iframe
-      src="https://www.youtube.com/embed/oTHy46l9-f4?controls=0&autoplay=1&start=13"
-      allow="autoplay"
-      frameborder="0"
-      style="
-        width: 100%;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -2;
-      "
-    ></iframe>
-  `;
-};

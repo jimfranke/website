@@ -125,10 +125,11 @@ body {
 }
 
 .view__col--main {
+    min-width: 10rem;
     position: relative;
     margin: 0 1rem;
-    background: rgba(0, 0, 0, .75);
-    border: .4rem solid var(--border-color);
+    background: var(--background-color);
+    border: .5rem solid var(--border-color);
 }
 
 .view__col--side {
@@ -140,7 +141,6 @@ body {
 }
 
 .view__canvas-main {
-    min-width: 10rem;
     height: 100%;
 }
 
