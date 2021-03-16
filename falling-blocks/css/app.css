@@ -140,6 +140,7 @@ body {
 }
 
 .view__canvas-main {
+    min-width: 10rem;
     height: 100%;
 }
 
