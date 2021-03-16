@@ -84,8 +84,6 @@ export const toggleBackgroundVideo = () => {
     $bgVideo.innerHTML = '';
     return;
   }
-  const ids = ['8D7cYQY6r0g', 'QeZne1wVyl0'];
-  const id = ids[Math.floor(Math.random() * ids.length)];
   $bgVideo.innerHTML = `
     <div style="
       width: 100%;
@@ -96,7 +94,7 @@ export const toggleBackgroundVideo = () => {
       z-index: -1;
     "></div>
     <iframe
-      src="https://www.youtube.com/embed/${id}?controls=0&autoplay=1"
+      src="https://www.youtube.com/embed/oTHy46l9-f4?controls=0&autoplay=1&start=13"
       allow="autoplay"
       frameborder="0"
       style="
