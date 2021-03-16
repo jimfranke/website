@@ -5,6 +5,7 @@ import {
   hidePauseMenu,
   showGame,
   showPauseMenu,
+  toggleBackgroundVideo,
 } from './dom.js';
 import { timeNow } from './helpers.js';
 import { store } from './logic/store.js';
@@ -32,11 +33,13 @@ const startGame = () => {
     level: getSelectedLevel(),
   });
   render();
+  toggleBackgroundVideo();
   showGame();
 };
 
 const quitGame = () => {
   hideGame();
+  toggleBackgroundVideo();
   resetState();
 };
 
