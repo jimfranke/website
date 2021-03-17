@@ -5,7 +5,7 @@ const drawBlock = (context, x, y, color) => {
   if (!color) {
     return;
   }
-  const blockSize = getBlockSize();
+  const blockSize = getBlockSize(context);
   context.fillStyle = color;
   context.fillRect(blockSize * x, blockSize * y, blockSize, blockSize);
 };

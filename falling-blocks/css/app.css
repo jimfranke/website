@@ -31,10 +31,6 @@ body {
     line-height: 1;
 }
 
-.canvas {
-    width: 100%;
-}
-
 .list {
     list-style: none;
 }
@@ -125,15 +121,10 @@ body {
 }
 
 .view__col--main {
-    min-width: 10rem;
     position: relative;
     margin: 0 1rem;
     background: var(--background-color);
     border: .5rem solid var(--border-color);
-}
-
-.view__col--side {
-    width: 5rem;
 }
 
 .view__col--side:first-child {
@@ -216,10 +207,6 @@ body {
 
     .view__col--main {
         margin: 0 1.5rem;
-    }
-
-    .view__col--side {
-        width: 6rem;
     }
 
     .view__pause-button,
