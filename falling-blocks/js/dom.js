@@ -1,12 +1,7 @@
-import {
-  BOARD_COLS,
-  BOARD_ROWS,
-  NEXT_QUEUE_SIZE,
-  SIDE_BLOCK_SIZE,
-} from './constants.js';
+import { BOARD_COLS, BOARD_ROWS, NEXT_QUEUE_SIZE } from './constants.js';
 
 let blockSize = 0;
-let blockSizeSide = 0;
+let blockSizeSmall = 0;
 
 export const $app = document.getElementById('app');
 export const $mainMenu = $app.querySelector('.main-menu');
@@ -32,23 +27,22 @@ export const handleResize = () => {
     const aspectRatio = BOARD_COLS / BOARD_ROWS;
     const base = Math.min(window.innerWidth / aspectRatio, window.innerHeight);
 
-    blockSize = Math.max(Math.floor(base / 1.5 / BOARD_ROWS), 10);
-    blockSizeSide = Math.round(blockSize * SIDE_BLOCK_SIZE);
+    blockSize = Math.floor(base / 1.5 / BOARD_ROWS);
+    blockSizeSmall = Math.floor(blockSize * 0.6);
 
     $mainCanvas.width = blockSize * BOARD_COLS;
     $mainCanvas.height = blockSize * BOARD_ROWS;
-    $nextCanvas.width = blockSize * SIDE_BLOCK_SIZE * 4;
-    $nextCanvas.height =
-      blockSize * SIDE_BLOCK_SIZE * (NEXT_QUEUE_SIZE * 3 - 1);
-    $holdCanvas.width = blockSize * SIDE_BLOCK_SIZE * 4;
-    $holdCanvas.height = blockSize * SIDE_BLOCK_SIZE * 2;
+    $nextCanvas.width = blockSizeSmall * 4;
+    $nextCanvas.height = blockSizeSmall * (NEXT_QUEUE_SIZE * 3 - 1);
+    $holdCanvas.width = blockSizeSmall * 4;
+    $holdCanvas.height = blockSizeSmall * 2;
   };
   window.addEventListener('resize', resize);
   resize();
 };
 
 export const getBlockSize = context =>
-  context === mainContext ? blockSize : blockSizeSide;
+  context === mainContext ? blockSize : blockSizeSmall;
 
 export const getSelectedLevel = () =>
   parseInt($mainMenu.querySelector('.main__menu-input-select--level').value);
